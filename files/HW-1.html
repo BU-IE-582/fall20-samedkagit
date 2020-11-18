@@ -725,7 +725,7 @@ ggplot(match_BW, aes(x= (BWH_Normal-BWA_Normal), y= BWD_Normal, col=H_A_interval
 </div>
 <div id="plot-for-iw-1" class="section level4">
 <h4>Plot for IW</h4>
-<p>Estimated probabilities in intervals (-0.47,0.039,] , (0.125,0.211] and (0.297,0.383] are higher than proposed by bookmaker IW. No change occurred.</p>
+<p>Estimated probabilities in intervals (-0.047,0.039,] , (0.125,0.211] and (0.297,0.383] are higher than proposed by bookmaker IW. No change occurred.</p>
 <pre class="r"><code>match_IW &lt;- match_combined %&gt;% select(FTR, IWH_Normal, IWD_Normal,IWA_Normal, HR,AR )
 match_IW &lt;- match_IW %&gt;% mutate(H_A_interval = cut( (match_IW$IWH_Normal-match_IW$IWA_Normal),breaks = seq(-0.821,0.899,length.out=21)))
 

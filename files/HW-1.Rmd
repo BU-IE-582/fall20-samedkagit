@@ -386,7 +386,7 @@ ggplot(match_BW, aes(x= (BWH_Normal-BWA_Normal), y= BWD_Normal, col=H_A_interval
 
 #### Plot for IW
 
-Estimated probabilities in intervals (-0.47,0.039,] , (0.125,0.211] and (0.297,0.383] are higher than proposed by bookmaker IW. No change occurred. 
+Estimated probabilities in intervals (-0.047,0.039,] , (0.125,0.211] and (0.297,0.383] are higher than proposed by bookmaker IW. No change occurred. 
 
 ```{r IW-2 , message=FALSE, warning=FALSE}
 
