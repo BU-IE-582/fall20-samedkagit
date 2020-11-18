@@ -233,7 +233,7 @@ ggplot(match_BW, aes(x= (BWH_Normal-BWA_Normal), y= BWD_Normal, col=H_A_interval
 
 #### Plot for IW
 
-Estimated probabilities in intervals (-0.47,0.039,] , (0.125,0.211]) and (0.297,0.383] are higher than proposed by bookmaker IW. 
+Estimated probabilities in intervals (-0.047,0.039,] , (0.125,0.211] and (0.297,0.383] are higher than proposed by bookmaker IW. 
 
 ```{r IW , message=FALSE, warning=FALSE}
 match_IW <- match_combined %>% select(FTR, IWH_Normal, IWD_Normal,IWA_Normal, HR,AR )
@@ -266,7 +266,7 @@ ggplot(match_IW, aes(x= (IWH_Normal-IWA_Normal), y= IWD_Normal, col=H_A_interval
 
 #### Plot for PS
 
-Estimated probabilities in intervals (-0.47,0.039,] and (0.125,0.211]) are higher than proposed by bookmaker PS. 
+Estimated probabilities in intervals (-0.047,0.039,] and (0.125,0.211] are higher than proposed by bookmaker PS. 
 
 ```{r PS , message=FALSE, warning=FALSE}
 match_PS <- match_combined %>% select(FTR, PSH_Normal, PSD_Normal,PSA_Normal, HR,AR )
@@ -301,7 +301,7 @@ There can be some events during the matches that create noise in the outcomes. T
 
 Matches with red cards are discarded and all operations in task 2 are performed all over again to see if there is any significant change in the observations made.
 
-```{Task3, message=FALSE, warning=FALSE}
+```{r Task3, message=FALSE, warning=FALSE}
 match_2018_filtered <- match_2018 %>% select(FTR, B365H,B365D,B365A,BWH,BWD,BWA,IWH,IWD,IWA,PSH,PSD,PSA,HR,AR) %>% filter( HR ==0, AR == 0)
 match_2019_filtered <- match_2019 %>% select(FTR, B365H,B365D,B365A,BWH,BWD,BWA,IWH,IWD,IWA,PSH,PSD,PSA,HR,AR)%>% filter( HR ==0, AR == 0)
 match_2020_filtered <- match_2020 %>% select(FTR, B365H,B365D,B365A,BWH,BWD,BWA,IWH,IWD,IWA,PSH,PSD,PSA,HR,AR)%>% filter( HR ==0, AR == 0)
@@ -322,7 +322,7 @@ match_combined <-match_combined %>% select(- BW_sum, -IW_sum, - PS_sum,-B365_sum
 
 #### Plot for B365
 
-In addition to intervals (-0.047,0.039] and (0.469,0.555], estimated probability is also higher than proposed by bookmaker B365 in interval (0.125,0.211]). 
+Estimated probabilities in intervals (-0.047,0.039] and (0.469,0.555] are higher than proposed by bookmaker B365. No change occurred. 
 
 ```{r B365-2 , message=FALSE, warning=FALSE}
 match_B365 <- match_combined %>% select(FTR, B365H_Normal, B365D_Normal,B365A_Normal, HR,AR )
@@ -354,7 +354,7 @@ ggplot(match_B365, aes(x= (B365H_Normal-B365A_Normal), y= B365D_Normal, col=H_A_
 
 #### Plot for BW
 
-In addition to intervals (0.297,0.383] and (0.641,0.727], estimated probability is also higher than proposed by bookmaker BW in interval (0.125,0.211]).
+Estimated probabilities in intervals (0.297,0.383] and (0.641,0.727] are higher than proposed by bookmaker BW. No change occurred.
 
 ```{r BW-2 , message=FALSE, warning=FALSE}
 match_BW <- match_combined %>% select(FTR, BWH_Normal, BWD_Normal,BWA_Normal, HR,AR )
@@ -386,7 +386,7 @@ ggplot(match_BW, aes(x= (BWH_Normal-BWA_Normal), y= BWD_Normal, col=H_A_interval
 
 #### Plot for IW
 
-Estimated probabilities in intervals (-0.47,0.039,] , (0.125,0.211]) and (0.297,0.383] are higher than proposed by bookmaker IW. No change occurred. 
+Estimated probabilities in intervals (-0.47,0.039,] , (0.125,0.211] and (0.297,0.383] are higher than proposed by bookmaker IW. No change occurred. 
 
 ```{r IW-2 , message=FALSE, warning=FALSE}
 
@@ -419,7 +419,7 @@ ggplot(match_IW, aes(x= (IWH_Normal-IWA_Normal), y= IWD_Normal, col=H_A_interval
 
 #### Plot for PS
 
-Estimated probabilities in intervals (-0.47,0.039,] and (0.125,0.211]) are higher than proposed by bookmaker PS. No change occurred.
+Estimated probabilities in intervals (-0.047,0.039] and (0.125,0.211] are higher than proposed by bookmaker PS. No change occurred.
 
 ```{r PS-2 , message=FALSE, warning=FALSE}
 match_PS <- match_combined %>% select(FTR, PSH_Normal, PSD_Normal,PSA_Normal, HR,AR )
