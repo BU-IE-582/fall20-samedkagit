@@ -1,7 +1,7 @@
-# IE582 Project Report
+# IE582 Progress Journal
 
 _Abdulsamed Kağıt_
 
-[Here](files/report.html) is the project report.
+[Here](files/HW-1.html) is Homework-1  report.
 
-[Here](files/FullCode.R) is the full R code.
+[Here](files/Full_R_Code_HW_1.R) is Homework-1 R script.
