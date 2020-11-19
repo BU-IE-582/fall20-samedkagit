@@ -47,10 +47,12 @@ expected_goal <- 0:6
 lambda <- mean(match_2018$FTHG)
 expected_goal <- data.frame(x=expected_goal, y=nrow(match_2018)*dpois(expected_goal,lambda))
 
-ggplot(match_2018) + geom_histogram(aes(x=FTHG),binwidth = 1,col="black") + labs(title="Season 2018/2019", x ="Home Goals", y = "Number of Games")+ theme_bw()+ 
+ggplot(match_2018) + geom_histogram(aes(x=FTHG),binwidth = 1,col="black") + labs(title="Season 2018/2019", x ="Home Goals", y = "Number of Games")+ 
+theme_bw()+ 
 geom_line(data = expected_goal, aes(x=x,y=y), color = "red", lwd = 1)
 
 ```
+
 Away Score: Seems like Poisson distribution fits well to the histogram of Away Score too.  
 
 ```{r Away Score 2018/2019, message=FALSE, warning=FALSE}
@@ -58,13 +60,17 @@ lambda <- mean(match_2018$FTAG)
 expected_goal <- 0:6
 expected_goal <- data.frame(x=expected_goal, y=nrow(match_2018)*dpois(expected_goal,lambda))
 
-ggplot(match_2018,aes(x=FTAG)) + geom_histogram(binwidth = 1,col="black") + labs(title="Season 2018/2019", x ="Away Goals", y = "Number of Games")+ theme_bw()+
+ggplot(match_2018,aes(x=FTAG)) + geom_histogram(binwidth = 1,col="black") + labs(title="Season 2018/2019", x ="Away Goals", y = "Number of Games")+ 
+theme_bw()+
 geom_line(data = expected_goal, aes(x=x,y=y), color = "red", lwd = 1)
+
 ```
+
 Home Score - Away Score: Histogram of score differences resembles Gaussian distribution rather than Poisson distribution.
 
 ```{r Home Score - Away Score 2018/2019, message=FALSE, warning=FALSE}
-ggplot(match_2018,aes(x=FTHG-FTAG)) + geom_histogram(binwidth = 1,col="black") + labs(title="Season 2018/2019", x ="Home Goals - Away Goals", y = "Number of Games")+ theme_bw() 
+ggplot(match_2018,aes(x=FTHG-FTAG)) + geom_histogram(binwidth = 1,col="black") + labs(title="Season 2018/2019", x ="Home Goals - Away Goals", y = "Number of 
+Games")+ theme_bw() 
 ```
 
 ### For Season 2019/2020
@@ -76,9 +82,12 @@ lambda <- mean(match_2019$FTHG)
 expected_goal <- 0:8
 expected_goal <- data.frame(x=expected_goal, y=nrow(match_2019)*dpois(expected_goal,lambda))
 
-ggplot(match_2019,aes(x=FTHG)) + geom_histogram(binwidth = 1,col="black") + labs(title="Season 2019/2020", x ="Home Goals", y = "Number of Games")+ theme_bw()+
+ggplot(match_2019,aes(x=FTHG)) + geom_histogram(binwidth = 1,col="black") + labs(title="Season 2019/2020", x ="Home Goals", y = "Number of Games")+ 
+theme_bw()+
 geom_line(data = expected_goal, aes(x=x,y=y), color = "red", lwd = 1)
+
 ```
+
 Away Score: Not surprisingly...
 
 ```{r Away Score 2019/2020, message=FALSE, warning=FALSE}
@@ -86,14 +95,16 @@ lambda <- mean(match_2019$FTAG)
 expected_goal <- 0:9
 expected_goal <- data.frame(x=expected_goal, y=nrow(match_2019)*dpois(expected_goal,lambda))
 
-ggplot(match_2019,aes(x=FTAG)) + geom_histogram(binwidth = 1,col="black") + labs(title="Season 2019/2020", x ="Away Goals", y = "Number of Games")+ theme_bw()+ 
+ggplot(match_2019,aes(x=FTAG)) + geom_histogram(binwidth = 1,col="black") + labs(title="Season 2019/2020", x ="Away Goals", y = "Number of Games")+ 
+theme_bw()+ 
 geom_line(data = expected_goal, aes(x=x,y=y), color = "red", lwd = 1)
 ```
 
 Home Score - Away Score: This histogram still resembles Gaussian distribution but with lower variance comparing to previous season.
 
 ```{r Home Score - Away Score 2019/2020, message=FALSE, warning=FALSE}
-ggplot(match_2019,aes(x=FTHG-FTAG)) + geom_histogram(binwidth = 1,col="black") + labs(title="Season 2019/2020", x ="Home Goals - Away Goals", y = "Number of Games")+ theme_bw() 
+ggplot(match_2019,aes(x=FTHG-FTAG)) + geom_histogram(binwidth = 1,col="black") + labs(title="Season 2019/2020", x ="Home Goals - Away Goals", y = "Number of 
+Games")+ theme_bw() 
 
 ```
 
@@ -108,16 +119,19 @@ expected_goal <- data.frame(x=expected_goal, y=nrow(match_2020)*dpois(expected_g
 
 ggplot(match_2020,aes(x=FTHG)) + geom_histogram(binwidth = 1,col="black") + labs(title="Season 2020/2021", x ="Home Goals", y = "Number of Games")+ theme_bw()+
 geom_line(data = expected_goal, aes(x=x,y=y), color = "red", lwd = 1)
+
 ```
 
-Away Score: Note that if all 3 seasons were combined and analyzed together, the histogram of Home Score and Away Score would fit to the Poisson distribution better. Sample size is not large enough for this season yet. 
+Away Score: Note that if all 3 seasons were combined and analyzed together, the histogram of Home Score and Away Score would fit to the Poisson distribution 
+better. Sample size is not large enough for this season yet. 
 
 ```{r Away Score 2020/2021, message=FALSE, warning=FALSE}
 lambda <- mean(match_2020$FTHG)
 expected_goal <- 0:7
 expected_goal <- data.frame(x=expected_goal, y=nrow(match_2020)*dpois(expected_goal,lambda))
 
-ggplot(match_2020,aes(x=FTAG)) + geom_histogram(binwidth = 1,col="black") + labs(title="Season 2020/2021", x ="Away Goals", y = "Number of Games")+ theme_bw()+
+ggplot(match_2020,aes(x=FTAG)) + geom_histogram(binwidth = 1,col="black") + labs(title="Season 2020/2021", x ="Away Goals", y = "Number of Games")+ 
+theme_bw()+
 geom_line(data = expected_goal, aes(x=x,y=y), color = "red", lwd = 1)
 
 ```
@@ -137,9 +151,11 @@ Select at least 4 bookmakers for this task.
 
 2)Then calculate these probabilities again using normalization formula at “Odds and Probabilities” part for each bookmarker.
 
-3) First construct a plot of P(home win) – P(away win) on x-axis and P (tie) on y-axis with first probability calculation; then plot the actual probabilities calculated using the results.
+3)First construct a plot of P(home win) – P(away win) on x-axis and P (tie) on y-axis with first probability calculation; then plot the actual probabilities 
+calculated using the results.
 
-4)Do this for each bookmaker separately. Comment on if there is a bias in odds representing the probabilities? Name the x and y axes accordingly. Write the name of bookmaker at the top of each plot.
+4)Do this for each bookmaker separately. Comment on if there is a bias in odds representing the probabilities? Name the x and y axes accordingly. Write the 
+name of bookmaker at the top of each plot.
 
 #### Necessary Data Manipulations 
 
@@ -168,7 +184,10 @@ match_combined <-match_combined %>% select(- BW_sum, -IW_sum, - PS_sum,-B365_sum
 
 #### Plot for B365
 
-Estimated probabilities are calculated by separating P(home win) – P(away win) values into 21 bins. Lower and Upper limit for these bins are determined as (-0.821, 0.899) respectively. Number of games ended as "Draw" within these bins are divided by total number of games corresponding to the bins, hence estimated probability of Draws are estimated and plotted to the histogram. Obviously estimated probabilities in intervals (-0.047,0.039] and (0.469,0.555] are higher than proposed by bookmaker B365. 
+Estimated probabilities are calculated by separating P(home win) – P(away win) values into 21 bins. Lower and Upper limit for these bins are determined as 
+(-0.821, 0.899) respectively. Number of games ended as "Draw" within these bins are divided by total number of games corresponding to the bins, hence 
+estimated probability of Draws are estimated and plotted to the histogram. Obviously estimated probabilities in intervals (-0.047,0.039] and (0.469,0.555] 
+are higher than proposed by bookmaker B365. 
 
 ```{r B365 , message=FALSE, warning=FALSE}
 match_B365 <- match_combined %>% select(FTR, B365H_Normal, B365D_Normal,B365A_Normal, HR,AR )
@@ -228,8 +247,8 @@ ggplot(match_BW, aes(x= (BWH_Normal-BWA_Normal), y= BWD_Normal, col=H_A_interval
   labs(title="BW Probability Calculations with Estimated Probability of Draws", x =" P(home win) – P(away win)", y = " P (tie)")+  scale_colour_discrete("P(Home)-P(Away)")+ theme_bw() +
   geom_point() + geom_smooth(color="black",se=FALSE,size=2,linetype = "dashed") + 
   geom_col(data=match_BW_count, aes(x=H_A_interval, y= (draw_count/total_count)),col="red",alpha=0.3)
-```
 
+```
 
 #### Plot for IW
 
@@ -260,7 +279,6 @@ ggplot(match_IW, aes(x= (IWH_Normal-IWA_Normal), y= IWD_Normal, col=H_A_interval
   labs(title="IW Probability Calculations with Estimated Probability of Draws", x =" P(home win) – P(away win)", y = " P (tie)")+  scale_colour_discrete("P(Home)-P(Away)")+ theme_bw() +
   geom_point() + geom_smooth(color="black",se=FALSE,size=2,linetype = "dashed") + 
   geom_col(data=match_IW_count, aes(x=H_A_interval, y= (draw_count/total_count)),col="red",alpha=0.3)
-
 
 ```
 
@@ -293,13 +311,17 @@ ggplot(match_PS, aes(x= (PSH_Normal-PSA_Normal), y= PSD_Normal, col=H_A_interval
   labs(title="PS Probability Calculations with Estimated Probability of Draws", x =" P(home win) – P(away win)", y = " P (tie)")+  scale_colour_discrete("P(Home)-P(Away)")+ theme_bw() +
   geom_point() + geom_smooth(color="black",se=FALSE,size=2,linetype = "dashed") + 
   geom_col(data=match_PS_count, aes(x=H_A_interval, y= (draw_count/total_count)),col="red",alpha=0.3)
+
 ```
 
 ## Task 3
 
-There can be some events during the matches that create noise in the outcomes. To be more specific, let’s consider a specific case. Bookings can affect the game result. A red card in the first few minutes of a game can change the outcome of the match drastically. Playing with few players is always a disadvantage for the teams.
+There can be some events during the matches that create noise in the outcomes. To be more specific, let’s consider a specific case. Bookings can affect the 
+game result. A red card in the first few minutes of a game can change the outcome of the match drastically. Playing with few players is always a disadvantage 
+for the teams.
 
-Matches with red cards are discarded and all operations in task 2 are performed all over again to see if there is any significant change in the observations made.
+Matches with red cards are discarded and all operations in task 2 are performed all over again to see if there is any significant change in the observations 
+made.
 
 ```{r Task3, message=FALSE, warning=FALSE}
 match_2018_filtered <- match_2018 %>% select(FTR, B365H,B365D,B365A,BWH,BWD,BWA,IWH,IWD,IWA,PSH,PSD,PSA,HR,AR) %>% filter( HR ==0, AR == 0)
@@ -318,6 +340,7 @@ match_combined <- match_combined %>% mutate(BWH_Normal =BWH/BW_sum , BWD_Normal 
 match_combined <- match_combined %>% mutate(IWH_Normal =IWH/IW_sum , IWD_Normal =IWD /IW_sum , IWA_Normal= IWA/IW_sum )
 match_combined <- match_combined %>% mutate(PSH_Normal =PSH/PS_sum , PSD_Normal =PSD /PS_sum , PSA_Normal= PSA/PS_sum )
 match_combined <-match_combined %>% select(- BW_sum, -IW_sum, - PS_sum,-B365_sum)
+
 ```
 
 #### Plot for B365
@@ -382,6 +405,7 @@ ggplot(match_BW, aes(x= (BWH_Normal-BWA_Normal), y= BWD_Normal, col=H_A_interval
   geom_point() + geom_smooth(color="black",se=FALSE,size=2,linetype = "dashed") + 
   geom_col(data=match_BW_count, aes(x=H_A_interval, y= (draw_count/total_count)),col="red",alpha=0.3)
 
+
 ```
 
 #### Plot for IW
@@ -415,7 +439,9 @@ ggplot(match_IW, aes(x= (IWH_Normal-IWA_Normal), y= IWD_Normal, col=H_A_interval
   geom_point() + geom_smooth(color="black",se=FALSE,size=2,linetype = "dashed") + 
   geom_col(data=match_IW_count, aes(x=H_A_interval, y= (draw_count/total_count)),col="red",alpha=0.3)
 
+
 ```
+
 
 #### Plot for PS
 
@@ -446,6 +472,7 @@ ggplot(match_PS, aes(x= (PSH_Normal-PSA_Normal), y= PSD_Normal, col=H_A_interval
   labs(title="PS Probability Calculations with Estimated Probability of Draws", x =" P(home win) – P(away win)", y = " P (tie)")+  scale_colour_discrete("P(Home)-P(Away)")+ theme_bw() +
   geom_point() + geom_smooth(color="black",se=FALSE,size=2,linetype = "dashed") + 
   geom_col(data=match_PS_count, aes(x=H_A_interval, y= (draw_count/total_count)),col="red",alpha=0.3)
+
 
 ```
 
