@@ -1,7 +1,6 @@
-# fall20-samedkagit
+# IE-582 Progress Journal
 
-## fall20-samedkagit created by GitHub Classroom
+### Abdulsamed Kaðýt - Fall'20
 
-### IE-582
 
-[Here]<https://bu-ie-582.github.io/fall20-samedkagit/> is my progress journal. 
+[Here](https://bu-ie-582.github.io/fall20-samedkagit/) is my progress journal. 
