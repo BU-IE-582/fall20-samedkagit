@@ -1,6 +1,6 @@
 # IE582 Progress Journal
 
-##_Abdulsamed Kağıt_
+_Abdulsamed Kağıt_ - 2016402192
 
 ### Homework 1
 
