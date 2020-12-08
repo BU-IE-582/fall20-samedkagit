@@ -92,7 +92,7 @@ for(i in 1:8)
 
 ```
 
-3D scatter plots resemble the figures provided in the description.
+3D scatter plots look like the figures provided in the description.
 
 
 ## Task 2
@@ -129,7 +129,7 @@ tidy(pca_xyz,"pcs") #0.49 of the variance kept
 pca_xyz$rotation
 
 train_xyz_long_pca <- cbind(train_xyz_long,score=(pca_xyz$x)[,1]) %>% select(-x,-y,-z)
-
+set.seed(130)
 for(i in 1:8)
 {
   chosen <- train_xyz_long_pca %>% filter(class == i)
@@ -144,9 +144,8 @@ for(i in 1:8)
 
 ```
 
-49% of the variance is explained by PC1. PC1 = c(x=0.4268455, y=0.7212650, z=0.5455087). 2 instances are sampled from each class and concluded that samples from same classes generally resemble each other. However it may not be possible to differentiate classes judging by PC1 only. Class 4 and Class 5 are good 
-examples for that. Red line in the Class 4 graph (time_series_id = 550) are very similar to blue line in the Class 5 graph (time_series_id = 145) but they
-are from different classes. 
+49% of the variance is explained by PC1. PC1 = c(x=0.4268455, y=0.7212650, z=0.5455087). 2 instances are sampled from each class and concluded that samples from same classes generally resemble each other. However it may not be possible to differentiate classes judging by PC1 only. Class 7 and Class 8 are good 
+examples for that. Graph of both samples from Class 7 and Class 8 resemble "M" shape although they are from different classes.
 
 ## Task 3
 
