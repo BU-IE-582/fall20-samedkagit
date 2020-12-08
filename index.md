@@ -4,12 +4,20 @@ _Abdulsamed Kağıt_ - 2016402192
 
 ### Homework 1
 
-[Here](files/HW-1.html) is Homework-1  report.
+[Here](files/HW1/Homework1.pdf) is Homework-1 definition.
 
-[Here](files/Full_R_Code_HW_1.R) is Homework-1 R script.
+[Here](files/HW1/E0.zip) is Homework-1 data.
+
+[Here](files/HW1/HW-1.html) is Homework-1  report.
+
+[Here](files/HW1/Full_R_Code_HW_1.R) is Homework-1 R script.
 
 ### Homework 2
 
-[Here](files/HW-2.html) is Homework-2  report.
+[Here](files/HW2/Homework2.pdf) is Homework-2 definition.
 
-[Here](files/Full_R_Code_HW_2.R) is Homework-2 R script.
+[Here](files/HW2/UWave_TRAIN.zip) is Homework-2 data.
+
+[Here](files/HW2/HW-2.html) is Homework-2  report.
+
+[Here](files/HW2/Full_R_Code_HW_2.R) is Homework-2 R script.
