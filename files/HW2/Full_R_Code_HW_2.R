@@ -91,7 +91,7 @@ tidy(pca_xyz,"pcs") #0.49 of the variance kept
 pca_xyz$rotation
 
 train_xyz_long_pca <- cbind(train_xyz_long,score=(pca_xyz$x)[,1]) %>% select(-x,-y,-z)
-
+set.seed(130)
 for(i in 1:8)
 {
   chosen <- train_xyz_long_pca %>% filter(class == i)
