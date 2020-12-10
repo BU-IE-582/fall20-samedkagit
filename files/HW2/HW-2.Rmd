@@ -166,8 +166,8 @@ class_pca <- train_xyz_long %>% group_by(class) %>% arrange(class) %>% nest() %>
 class_pca
 ```
 
-PCA results for each class are available in the data frame above. Negative PC1 of class 1 is similar to PC1 of class 2-5-7. PC1 of class 3 and 
-class 4 are more or less similar as well. PC1 of class 2 and class 8 are similar to each other's negative. PC1 of Class 6 seems to be unique.
+PCA results for each class are available in the data frame above. Negative PC1 of class 1 is similar to PC1 of class 5. Other PC1s seem to be more or less
+distinct.
 
 ## Task 4
 
