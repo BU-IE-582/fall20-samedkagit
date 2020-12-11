@@ -92,7 +92,7 @@ for(i in 1:8)
 
 ```
 
-3D scatter plots look like the figures provided in the description.
+3D scatter plots roughly look like the figures provided in the description.
 
 
 ## Task 2
@@ -167,7 +167,7 @@ class_pca
 ```
 
 PCA results for each class are available in the data frame above. Negative PC1 of class 1 is similar to PC1 of class 5. Other PC1s seem to be more or less
-distinct.
+distinct. From the table we can see that only 0.46 of the variance of class 1 data is explained by PC1, which is lower than that of PC1 of all classes. For other classes however, applying PCA for each class separately increased the proportion of variance explained by PC1.
 
 ## Task 4
 
@@ -199,6 +199,5 @@ ggplot(mds_applied_ts,aes(x=x,y=y,color=class))+geom_point() + scale_color_manua
   labs(title = "MDS with 2 dimensions",x="Coordinate 1", y="Coordinate 2")
 ```
 
-Observations from same classes are tend to cluster mostly. It can be seen that class 2 and class 7, class 7 and class 8, class 4 and class 5 are 
-kind of adjacent. Class 3 is wide-spread. Class 1 and Class 6 seems to be intertwined.
+Observations from the same classes are tend to cluster mostly. It can be seen that class 2 and class 7, class 7 and class 8, class 4 and class 5 are kind of adjacent. Class 3 is wide-spread. Class 1 and Class 6 seems to be intertwined. MDS method seems not to be useful for classifying class 1 and 6, but partial success can be achieved for other classes.
 
