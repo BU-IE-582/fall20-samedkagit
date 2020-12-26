@@ -9,9 +9,9 @@ library(stringr)
 library(tidyr)
 library(chron)
 
-match_2018 <- fread("C:/Users/Abdulsamed/Desktop/IE582/E0.csv")
-match_2019 <- fread("C:/Users/Abdulsamed/Desktop/IE582/E1.csv")
-match_2020 <- fread("C:/Users/Abdulsamed/Desktop/IE582/E2.csv")
+match_2018 <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW1/E0.csv")
+match_2019 <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW1/E1.csv")
+match_2020 <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW1/E2.csv")
 
 match_2019 <- match_2019 %>% select(-Time)
 match_2020 <- match_2020 %>% select(-Time)

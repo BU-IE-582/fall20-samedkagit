@@ -12,9 +12,9 @@ library(tidyverse)
 library(plot3D)
 #Data Reading
 
-train_x <- fread("C:/Users/Abdulsamed/Desktop/IE582/uWaveGestureLibrary_X_TRAIN")
-train_y <- fread("C:/Users/Abdulsamed/Desktop/IE582/uWaveGestureLibrary_Y_TRAIN")
-train_z <- fread("C:/Users/Abdulsamed/Desktop/IE582/uWaveGestureLibrary_Z_TRAIN")
+train_x <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW2/uWaveGestureLibrary_X_TRAIN")
+train_y <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW2/uWaveGestureLibrary_Y_TRAIN")
+train_z <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW2/uWaveGestureLibrary_Z_TRAIN")
 
 #Column Names
 

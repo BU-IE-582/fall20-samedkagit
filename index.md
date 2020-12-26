@@ -21,3 +21,13 @@ _Abdulsamed Kağıt_ - 2016402192
 [Here](files/HW2/HW-2.html) is Homework-2  report.
 
 [Here](files/HW2/Full_R_Code_HW_2.R) is Homework-2 R script.
+
+### Homework 3
+
+[Here](files/HW3/Homework3.pdf) is Homework-3 definition.
+
+[Here](files/HW3/RealTimeConsumption-01012016-01122020.csv) is Homework-3 data.
+
+[Here](files/HW3/HW-3.html) is Homework-3  report.
+
+[Here](files/HW3/Full_R_Code_HW_3.R) is Homework-3 R script.
