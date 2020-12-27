@@ -1,7 +1,7 @@
 ---
-title: "IE582 HW_2"
+title: "IE582 HW_3"
 author: "Abdulsamed Kağıt"
-date: "08/12/2020"
+date: "27/12/2020"
 output: html_document
 ---
 
@@ -10,10 +10,10 @@ library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Task 1 
+## Task A 
 
-Read the data and visualize one instance (all axes) from each class and try to relate the shape (time series) you see with the gestures shown in Figure 1. 
-A 3D scatter plot would be interesting. Note that this is an acceleration information. You can transform this information to a velocity vector by computing the cumulative sum of acceleration over time.
+Assume that you are willing to use 168 and 48 hours ago consumption values as your naive approaches to predict next day’s consumption. Suppose the test
+period includes the dates after 1st of November, 2020 (included). For both approaches, report the summary statistics of MAPE values for the test period.
 
 ```{r Data Reading, echo=TRUE, message=FALSE, warning=FALSE}
 #Libraries
@@ -28,176 +28,302 @@ library(stringr)
 library(tidyr)
 library(ggfortify)
 library(tidyverse)
-library(plot3D)
+library(Metrics)
+library(glmnet)
+library(CVXR)
+library(plotly)
+library(viridis)
 
 #Data Reading
+set.seed(1234)
+consumption <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW3/RealTimeConsumption-01012016-01122020.csv")
+consumption$Tarih <- paste(consumption$Tarih,consumption$Saat)
+consumption <-consumption %>%select(-Saat)
 
-train_x <- fread("C:/Users/Abdulsamed/Desktop/IE582/uWaveGestureLibrary_X_TRAIN")
-train_y <- fread("C:/Users/Abdulsamed/Desktop/IE582/uWaveGestureLibrary_Y_TRAIN")
-train_z <- fread("C:/Users/Abdulsamed/Desktop/IE582/uWaveGestureLibrary_Z_TRAIN")
+consumption$Tarih <- as.POSIXct(consumption$Tarih, format = '%d.%m.%Y %H:%M', tz="Europe/Istanbul")
+consumption <- consumption %>% rename(Tuketim=`Tüketim Miktarı (MWh)`)
+consumption$Tuketim <- gsub("\\.", "",consumption$Tuketim)
+consumption$Tuketim <- gsub("\\,", ".",consumption$Tuketim)
+consumption$Tuketim <- as.numeric(consumption$Tuketim)
+consumption <- consumption %>% mutate(lag_168 = lag(Tuketim,168), lag_48 = lag(Tuketim,48)) %>% drop_na()
 
-#Adjust Column Names
+duplicated = consumption[duplicated(consumption$Tarih)]$Tarih
+consumption <- consumption %>% filter(!(as.IDate(Tarih) %in% c(as.IDate(duplicated),as.IDate(duplicated+3600*24*2),as.IDate(duplicated+3600*24*7))))
 
-colnames(train_x)[1] = "class"
-newnames <- paste("t",1: (ncol(train_x)-1), sep = "")
-colnames(train_x)[2:ncol(train_x)] = newnames
+#TASK A
 
-colnames(train_y)[1] = "class"
-newnames <- paste("t",1: (ncol(train_y)-1), sep = "")
-colnames(train_y)[2:ncol(train_y)] = newnames
+naive_test <- consumption %>% filter(Tarih >= as.POSIXct("01-11-2020", format = '%d-%m-%Y'))
 
-colnames(train_z)[1] = "class"
-newnames <- paste("t",1: (ncol(train_z)-1), sep = "")
-colnames(train_z)[2:ncol(train_z)] = newnames
+mape_lag48_hourly <- naive_test %>% group_by(as.ITime(Tarih)) %>% summarize(mape= mape(Tuketim,lag_48)) %>% rename(Saat = `as.ITime(Tarih)`)
+mape_lag168_hourly <- naive_test %>% group_by(as.ITime(Tarih)) %>% summarize(mape= mape(Tuketim,lag_168)) %>% rename(Saat = `as.ITime(Tarih)`)
 
-#Calculate Velocity From Acceleration
+mape_lag48_hourly
+mape_lag168_hourly
 
-mySum = t(apply(train_x[,-1], 1, cumsum))
-train_x_velo <- cbind(train_x[,1],mySum)
+```
 
-mySum = t(apply(train_y[,-1], 1, cumsum))
-train_y_velo <- cbind(train_y[,1],mySum)
+MAPE values calculated by utilizing 1 week ago consumption values are considerably lower than that of calculated by utilizing 2 days ago consumption. 
+Accordingly,it can be said that electricity consumption data have weekly seasonality. (The day of the week matters)
 
-mySum = t(apply(train_z[,-1], 1, cumsum))
-train_z_velo <- cbind(train_z[,1],mySum)
+## Task B
 
-#Calculate Position From Velocity
+Instead of using the lag consumptions in part (A) as a forecast, we would like to treat them as our features and build a linear regression model. Train your
+model using the data till 1st of November, 2020 and test on the rest. Your linear regression model is expected to include aforementioned two features (i.e. 
+Lag_48 and  Lag_168) and an intercept. Report the summary statistics of MAPE values for the test period.
 
-mySum = t(apply(train_x_velo[,-1], 1, cumsum))
-train_x_pos <- cbind(train_x_velo[,1],mySum)
+```{r Linear Model, echo=TRUE, message=FALSE, warning=FALSE}
+#TASK B
 
-mySum = t(apply(train_y_velo[,-1], 1, cumsum))
-train_y_pos <- cbind(train_y_velo[,1],mySum)
+lm_train <- consumption %>% filter(Tarih < as.POSIXct("01-11-2020", format = '%d-%m-%Y'))
+lm_test <-  consumption %>% filter(Tarih >= as.POSIXct("01-11-2020", format = '%d-%m-%Y'))
 
-mySum = t(apply(train_z_velo[,-1], 1, cumsum))
-train_z_pos <- cbind(train_z_velo[,1],mySum)
+lm_model <- lm(Tuketim ~ lag_48+lag_168, lm_train)
 
-rm(mySum)
+lm_test$prediction <- predict(lm_model,lm_test)
+lm_mape <- lm_test %>% group_by(as.ITime(Tarih)) %>% summarize(mape= mape(Tuketim, prediction)) %>% rename(Saat = `as.ITime(Tarih)`)
+lm_mape
+```
 
-#Data Visualization
 
-instances <- list()
-for(i in 1:8)
+## Task C
+
+As mentioned earlier, hourly seasonality is important. Although we used the same hour’s consumption value of the past days to handle this problem for part 
+(B), we implicitly impose an assumption that prediction model for each hour has the same coefficients which may not be correct since the consumption behavior
+at nights can be different than the other hours. Therefore, modeling each hour separately is another way to approach to the same problem. Train linear 
+regression models for each hour using the same training period (24 models) and report your test performance as in part (A).
+
+```{r Hourly Linear Model, message=FALSE, warning=FALSE}
+#TASK C
+
+lm_train_hourly <- lm_train %>% mutate(saat = as.ITime(Tarih))
+lm_test_hourly  <- lm_test %>% mutate(saat = as.ITime(Tarih))  %>% select(-prediction)
+
+lm_models_hourly<-lm_train_hourly%>%group_by(saat)%>%nest()%>% 
+  mutate(fit=purrr::map(data,function(d)lm(Tuketim~lag_168+lag_48,data=d)))
+
+lm_models_hourly_mape = data.frame( hour = 0:23 , mape = 0)
+hour_0 = as.ITime(as.POSIXct("01-11-2020",format ='%d-%m-%Y'))
+
+for( i in 1:24)
 {
-instances=append(instances,list(cbind(t((train_x_pos%>%filter(class==i))[1,-1]),t((train_y_pos%>%filter(class==i))[1,-1]),t((train_z_pos%>%filter(class==i))[1,-1]))))
+predict_data <- lm_test_hourly %>% filter( saat==hour_0+3600*(i-1) )
+lm_models_hourly_mape$mape[i]<-mape(predict_data$Tuketim,predict(lm_models_hourly$fit[[i]],predict_data))
+rm(predict_data)
 }
 
+lm_models_hourly_mape
 
-for(i in 1:8)
+print(paste("For how many hours, MAPE value calculated by utilizing linear models developed for each hour seperately are greater than that of calculated by utilizing linear model developed for the whole train data:",sum((lm_models_hourly_mape$mape - lm_mape$mape)>0)))
+
+```
+
+Modeling each hour separately does not result in better in terms of average MAPEs but the variance of MAPEs seem to be lower than previous approach.
+
+## Task D
+
+One of your friends comes up with an alternative approach assuming that all hourly consumption values of last week (same day) can be important in the 
+prediction of the next day’s consumption. In other words, you can use the 24 consumption values of the last week to predict next day’s consumption. Assume 
+that you have 48 features (hourly consumption from two days ago and last week’s hourly consumption) in total. You are also willing to follow the same logic 
+in part (C) and build a prediction model for each hour separately. Since there is a strong correlation (actually an autocorrelation) between these 
+predictors, you are willing to use penalized regression approaches for modeling. Use L1 penalty in your regression models for each hour. Note that the 
+feature matrix will be the same for all your models, only the target variable will change for this task. In order to determine the regularization parameter 
+(i.e. lambda), perform a 10-fold cross-validation. Train penalized regression models with L1 penalty (i.e. lasso regression) for each hour using the same 
+training period (24 models) and report your test performance as in part (A). Also comment on the resulting models (i.e. coefficients and etc.).
+
+
+```{r Lasso Model, message=FALSE, warning=FALSE}
+#TASK D
+
+consumption2 <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW3/RealTimeConsumption-01012016-01122020.csv")
+
+consumption2$Tarih <- as.POSIXct(consumption2$Tarih, format = '%d.%m.%Y', tz="Europe/Istanbul")
+consumption2 <- consumption2 %>% rename(Tuketim=`Tüketim Miktarı (MWh)`)
+consumption2$Tuketim <- gsub("\\.", "",consumption2$Tuketim)
+consumption2$Tuketim <- gsub("\\,", ".",consumption2$Tuketim)
+consumption2$Tuketim <- as.numeric(consumption2$Tuketim)
+consumption2 <- consumption2 %>% filter(!(as.IDate(Tarih) %in% c(as.IDate(duplicated))))
+
+
+
+consumption_lag_48 <- consumption2 %>% pivot_wider(names_from = Saat, values_from= Tuketim, names_prefix="lag_48_")
+consumption_lag_168 <- consumption2 %>% pivot_wider(names_from = Saat, values_from= Tuketim, names_prefix="lag_168_")
+
+consumption_lag_48$Tarih = consumption_lag_48$Tarih + 3600*48
+consumption_lag_168$Tarih = consumption_lag_168$Tarih + 3600*168
+
+lasso_data <-consumption2 %>% inner_join(consumption_lag_48, by = "Tarih")
+lasso_data <- lasso_data %>% inner_join(consumption_lag_168, by="Tarih")
+
+
+lasso_data_train <- lasso_data %>% filter(Tarih < as.POSIXct("01-11-2020", format = '%d-%m-%Y'))
+lasso_data_test <-  lasso_data %>% filter(Tarih >= as.POSIXct("01-11-2020", format = '%d-%m-%Y'))
+
+set.seed(1234)
+lasso_models_hourly<-lasso_data_train%>%group_by(Saat)%>%nest()%>% 
+  mutate(fit=purrr::map(data,function(d)cv.glmnet(data.matrix(d%>%select(contains("lag"))),data.matrix(d$Tuketim),family="gaussian",standardize =TRUE)))
+      
+
+lasso_models_hourly_mape = data.frame( hour = 0:23 , mape = 0)
+k=1
+
+for( i in c("00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00",paste(10:23,":00",sep="")))
 {
-  a <- as.data.frame(unlist(instances[[i]]))
-  scatter3D(x=a$V1,y=a$V2,z=a$V3, main=paste("An Instance From Class ", i))
-  rm(a)
-  }
+  predict_data <- lasso_data_test %>% filter(Saat == i)
+  lasso_models_hourly_mape$mape[k]<-mape(predict_data$Tuketim,predict(lasso_models_hourly$fit[[k]],data.matrix(predict_data%>%select(contains("lag"))),s= "lambda.1se"))
+  k = k+1
+  rm(predict_data)
+}
+rm(k)
+lasso_models_hourly_mape
+coefs <- matrix(0,nrow = 49 ,ncol = 1)
 
-```
-
-3D scatter plots roughly look like the figures provided in the description.
-
-
-## Task 2
-
-The data is provided as a regular data matrix (i.e. each row represents an instance and columns represent the time index of the observations). On the other 
-hand, this is an example of multivariate time series where we have X, Y and Z variables. Our aim is to reduce this multivariate time series to a univariate 
-one with a dimensionality reduction approach. One way to achieve this task is to transform your data into the long format. Suppose we decide to reduce the 
-data from 3D (i.e. X, Y and Z features) to 1D using PCA. Relevant columns for PCA is X, Y and Z. Apply PCA to the whole data (regardless of the time series 
-id or class) and report PCA results. Select 2 random time series from each class and visualize the reduced dimensions as time series in a single plot to see 
-if classes can be separated in the reduced dimensions. Visual inspection is enough.
-
-```{r Longer Format, echo=TRUE, message=FALSE, warning=FALSE}
-#Transform to Longer Format
-
-train_x_adj <- cbind(time_series_id=1:nrow(train_x), train_x)
-train_y_adj <- cbind(time_series_id=1:nrow(train_y), train_y)
-train_z_adj <- cbind(time_series_id=1:nrow(train_z), train_z)
-
-train_x_adj_long<-pivot_longer(train_x_adj,-contains("s"),names_to="time_index",values_to="x",names_prefix ="t",names_transform=list("time_index"=as.integer)) 
-train_y_adj_long<-pivot_longer(train_y_adj,-contains("s"),names_to="time_index",values_to="y",names_prefix ="t",names_transform=list("time_index"=as.integer))
-train_z_adj_long<-pivot_longer(train_z_adj,-contains("s"),names_to="time_index",values_to="z",names_prefix ="t",names_transform=list("time_index"=as.integer))
-
-train_xyz_long <- inner_join(train_x_adj_long,train_y_adj_long,by=c("time_series_id","class","time_index"))
-train_xyz_long <- inner_join(train_xyz_long,train_z_adj_long,by=c("time_series_id","class","time_index"))
-train_xyz_long
-```
-
-
-```{r PCA, message=FALSE, warning=FALSE }
-#PCA
-
-pca_xyz <- prcomp(train_xyz_long%>%select(x,y,z), scale=TRUE)
-tidy(pca_xyz,"pcs") #0.49 of the variance kept
-pca_xyz$rotation
-
-train_xyz_long_pca <- cbind(train_xyz_long,score=(pca_xyz$x)[,1]) %>% select(-x,-y,-z)
-set.seed(130)
-for(i in 1:8)
+for(i in 1:24)
 {
-  chosen <- train_xyz_long_pca %>% filter(class == i)
-  chosen <- unique(chosen$time_series_id) %>% sample(size=2)
-  chosen1 <- train_xyz_long_pca %>% filter(time_series_id == chosen[1])
-  chosen2 <- train_xyz_long_pca %>% filter(time_series_id == chosen[2])
-  chosen <- bind_rows(chosen1,chosen2)
-  chosen$time_series_id = as.character(chosen$time_series_id)
-  print(ggplot(chosen,aes(x=time_index,y=score,color=time_series_id))+geom_line()+labs(title=paste("2 Randomly Picked Sample From Class ",i),x="Time Index",y="PCA Score"))
-  rm(chosen,chosen1,chosen2)
+  coefs = bind_cols(coefs,as.matrix(coef(lasso_models_hourly$fit[[i]],s="lambda.1se")))
+}
+coefs <- coefs[,-1]
+rownames(coefs) = rownames(coef(lasso_models_hourly$fit[[1]],s="lambda.1se"))
+
+used_coefs <- rowSums(coefs > 0)
+as.matrix(used_coefs,ncol=1)
+```
+
+MAPE values drastically decreased compared to previous approaches. Hours from 10:00 to 15:00 are the ones with the highest MAPE values for all models.
+From the table above, most frequently used features in models can be seen. Intercept is common for each 24 model. Consumption value of hour 5-6-7-13-20-23
+from 2 days ago and consumption value of hour 7-8-16 from 1 week ago are frequently used. It is remarkable that consumption value of hour 13 and 23 from 2
+days ago and hour 7 from 1 week ago is used in all of the models.
+
+## Task E
+
+An alternative approach to lasso regression in part (D) is to perform the same tasks using fused penalties since the predictors are basically time series. 
+While building a model to predict an hour’s consumption, we explicitly used two time series (Lag_Day_7 and Lag_Day_2 hourly consumption values). Therefore, 
+penalizing the coefficients for consecutive predictors of each time series (Lag 7 and Lag 2) may provide in performance improvements. Following a similar 
+logic as in part (d), train regression models with fused penalties for predicting each hour. You can use a single penalty term for the fused penalties (i.e. 
+lambda_1) and L1 penalty for coefficients (i.e. lambda_2). In order to tune your model, you can perform 10-fold cross-validation.
+
+```{r Fused Lasso Model, message=FALSE, warning=FALSE}
+#TASK E
+lasso_data_model <- lasso_data
+fused_lasso_results = data.table(hour="00:00",lambda=0, objective = 0,MAPE = 0)
+thresh <- 1e-7
+invisible({capture.output({
+for( j in c("00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00",paste(10:23,":00",sep="")))
+{
+for(lambda in c(100000000,50000000,20000000,seq(200000,1100000,300000)))
+{
+for(i in 1:10)
+{
+hour_data<-lasso_data_model %>%filter(Saat == j)%>%filter(Tarih < as.POSIXct("01-11-2020",format ='%d-%m-%Y'))
+test_data <- hour_data[(round(nrow(hour_data)*0.1)*(i-1)+1):(round(nrow(hour_data)*0.1)*i),]  
+
+train_data <- anti_join(hour_data,test_data,by=c("Tarih","Saat")) %>% select(matches("lag_|Tuketim"))
+test_data <- test_data %>% select(matches("lag_|Tuketim"))
+betaHat <- Variable(49) # betaHat[49] is the intercept
+matrix1 <- as.matrix(train_data%>%select(-Tuketim))
+matrix2 <- as.matrix(test_data%>%select(-Tuketim))
+
+objective<-(sum((train_data$Tuketim-((matrix1%*%betaHat[1:48])+betaHat[49]))^2)+lambda*sum(betaHat[1:48]^2)+lambda*sum(abs(betaHat[2:24]-betaHat[1:23]))+lambda*sum(abs(betaHat[26:48]-betaHat[25:47])))/nrow(train_data)
+
+problem <- Problem(Minimize(objective))
+result <- solve(problem, FEASTOL = thresh, RELTOL = thresh, ABSTOL = thresh, verbose = TRUE)
+beta <- result$getValue(betaHat)
+
+temp<-data.table(hour=j,lambda=lambda, objective= result$value , MAPE = mape(test_data$Tuketim,(matrix2%*%beta[1:48])+beta[49]))
+fused_lasso_results <- rbind(fused_lasso_results,temp)
+}
+}
+}
+})})
+
+evaluation <- fused_lasso_results[-1,] %>%group_by(hour,lambda) %>% 
+  summarise(Mean_MAPE = mean(MAPE), Se_MAPE = sqrt(var(MAPE)), Mean_Objective = mean(objective))%>%ungroup()%>% arrange(hour,lambda)
+print(evaluation)
+```
+
+
+10-fold cross validation is performed for each alternative lambda on train data. It can be seen that Lambda = 20000000 gives the best mean MAPE among all 
+other lambda values for each hour. This value will be used to train fused penalized model and then the model will be tested on test data. Note that beta[49] 
+is the intercept in this model, hence it does not show in the fused Lasso penalty or ridge penalty. Also note that beta[25] - beta[24] is not included to
+fused penalty since they belong to different time series. (Lag 48 and Lag 168)
+
+
+```{r Fused Lasso Model with the best lambda, message=FALSE, warning=FALSE, error=FALSE}
+# Lambda = 20000000
+
+fused_lasso_results2 = data.table(hour="00:00",lambda=0, objective = 0,MAPE = 0)
+betas = paste("b",1:49,sep = "")
+fused_lasso_results2[,betas] <- 0
+invisible({capture.output({
+for( j in c("00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00",paste(10:23,":00",sep="")))
+{
+  for(lambda in c(20000000))
+  {
+      hour_data<-lasso_data_model %>%filter(Saat == j)%>%filter(Tarih < as.POSIXct("01-11-2020",format ='%d-%m-%Y'))%>%select(matches("lag_|Tuketim"))
+      test_data<-lasso_data_model %>%filter(Saat == j)%>%filter(Tarih >= as.POSIXct("01-11-2020",format ='%d-%m-%Y'))%>%select(matches("lag_|Tuketim"))
+      
+      betaHat <- Variable(49) # betaHat[49] is the intercept
+      matrix1 <- as.matrix(hour_data%>%select(-Tuketim))
+      matrix2 <- as.matrix(test_data%>%select(-Tuketim))
+      
+      objective<-sum((hour_data$Tuketim-((matrix1%*%betaHat[1:48])+betaHat[49]))^2)+lambda*sum(betaHat[1:48]^2)+lambda*sum(abs(betaHat[2:24]-betaHat[1:23]))+lambda*sum(abs(betaHat[26:48]-betaHat[25:47]))
+      
+      problem <- Problem(Minimize(objective))
+      result <- solve(problem, FEASTOL = thresh, RELTOL = thresh, ABSTOL = thresh, verbose = TRUE)
+      beta <- result$getValue(betaHat)
+      
+      temp<-data.table(hour=j,lambda=lambda,objective= result$value, MAPE = mape(test_data$Tuketim,(matrix2%*%beta[1:48])+beta[49]))
+      for(s in 1:49)
+      temp[,betas[s]] <- beta[s]
+      fused_lasso_results2 <- rbind(fused_lasso_results2,temp)
   }
+}
+})})
+fused_lasso_results2 <- fused_lasso_results2[-1,]
+print(fused_lasso_results2)
+```
+
+Model coefficients and MAPE values can be seen from the table above. MAPE values are slightly decreased for almost each hour compared to lasso regression.
+Note that all coefficients (i.e. beta1, beta2..) are non-zero in this model.
+
+## Task F
+
+Compare the results drawing a box-plot of MAPE values for each approach on same plot. Comment on your findings.
+
+```{r Boxplot of MAPEs, message=FALSE, warning=FALSE}
+#Task F
+
+data1 <- fused_lasso_results2 %>% select(hour,MAPE)
+data1[,"name"] <- "Fused_Lasso"
+
+data2 <- lasso_models_hourly_mape %>% rename(MAPE = mape)
+data2[,"name"] <- "Hourly_Lasso"
+data2$hour <- data1$hour
+
+data3 <- lm_mape %>% rename(hour =Saat, MAPE = mape)
+data3[,"name"] <- "Linear_Model"
+data3$hour <- data1$hour
+
+data4 <- mape_lag168_hourly %>% rename(hour =Saat, MAPE = mape)
+data4[,"name"] <- "Lag_168"
+data4$hour <- data1$hour
+
+data5 <- lm_models_hourly_mape %>% rename(MAPE = mape)
+data5$hour <- data1$hour
+data5[,"name"] <-"Hourly_Linear"
+
+data6 <- mape_lag48_hourly %>% rename(hour =Saat, MAPE = mape)
+data6[,"name"] <- "Lag_48"
+data6$hour <- data1$hour
+
+data <- rbind(data1,data2,data3,data4,data5,data6)
+rm(data1,data2,data3,data4,data5,data6)
+# Plot
+data %>% ggplot( aes(x=name, y=MAPE, fill=name)) + geom_boxplot() +theme(legend.position="none",plot.title = element_text(size=11)) +
+  ggtitle("MAPE Comparison") + xlab("Methods")
 
 ```
 
-49% of the variance is explained by PC1. PC1 = c(x=0.4268455, y=0.7212650, z=0.5455087). 2 instances are sampled from each class and concluded that samples from same classes generally resemble each other. However it may not be possible to differentiate classes judging by PC1 only. Class 7 and Class 8 are good 
-examples for that. Graph of both samples from Class 7 and Class 8 resemble "M" shape although they are from different classes.
-
-## Task 3
-
-It is also interesting to compare the first principal component when PCA is applied on the data from each gesture. In other words, you are expected to
-filter the data for each class and apply PCA (you will perform PCA eight times). Report PCA results (components, variance covered by each component). Is 
-there any  interesting observation on the first component of the PCA results applied to the data from each class? Are the first components similar? Comment 
-on your findings.
-
-
-```{r Class-Based PCA, message=FALSE, warning=FALSE}
-#PCA for each class
-
-class_pca <- train_xyz_long %>% group_by(class) %>% arrange(class) %>% nest() %>% 
- mutate(pca=purrr::map(data,function(d) prcomp(d%>%select(x,y,z))), rotation_pca= purrr::map(pca,function(d) tidy(d,matrix="rotation")%>%filter(PC==1)), 
-    eigenvalues_pca = purrr::map(pca, function(d) tidy(d,matrix="eigenvalues")%>%filter(PC==1) %>% select(-PC))) %>% 
-      unnest(c(rotation_pca,eigenvalues_pca)) %>% select(class,column, value, cumulative,PC) %>% pivot_wider(names_from = column, values_from=value)
-
-class_pca
-```
-
-PCA results for each class are available in the data frame above. Negative PC1 of class 1 is similar to PC1 of class 5. Other PC1s seem to be more or less
-distinct. From the table we can see that only 0.46 of the variance of class 1 data is explained by PC1, which is lower than that of PC1 of all classes. For other classes however, applying PCA for each class separately increased the proportion of variance explained by PC1.
-
-## Task 4
-
-Suppose, our aim now is to visualize the time series in reduced dimensions for classification purposes. Assume that we compute the distance between 
-the time series for each axis using the original representation (i.e. a row represents individual time series, column is the time index and entries 
-are the observations) over each axis and sum them up to obtain a final distance measure. You are expected to obtain a symmetric distance matrix. 
-Let’s apply multidimensional scaling to this distance matrix to represent each time series on a 2-dimensional feature space. Visualize the observations
-using the reduced features and color-code the points with the class information. Comment on your findings.
-
-
-```{r MDS, message=FALSE, warning=FALSE}
-#MDS
-
-mds_matris<- inner_join(train_x_adj,train_y_adj,by=c("class","time_series_id"),suffix=c("_x","_y"))
-mds_matris<- inner_join(mds_matris,train_z_adj,by=c("class","time_series_id"))
-
-distance_matrix <- dist(mds_matris%>%select(-class,-time_series_id))
-
-mds_fit <- cmdscale(distance_matrix,eig=TRUE, k=2)
-
-x <- mds_fit$points[,1]
-y <- mds_fit$points[,2]
-
-mds_applied_ts <- cbind(x,y,mds_matris[,1:2])
-mds_applied_ts$class = as.character(mds_applied_ts$class)
-mycolor <- c("#999999", "#E69F00", "#56B4E9", "#009E73","#F0E442", "#0072B2", "#D55E00", "#CC79A7")
-
-ggplot(mds_applied_ts,aes(x=x,y=y,color=class))+geom_point() + scale_color_manual(values=mycolor) + 
-  labs(title = "MDS with 2 dimensions",x="Coordinate 1", y="Coordinate 2")
-```
-
-Observations from the same classes are tend to cluster mostly. It can be seen that class 2 and class 7, class 7 and class 8, class 4 and class 5 are kind of adjacent. Class 3 is wide-spread. Class 1 and Class 6 seems to be intertwined. MDS method seems not to be useful for classifying class 1 and 6, but partial success can be achieved for other classes.
-
+Fused lasso approach and separate lasso model for each hour approach yields the lowest MAPE values within narrow quantiles. Consumption values from 1 week
+ago is the third best approach which is followed by the linear regression for each hours approach. Consumption values from 1 week ago have the lowest 
+variability compared to all other approaches. MAPE values of linear regression approach have relatively large variability but the same mean with linear
+regression for each hour approach. Consumption values from 2 days ago is the worst approach which has the highest mean and variance.

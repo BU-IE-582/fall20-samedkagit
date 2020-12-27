@@ -216,5 +216,3 @@ data <- rbind(data1,data2,data3,data4,data5,data6)
 # Plot
 data %>% ggplot( aes(x=name, y=MAPE, fill=name)) + geom_boxplot() +theme(legend.position="none",plot.title = element_text(size=11)) +
   ggtitle("MAPE Comparison") + xlab("Methods")
-
-
