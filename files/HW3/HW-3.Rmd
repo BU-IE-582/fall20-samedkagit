@@ -15,9 +15,9 @@ knitr::opts_chunk$set(echo = TRUE)
 Assume that you are willing to use 168 and 48 hours ago consumption values as your naive approaches to predict next day’s consumption. Suppose the test
 period includes the dates after 1st of November, 2020 (included). For both approaches, report the summary statistics of MAPE values for the test period.
 
-```{r Data Reading, echo=TRUE, message=FALSE, warning=FALSE}
+```{r Data Reading, echo=TRUE, message=FALSE, warning=FALSE, paged.print=TRUE}
 #Libraries
-
+library(rmarkdown)
 library(ggplot2)
 library(dplyr)
 library(yardstick)
@@ -57,8 +57,8 @@ naive_test <- consumption %>% filter(Tarih >= as.POSIXct("01-11-2020", format = 
 mape_lag48_hourly <- naive_test %>% group_by(as.ITime(Tarih)) %>% summarize(mape= mape(Tuketim,lag_48)) %>% rename(Saat = `as.ITime(Tarih)`)
 mape_lag168_hourly <- naive_test %>% group_by(as.ITime(Tarih)) %>% summarize(mape= mape(Tuketim,lag_168)) %>% rename(Saat = `as.ITime(Tarih)`)
 
-mape_lag48_hourly
-mape_lag168_hourly
+paged_table(mape_lag48_hourly)
+paged_table(mape_lag168_hourly)
 
 ```
 
@@ -71,7 +71,7 @@ Instead of using the lag consumptions in part (A) as a forecast, we would like t
 model using the data till 1st of November, 2020 and test on the rest. Your linear regression model is expected to include aforementioned two features (i.e. 
 Lag_48 and  Lag_168) and an intercept. Report the summary statistics of MAPE values for the test period.
 
-```{r Linear Model, echo=TRUE, message=FALSE, warning=FALSE}
+```{r Linear Model, echo=TRUE, message=FALSE, warning=FALSE, paged.print=TRUE}
 #TASK B
 
 lm_train <- consumption %>% filter(Tarih < as.POSIXct("01-11-2020", format = '%d-%m-%Y'))
@@ -81,7 +81,7 @@ lm_model <- lm(Tuketim ~ lag_48+lag_168, lm_train)
 
 lm_test$prediction <- predict(lm_model,lm_test)
 lm_mape <- lm_test %>% group_by(as.ITime(Tarih)) %>% summarize(mape= mape(Tuketim, prediction)) %>% rename(Saat = `as.ITime(Tarih)`)
-lm_mape
+paged_table(lm_mape)
 ```
 
 
@@ -92,7 +92,7 @@ As mentioned earlier, hourly seasonality is important. Although we used the same
 at nights can be different than the other hours. Therefore, modeling each hour separately is another way to approach to the same problem. Train linear 
 regression models for each hour using the same training period (24 models) and report your test performance as in part (A).
 
-```{r Hourly Linear Model, message=FALSE, warning=FALSE}
+```{r Hourly Linear Model, message=FALSE, warning=FALSE, paged.print=TRUE}
 #TASK C
 
 lm_train_hourly <- lm_train %>% mutate(saat = as.ITime(Tarih))
@@ -111,7 +111,7 @@ lm_models_hourly_mape$mape[i]<-mape(predict_data$Tuketim,predict(lm_models_hourl
 rm(predict_data)
 }
 
-lm_models_hourly_mape
+paged_table(lm_models_hourly_mape)
 
 print(paste("For how many hours, MAPE value calculated by utilizing linear models developed for each hour seperately are greater than that of calculated by utilizing linear model developed for the whole train data:",sum((lm_models_hourly_mape$mape - lm_mape$mape)>0)))
 
@@ -131,7 +131,7 @@ feature matrix will be the same for all your models, only the target variable wi
 training period (24 models) and report your test performance as in part (A). Also comment on the resulting models (i.e. coefficients and etc.).
 
 
-```{r Lasso Model, message=FALSE, warning=FALSE}
+```{r Lasso Model, message=FALSE, warning=FALSE, paged.print=TRUE}
 #TASK D
 
 consumption2 <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW3/RealTimeConsumption-01012016-01122020.csv")
@@ -174,7 +174,7 @@ for( i in c("00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:
   rm(predict_data)
 }
 rm(k)
-lasso_models_hourly_mape
+paged_table(lasso_models_hourly_mape)
 coefs <- matrix(0,nrow = 49 ,ncol = 1)
 
 for(i in 1:24)
@@ -201,7 +201,7 @@ penalizing the coefficients for consecutive predictors of each time series (Lag 
 logic as in part (d), train regression models with fused penalties for predicting each hour. You can use a single penalty term for the fused penalties (i.e. 
 lambda_1) and L1 penalty for coefficients (i.e. lambda_2). In order to tune your model, you can perform 10-fold cross-validation.
 
-```{r Fused Lasso Model, message=FALSE, warning=FALSE}
+```{r Fused Lasso Model, message=FALSE, warning=FALSE, paged.print=TRUE}
 #TASK E
 lasso_data_model <- lasso_data
 fused_lasso_results = data.table(hour="00:00",lambda=0, objective = 0,MAPE = 0)
@@ -237,7 +237,7 @@ fused_lasso_results <- rbind(fused_lasso_results,temp)
 
 evaluation <- fused_lasso_results[-1,] %>%group_by(hour,lambda) %>% 
   summarise(Mean_MAPE = mean(MAPE), Se_MAPE = sqrt(var(MAPE)), Mean_Objective = mean(objective))%>%ungroup()%>% arrange(hour,lambda)
-print(evaluation)
+paged_table(evaluation)
 ```
 
 
@@ -247,7 +247,7 @@ is the intercept in this model, hence it does not show in the fused Lasso penalt
 fused penalty since they belong to different time series. (Lag 48 and Lag 168)
 
 
-```{r Fused Lasso Model with the best lambda, message=FALSE, warning=FALSE, error=FALSE}
+```{r Fused Lasso Model with the best lambda, error=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
 # Lambda = 20000000
 
 fused_lasso_results2 = data.table(hour="00:00",lambda=0, objective = 0,MAPE = 0)
@@ -279,7 +279,7 @@ for( j in c("00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:
 }
 })})
 fused_lasso_results2 <- fused_lasso_results2[-1,]
-print(fused_lasso_results2)
+paged_table(fused_lasso_results2)
 ```
 
 Model coefficients and MAPE values can be seen from the table above. MAPE values are slightly decreased for almost each hour compared to lasso regression.

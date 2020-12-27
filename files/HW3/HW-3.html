@@ -260,6 +260,1277 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+<style type="text/css">.pagedtable {
+overflow: auto;
+padding-left: 8px;
+padding-right: 8px;
+}
+.pagedtable-wrapper {
+border: 1px solid #ccc;
+border-radius: 4px;
+margin-bottom: 10px;
+}
+.pagedtable table {
+width: 100%;
+max-width: 100%;
+margin: 0;
+}
+.pagedtable th {
+padding: 0 5px 0 5px;
+border: none;
+border-bottom: 2px solid #dddddd;
+min-width: 45px;
+}
+.pagedtable-empty th {
+display: none;
+}
+.pagedtable td {
+padding: 0 4px 0 4px;
+}
+.pagedtable .even {
+background-color: rgba(140, 140, 140, 0.1);
+}
+.pagedtable-padding-col {
+display: none;
+}
+.pagedtable a {
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+.pagedtable-index-nav {
+cursor: pointer;
+padding: 0 5px 0 5px;
+float: right;
+border: 0;
+}
+.pagedtable-index-nav-disabled {
+cursor: default;
+text-decoration: none;
+color: #999;
+}
+a.pagedtable-index-nav-disabled:hover {
+text-decoration: none;
+color: #999;
+}
+.pagedtable-indexes {
+cursor: pointer;
+float: right;
+border: 0;
+}
+.pagedtable-index-current {
+cursor: default;
+text-decoration: none;
+font-weight: bold;
+color: #333;
+border: 0;
+}
+a.pagedtable-index-current:hover {
+text-decoration: none;
+font-weight: bold;
+color: #333;
+}
+.pagedtable-index {
+width: 30px;
+display: inline-block;
+text-align: center;
+border: 0;
+}
+.pagedtable-index-separator-left {
+display: inline-block;
+color: #333;
+font-size: 9px;
+padding: 0 0 0 0;
+cursor: default;
+}
+.pagedtable-index-separator-right {
+display: inline-block;
+color: #333;
+font-size: 9px;
+padding: 0 4px 0 0;
+cursor: default;
+}
+.pagedtable-footer {
+padding-top: 4px;
+padding-bottom: 5px;
+}
+.pagedtable-not-empty .pagedtable-footer {
+border-top: 2px solid #dddddd;
+}
+.pagedtable-info {
+overflow: hidden;
+color: #999;
+white-space: nowrap;
+text-overflow: ellipsis;
+}
+.pagedtable-header-name {
+overflow: hidden;
+text-overflow: ellipsis;
+}
+.pagedtable-header-type {
+color: #999;
+font-weight: 400;
+}
+.pagedtable-na-cell {
+font-style: italic;
+opacity: 0.3;
+}
+</style>
+<script>// Production steps of ECMA-262, Edition 5, 15.4.4.18
+// Reference: http://es5.github.io/#x15.4.4.18
+if (!Array.prototype.forEach) {
+
+  Array.prototype.forEach = function(callback, thisArg) {
+
+    var T, k;
+
+    if (this === null) {
+      throw new TypeError(' this is null or not defined');
+    }
+
+    // 1. Let O be the result of calling toObject() passing the
+    // |this| value as the argument.
+    var O = Object(this);
+
+    // 2. Let lenValue be the result of calling the Get() internal
+    // method of O with the argument "length".
+    // 3. Let len be toUint32(lenValue).
+    var len = O.length >>> 0;
+
+    // 4. If isCallable(callback) is false, throw a TypeError exception.
+    // See: http://es5.github.com/#x9.11
+    if (typeof callback !== "function") {
+      throw new TypeError(callback + ' is not a function');
+    }
+
+    // 5. If thisArg was supplied, let T be thisArg; else let
+    // T be undefined.
+    if (arguments.length > 1) {
+      T = thisArg;
+    }
+
+    // 6. Let k be 0
+    k = 0;
+
+    // 7. Repeat, while k < len
+    while (k < len) {
+
+      var kValue;
+
+      // a. Let Pk be ToString(k).
+      //    This is implicit for LHS operands of the in operator
+      // b. Let kPresent be the result of calling the HasProperty
+      //    internal method of O with argument Pk.
+      //    This step can be combined with c
+      // c. If kPresent is true, then
+      if (k in O) {
+
+        // i. Let kValue be the result of calling the Get internal
+        // method of O with argument Pk.
+        kValue = O[k];
+
+        // ii. Call the Call internal method of callback with T as
+        // the this value and argument list containing kValue, k, and O.
+        callback.call(T, kValue, k, O);
+      }
+      // d. Increase k by 1.
+      k++;
+    }
+    // 8. return undefined
+  };
+}
+
+// Production steps of ECMA-262, Edition 5, 15.4.4.19
+// Reference: http://es5.github.io/#x15.4.4.19
+if (!Array.prototype.map) {
+
+  Array.prototype.map = function(callback, thisArg) {
+
+    var T, A, k;
+
+    if (this == null) {
+      throw new TypeError(' this is null or not defined');
+    }
+
+    // 1. Let O be the result of calling ToObject passing the |this|
+    //    value as the argument.
+    var O = Object(this);
+
+    // 2. Let lenValue be the result of calling the Get internal
+    //    method of O with the argument "length".
+    // 3. Let len be ToUint32(lenValue).
+    var len = O.length >>> 0;
+
+    // 4. If IsCallable(callback) is false, throw a TypeError exception.
+    // See: http://es5.github.com/#x9.11
+    if (typeof callback !== 'function') {
+      throw new TypeError(callback + ' is not a function');
+    }
+
+    // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
+    if (arguments.length > 1) {
+      T = thisArg;
+    }
+
+    // 6. Let A be a new array created as if by the expression new Array(len)
+    //    where Array is the standard built-in constructor with that name and
+    //    len is the value of len.
+    A = new Array(len);
+
+    // 7. Let k be 0
+    k = 0;
+
+    // 8. Repeat, while k < len
+    while (k < len) {
+
+      var kValue, mappedValue;
+
+      // a. Let Pk be ToString(k).
+      //   This is implicit for LHS operands of the in operator
+      // b. Let kPresent be the result of calling the HasProperty internal
+      //    method of O with argument Pk.
+      //   This step can be combined with c
+      // c. If kPresent is true, then
+      if (k in O) {
+
+        // i. Let kValue be the result of calling the Get internal
+        //    method of O with argument Pk.
+        kValue = O[k];
+
+        // ii. Let mappedValue be the result of calling the Call internal
+        //     method of callback with T as the this value and argument
+        //     list containing kValue, k, and O.
+        mappedValue = callback.call(T, kValue, k, O);
+
+        // iii. Call the DefineOwnProperty internal method of A with arguments
+        // Pk, Property Descriptor
+        // { Value: mappedValue,
+        //   Writable: true,
+        //   Enumerable: true,
+        //   Configurable: true },
+        // and false.
+
+        // In browsers that support Object.defineProperty, use the following:
+        // Object.defineProperty(A, k, {
+        //   value: mappedValue,
+        //   writable: true,
+        //   enumerable: true,
+        //   configurable: true
+        // });
+
+        // For best browser support, use the following:
+        A[k] = mappedValue;
+      }
+      // d. Increase k by 1.
+      k++;
+    }
+
+    // 9. return A
+    return A;
+  };
+}
+
+var PagedTable = function (pagedTable) {
+  var me = this;
+
+  var source = function(pagedTable) {
+    var sourceElems = [].slice.call(pagedTable.children).filter(function(e) {
+      return e.hasAttribute("data-pagedtable-source");
+    });
+
+    if (sourceElems === null || sourceElems.length !== 1) {
+      throw("A single data-pagedtable-source was not found");
+    }
+
+    return JSON.parse(sourceElems[0].innerHTML);
+  }(pagedTable);
+
+  var options = function(source) {
+    var options = typeof(source.options) !== "undefined" &&
+      source.options !== null ? source.options : {};
+
+    var columns = typeof(options.columns) !== "undefined" ? options.columns : {};
+    var rows = typeof(options.rows) !== "undefined" ? options.rows : {};
+
+    var positiveIntOrNull = function(value) {
+      return parseInt(value) >= 0 ? parseInt(value) : null;
+    };
+
+    return {
+      pages: positiveIntOrNull(options.pages),
+      rows: {
+        min: positiveIntOrNull(rows.min),
+        max: positiveIntOrNull(rows.max),
+        total: positiveIntOrNull(rows.total)
+      },
+      columns: {
+        min: positiveIntOrNull(columns.min),
+        max: positiveIntOrNull(columns.max),
+        total: positiveIntOrNull(columns.total)
+      }
+    };
+  }(source);
+
+  var Measurer = function() {
+
+    // set some default initial values that will get adjusted in runtime
+    me.measures = {
+      padding: 12,
+      character: 8,
+      height: 15,
+      defaults: true
+    };
+
+    me.calculate = function(measuresCell) {
+      if (!me.measures.defaults)
+        return;
+
+      var measuresCellStyle = window.getComputedStyle(measuresCell, null);
+
+      var newPadding = parsePadding(measuresCellStyle.paddingLeft) +
+            parsePadding(measuresCellStyle.paddingRight);
+
+      var sampleString = "ABCDEFGHIJ0123456789";
+      var newCharacter = Math.ceil(measuresCell.clientWidth / sampleString.length);
+
+      if (newPadding <= 0 || newCharacter <= 0)
+        return;
+
+      me.measures.padding = newPadding;
+      me.measures.character = newCharacter;
+      me.measures.height = measuresCell.clientHeight;
+      me.measures.defaults = false;
+    };
+
+    return me;
+  };
+
+  var Page = function(data, options) {
+    var me = this;
+
+    var defaults = {
+      max: 7,
+      rows: 10
+    };
+
+    var totalPages = function() {
+      return Math.ceil(data.length / me.rows);
+    };
+
+    me.number = 0;
+    me.max = options.pages !== null ? options.pages : defaults.max;
+    me.visible = me.max;
+    me.rows = options.rows.min !== null ? options.rows.min : defaults.rows;
+    me.total = totalPages();
+
+    me.setRows = function(newRows) {
+      me.rows = newRows;
+      me.total = totalPages();
+    };
+
+    me.setPageNumber = function(newPageNumber) {
+      if (newPageNumber < 0) newPageNumber = 0;
+      if (newPageNumber >= me.total) newPageNumber = me.total - 1;
+
+      me.number = newPageNumber;
+    };
+
+    me.setVisiblePages = function(visiblePages) {
+      me.visible = Math.min(me.max, visiblePages);
+      me.setPageNumber(me.number);
+    };
+
+    me.getVisiblePageRange = function() {
+      var start = me.number - Math.max(Math.floor((me.visible - 1) / 2), 0);
+      var end = me.number + Math.floor(me.visible / 2) + 1;
+      var pageCount = me.total;
+
+      if (start < 0) {
+        var diffToStart = 0 - start;
+        start += diffToStart;
+        end += diffToStart;
+      }
+
+      if (end > pageCount) {
+        var diffToEnd = end - pageCount;
+        start -= diffToEnd;
+        end -= diffToEnd;
+      }
+
+      start = start < 0 ? 0 : start;
+      end = end >= pageCount ? pageCount : end;
+
+      var first = false;
+      var last = false;
+
+      if (start > 0 && me.visible > 1) {
+        start = start + 1;
+        first = true;
+      }
+
+      if (end < pageCount && me.visible > 2) {
+        end = end - 1;
+        last = true;
+      }
+
+      return {
+        first: first,
+        start: start,
+        end: end,
+        last: last
+      };
+    };
+
+    me.getRowStart = function() {
+      var rowStart = page.number * page.rows;
+      if (rowStart < 0)
+        rowStart = 0;
+
+      return rowStart;
+    };
+
+    me.getRowEnd = function() {
+      var rowStart = me.getRowStart();
+      return Math.min(rowStart + me.rows, data.length);
+    };
+
+    me.getPaddingRows = function() {
+      var rowStart = me.getRowStart();
+      var rowEnd = me.getRowEnd();
+      return data.length > me.rows ? me.rows - (rowEnd - rowStart) : 0;
+    };
+  };
+
+  var Columns = function(data, columns, options) {
+    var me = this;
+
+    me.defaults = {
+      min: 5
+    };
+
+    me.number = 0;
+    me.visible = 0;
+    me.total = columns.length;
+    me.subset = [];
+    me.padding = 0;
+    me.min = options.columns.min !== null ? options.columns.min : me.defaults.min;
+    me.max = options.columns.max !== null ? options.columns.max : null;
+    me.widths = {};
+
+    var widthsLookAhead = Math.max(100, options.rows.min);
+    var paddingColChars = 10;
+
+    me.emptyNames = function() {
+      columns.forEach(function(column) {
+        if (columns.label !== null && columns.label !== "")
+          return false;
+      });
+
+      return true;
+    };
+
+    var parsePadding = function(value) {
+      return parseInt(value) >= 0 ? parseInt(value) : 0;
+    };
+
+    me.calculateWidths = function(measures) {
+      columns.forEach(function(column) {
+        var maxChars = Math.max(
+          column.label.toString().length,
+          column.type.toString().length
+        );
+
+        for (var idxRow = 0; idxRow < Math.min(widthsLookAhead, data.length); idxRow++) {
+          maxChars = Math.max(maxChars, data[idxRow][column.name.toString()].length);
+        }
+
+        me.widths[column.name] = {
+          // width in characters
+          chars: maxChars,
+          // width for the inner html columns
+          inner: maxChars * measures.character,
+          // width adding outer styles like padding
+          outer: maxChars * measures.character + measures.padding
+        };
+      });
+    };
+
+    me.getWidth = function() {
+      var widthOuter = 0;
+      for (var idxCol = 0; idxCol < me.subset.length; idxCol++) {
+        var columnName = me.subset[idxCol].name;
+        widthOuter = widthOuter + me.widths[columnName].outer;
+      }
+
+      widthOuter = widthOuter + me.padding * paddingColChars * measurer.measures.character;
+
+      if (me.hasMoreLeftColumns()) {
+        widthOuter = widthOuter + columnNavigationWidthPX + measurer.measures.padding;
+      }
+
+      if (me.hasMoreRightColumns()) {
+        widthOuter = widthOuter + columnNavigationWidthPX + measurer.measures.padding;
+      }
+
+      return widthOuter;
+    };
+
+    me.updateSlice = function() {
+      if (me.number + me.visible >= me.total)
+        me.number = me.total - me.visible;
+
+      if (me.number < 0) me.number = 0;
+
+      me.subset = columns.slice(me.number, Math.min(me.number + me.visible, me.total));
+
+      me.subset = me.subset.map(function(column) {
+        Object.keys(column).forEach(function(colKey) {
+          column[colKey] = column[colKey] === null ? "" : column[colKey].toString();
+        });
+
+        column.width = null;
+        return column;
+      });
+    };
+
+    me.setVisibleColumns = function(columnNumber, newVisibleColumns, paddingCount) {
+      me.number = columnNumber;
+      me.visible = newVisibleColumns;
+      me.padding = paddingCount;
+
+      me.updateSlice();
+    };
+
+    me.incColumnNumber = function(increment) {
+      me.number = me.number + increment;
+    };
+
+    me.setColumnNumber = function(newNumber) {
+      me.number = newNumber;
+    };
+
+    me.setPaddingCount = function(newPadding) {
+      me.padding = newPadding;
+    };
+
+    me.getPaddingCount = function() {
+      return me.padding;
+    };
+
+    me.hasMoreLeftColumns = function() {
+      return me.number > 0;
+    };
+
+    me.hasMoreRightColumns = function() {
+      return me.number + me.visible < me.total;
+    };
+
+    me.updateSlice(0);
+    return me;
+  };
+
+  var data = source.data;
+  var page = new Page(data, options);
+  var measurer = new Measurer(data, options);
+  var columns = new Columns(data, source.columns, options);
+
+  var table = null;
+  var tableDiv = null;
+  var header = null;
+  var footer = null;
+  var tbody = null;
+
+  // Caches pagedTable.clientWidth, specially for webkit
+  var cachedPagedTableClientWidth = null;
+
+  var onChangeCallbacks = [];
+
+  var clearSelection = function() {
+    if(document.selection && document.selection.empty) {
+      document.selection.empty();
+    } else if(window.getSelection) {
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+    }
+  };
+
+  var columnNavigationWidthPX = 5;
+
+  var renderColumnNavigation = function(increment, backwards) {
+    var arrow = document.createElement("div");
+    arrow.setAttribute("style",
+      "border-top: " + columnNavigationWidthPX + "px solid transparent;" +
+      "border-bottom: " + columnNavigationWidthPX + "px solid transparent;" +
+      "border-" + (backwards ? "right" : "left") + ": " + columnNavigationWidthPX + "px solid;");
+
+    var header = document.createElement("th");
+    header.appendChild(arrow);
+    header.setAttribute("style",
+      "cursor: pointer;" +
+      "vertical-align: middle;" +
+      "min-width: " + columnNavigationWidthPX + "px;" +
+      "width: " + columnNavigationWidthPX + "px;");
+
+    header.onclick = function() {
+      columns.incColumnNumber(backwards ? -1 : increment);
+
+      me.animateColumns(backwards);
+      renderFooter();
+
+      clearSelection();
+      triggerOnChange();
+    };
+
+    return header;
+  };
+
+  var maxColumnWidth = function(width) {
+    var padding = 80;
+    var columnMax = Math.max(cachedPagedTableClientWidth - padding, 0);
+
+    return parseInt(width) > 0 ?
+      Math.min(columnMax, parseInt(width)) + "px" :
+      columnMax + "px";
+  };
+
+  var clearHeader = function() {
+    var thead = pagedTable.querySelectorAll("thead")[0];
+    thead.innerHTML = "";
+  };
+
+  var renderHeader = function(clear) {
+    cachedPagedTableClientWidth = pagedTable.clientWidth;
+
+    var fragment = document.createDocumentFragment();
+
+    header = document.createElement("tr");
+    fragment.appendChild(header);
+
+    if (columns.number > 0)
+      header.appendChild(renderColumnNavigation(-columns.visible, true));
+
+    columns.subset = columns.subset.map(function(columnData) {
+      var column = document.createElement("th");
+      column.setAttribute("align", columnData.align);
+      column.style.textAlign = columnData.align;
+
+      column.style.maxWidth = maxColumnWidth(null);
+      if (columnData.width) {
+        column.style.minWidth =
+          column.style.maxWidth = maxColumnWidth(columnData.width);
+      }
+
+      var columnName = document.createElement("div");
+      columnName.setAttribute("class", "pagedtable-header-name");
+      if (columnData.label === "") {
+        columnName.innerHTML = "&nbsp;";
+      }
+      else {
+        columnName.appendChild(document.createTextNode(columnData.label));
+      }
+      column.appendChild(columnName);
+
+      var columnType = document.createElement("div");
+      columnType.setAttribute("class", "pagedtable-header-type");
+      if (columnData.type === "") {
+        columnType.innerHTML = "&nbsp;";
+      }
+      else {
+        columnType.appendChild(document.createTextNode("<" + columnData.type + ">"));
+      }
+      column.appendChild(columnType);
+
+      header.appendChild(column);
+
+      columnData.element = column;
+
+      return columnData;
+    });
+
+    for (var idx = 0; idx < columns.getPaddingCount(); idx++) {
+      var paddingCol = document.createElement("th");
+      paddingCol.setAttribute("class", "pagedtable-padding-col");
+      header.appendChild(paddingCol);
+    }
+
+    if (columns.number + columns.visible < columns.total)
+      header.appendChild(renderColumnNavigation(columns.visible, false));
+
+    if (typeof(clear) == "undefined" || clear) clearHeader();
+    var thead = pagedTable.querySelectorAll("thead")[0];
+    thead.appendChild(fragment);
+  };
+
+  me.animateColumns = function(backwards) {
+    var thead = pagedTable.querySelectorAll("thead")[0];
+
+    var headerOld = thead.querySelectorAll("tr")[0];
+    var tbodyOld = table.querySelectorAll("tbody")[0];
+
+    me.fitColumns(backwards);
+
+    renderHeader(false);
+
+    header.style.opacity = "0";
+    header.style.transform = backwards ? "translateX(-30px)" : "translateX(30px)";
+    header.style.transition = "transform 200ms linear, opacity 200ms";
+    header.style.transitionDelay = "0";
+
+    renderBody(false);
+
+    if (headerOld) {
+      headerOld.style.position = "absolute";
+      headerOld.style.transform = "translateX(0px)";
+      headerOld.style.opacity = "1";
+      headerOld.style.transition = "transform 100ms linear, opacity 100ms";
+      headerOld.setAttribute("class", "pagedtable-remove-head");
+      if (headerOld.style.transitionEnd) {
+        headerOld.addEventListener("transitionend", function() {
+          var headerOldByClass = thead.querySelector(".pagedtable-remove-head");
+          if (headerOldByClass) thead.removeChild(headerOldByClass);
+        });
+      }
+      else {
+        thead.removeChild(headerOld);
+      }
+    }
+
+    if (tbodyOld) table.removeChild(tbodyOld);
+
+    tbody.style.opacity = "0";
+    tbody.style.transition = "transform 200ms linear, opacity 200ms";
+    tbody.style.transitionDelay = "0ms";
+
+    // force relayout
+    window.getComputedStyle(header).opacity;
+    window.getComputedStyle(tbody).opacity;
+
+    if (headerOld) {
+      headerOld.style.transform = backwards ? "translateX(20px)" : "translateX(-30px)";
+      headerOld.style.opacity = "0";
+    }
+
+    header.style.transform = "translateX(0px)";
+    header.style.opacity = "1";
+
+    tbody.style.opacity = "1";
+  }
+
+  me.onChange = function(callback) {
+    onChangeCallbacks.push(callback);
+  };
+
+  var triggerOnChange = function() {
+    onChangeCallbacks.forEach(function(onChange) {
+      onChange();
+    });
+  };
+
+  var clearBody = function() {
+    if (tbody) {
+      table.removeChild(tbody);
+      tbody = null;
+    }
+  };
+
+  var renderBody = function(clear) {
+    cachedPagedTableClientWidth = pagedTable.clientWidth
+
+    var fragment = document.createDocumentFragment();
+
+    var pageData = data.slice(page.getRowStart(), page.getRowEnd());
+
+    pageData.forEach(function(dataRow, idxRow) {
+      var htmlRow = document.createElement("tr");
+      htmlRow.setAttribute("class", (idxRow % 2 !==0) ? "even" : "odd");
+
+      if (columns.hasMoreLeftColumns())
+        htmlRow.appendChild(document.createElement("td"));
+
+      columns.subset.forEach(function(columnData) {
+        var cellName = columnData.name;
+        var dataCell = dataRow[cellName];
+        var htmlCell = document.createElement("td");
+
+        if (dataCell === "NA") htmlCell.setAttribute("class", "pagedtable-na-cell");
+        if (dataCell === "__NA__") dataCell = "NA";
+
+        var cellText = document.createTextNode(dataCell);
+        htmlCell.appendChild(cellText);
+        if (dataCell.length > 50) {
+          htmlCell.setAttribute("title", dataCell);
+        }
+        htmlCell.setAttribute("align", columnData.align);
+        htmlCell.style.textAlign = columnData.align;
+        htmlCell.style.maxWidth = maxColumnWidth(null);
+        if (columnData.width) {
+          htmlCell.style.minWidth = htmlCell.style.maxWidth = maxColumnWidth(columnData.width);
+        }
+        htmlRow.appendChild(htmlCell);
+      });
+
+      for (var idx = 0; idx < columns.getPaddingCount(); idx++) {
+        var paddingCol = document.createElement("td");
+        paddingCol.setAttribute("class", "pagedtable-padding-col");
+        htmlRow.appendChild(paddingCol);
+      }
+
+      if (columns.hasMoreRightColumns())
+        htmlRow.appendChild(document.createElement("td"));
+
+      fragment.appendChild(htmlRow);
+    });
+
+    for (var idxPadding = 0; idxPadding < page.getPaddingRows(); idxPadding++) {
+      var paddingRow = document.createElement("tr");
+
+      var paddingCellRow = document.createElement("td");
+      paddingCellRow.innerHTML = "&nbsp;";
+      paddingCellRow.setAttribute("colspan", "100%");
+      paddingRow.appendChild(paddingCellRow);
+
+      fragment.appendChild(paddingRow);
+    }
+
+    if (typeof(clear) == "undefined" || clear) clearBody();
+    tbody = document.createElement("tbody");
+    tbody.appendChild(fragment);
+
+    table.appendChild(tbody);
+  };
+
+  var getLabelInfo = function() {
+    var pageStart = page.getRowStart();
+    var pageEnd = page.getRowEnd();
+    var totalRows = data.length;
+
+    var totalRowsLabel = options.rows.total ? options.rows.total : totalRows;
+    var totalRowsLabelFormat = totalRowsLabel.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+
+    var infoText = (pageStart + 1) + "-" + pageEnd + " of " + totalRowsLabelFormat + " rows";
+    if (totalRows < page.rows) {
+      infoText = totalRowsLabel + " row" + (totalRows != 1 ? "s" : "");
+    }
+    if (columns.total > columns.visible) {
+      var totalColumnsLabel = options.columns.total ? options.columns.total : columns.total;
+
+      infoText = infoText + " | " + (columns.number + 1) + "-" +
+        (Math.min(columns.number + columns.visible, columns.total)) +
+        " of " + totalColumnsLabel + " columns";
+    }
+
+    return infoText;
+  };
+
+  var clearFooter = function() {
+    footer = pagedTable.querySelectorAll("div.pagedtable-footer")[0];
+    footer.innerHTML = "";
+
+    return footer;
+  };
+
+  var createPageLink = function(idxPage) {
+    var pageLink = document.createElement("a");
+    pageLinkClass = idxPage === page.number ? "pagedtable-index pagedtable-index-current" : "pagedtable-index";
+    pageLink.setAttribute("class", pageLinkClass);
+    pageLink.setAttribute("data-page-index", idxPage);
+    pageLink.onclick = function() {
+      page.setPageNumber(parseInt(this.getAttribute("data-page-index")));
+      renderBody();
+      renderFooter();
+
+      triggerOnChange();
+    };
+
+    pageLink.appendChild(document.createTextNode(idxPage + 1));
+
+    return pageLink;
+  }
+
+  var renderFooter = function() {
+    footer = clearFooter();
+
+    var next = document.createElement("a");
+    next.appendChild(document.createTextNode("Next"));
+    next.onclick = function() {
+      page.setPageNumber(page.number + 1);
+      renderBody();
+      renderFooter();
+
+      triggerOnChange();
+    };
+    if (data.length > page.rows) footer.appendChild(next);
+
+    var pageNumbers = document.createElement("div");
+    pageNumbers.setAttribute("class", "pagedtable-indexes");
+
+    var pageRange = page.getVisiblePageRange();
+
+    if (pageRange.first) {
+      var pageLink = createPageLink(0);
+      pageNumbers.appendChild(pageLink);
+
+      var pageSeparator = document.createElement("div");
+      pageSeparator.setAttribute("class", "pagedtable-index-separator-left");
+      pageSeparator.appendChild(document.createTextNode("..."))
+      pageNumbers.appendChild(pageSeparator);
+    }
+
+    for (var idxPage = pageRange.start; idxPage < pageRange.end; idxPage++) {
+      var pageLink = createPageLink(idxPage);
+
+      pageNumbers.appendChild(pageLink);
+    }
+
+    if (pageRange.last) {
+      var pageSeparator = document.createElement("div");
+      pageSeparator.setAttribute("class", "pagedtable-index-separator-right");
+      pageSeparator.appendChild(document.createTextNode("..."))
+      pageNumbers.appendChild(pageSeparator);
+
+      var pageLink = createPageLink(page.total - 1);
+      pageNumbers.appendChild(pageLink);
+    }
+
+    if (data.length > page.rows) footer.appendChild(pageNumbers);
+
+    var previous = document.createElement("a");
+    previous.appendChild(document.createTextNode("Previous"));
+    previous.onclick = function() {
+      page.setPageNumber(page.number - 1);
+      renderBody();
+      renderFooter();
+
+      triggerOnChange();
+    };
+    if (data.length > page.rows) footer.appendChild(previous);
+
+    var infoLabel = document.createElement("div");
+    infoLabel.setAttribute("class", "pagedtable-info");
+    infoLabel.setAttribute("title", getLabelInfo());
+    infoLabel.appendChild(document.createTextNode(getLabelInfo()));
+    footer.appendChild(infoLabel);
+
+    var enabledClass = "pagedtable-index-nav";
+    var disabledClass = "pagedtable-index-nav pagedtable-index-nav-disabled";
+    previous.setAttribute("class", page.number <= 0 ? disabledClass : enabledClass);
+    next.setAttribute("class", (page.number + 1) * page.rows >= data.length ? disabledClass : enabledClass);
+  };
+
+  var measuresCell = null;
+
+  var renderMeasures = function() {
+    var measuresTable = document.createElement("table");
+    measuresTable.style.visibility = "hidden";
+    measuresTable.style.position = "absolute";
+    measuresTable.style.whiteSpace = "nowrap";
+    measuresTable.style.height = "auto";
+    measuresTable.style.width = "auto";
+
+    var measuresRow = document.createElement("tr");
+    measuresTable.appendChild(measuresRow);
+
+    measuresCell = document.createElement("td");
+    var sampleString = "ABCDEFGHIJ0123456789";
+    measuresCell.appendChild(document.createTextNode(sampleString));
+
+    measuresRow.appendChild(measuresCell);
+
+    tableDiv.appendChild(measuresTable);
+  }
+
+  me.init = function() {
+    tableDiv = document.createElement("div");
+    pagedTable.appendChild(tableDiv);
+    var pagedTableClass = data.length > 0 ?
+      "pagedtable pagedtable-not-empty" :
+      "pagedtable pagedtable-empty";
+
+    if (columns.total == 0 || (columns.emptyNames() && data.length == 0)) {
+      pagedTableClass = pagedTableClass + " pagedtable-empty-columns";
+    }
+
+    tableDiv.setAttribute("class", pagedTableClass);
+
+    renderMeasures();
+    measurer.calculate(measuresCell);
+    columns.calculateWidths(measurer.measures);
+
+    table = document.createElement("table");
+    table.setAttribute("cellspacing", "0");
+    table.setAttribute("class", "table table-condensed");
+    tableDiv.appendChild(table);
+
+    table.appendChild(document.createElement("thead"));
+
+    var footerDiv = document.createElement("div");
+    footerDiv.setAttribute("class", "pagedtable-footer");
+    tableDiv.appendChild(footerDiv);
+
+    // if the host has not yet provided horizontal space, render hidden
+    if (tableDiv.clientWidth <= 0) {
+      tableDiv.style.opacity = "0";
+    }
+
+    me.render();
+
+    // retry seizing columns later if the host has not provided space
+    function retryFit() {
+      if (tableDiv.clientWidth <= 0) {
+        setTimeout(retryFit, 100);
+      } else {
+        me.render();
+        triggerOnChange();
+      }
+    }
+    if (tableDiv.clientWidth <= 0) {
+      retryFit();
+    }
+  };
+
+  var registerWidths = function() {
+    columns.subset = columns.subset.map(function(column) {
+      column.width = columns.widths[column.name].inner;
+      return column;
+    });
+  };
+
+  var parsePadding = function(value) {
+    return parseInt(value) >= 0 ? parseInt(value) : 0;
+  };
+
+  me.fixedHeight = function() {
+    return options.rows.max != null;
+  }
+
+  me.fitRows = function() {
+    if (me.fixedHeight())
+      return;
+
+    measurer.calculate(measuresCell);
+
+    var rows = options.rows.min !== null ? options.rows.min : 0;
+    var headerHeight = header !== null && header.offsetHeight > 0 ? header.offsetHeight : 0;
+    var footerHeight = footer !== null && footer.offsetHeight > 0 ? footer.offsetHeight : 0;
+
+    if (pagedTable.offsetHeight > 0) {
+      var availableHeight = pagedTable.offsetHeight - headerHeight - footerHeight;
+      rows = Math.floor((availableHeight) / measurer.measures.height);
+    }
+
+    rows = options.rows.min !== null ? Math.max(options.rows.min, rows) : rows;
+
+    page.setRows(rows);
+  }
+
+  // The goal of this function is to add as many columns as possible
+  // starting from left-to-right, when the right most limit is reached
+  // it tries to add columns from the left as well.
+  //
+  // When startBackwards is true columns are added from right-to-left
+  me.fitColumns = function(startBackwards) {
+    measurer.calculate(measuresCell);
+    columns.calculateWidths(measurer.measures);
+
+    if (tableDiv.clientWidth > 0) {
+      tableDiv.style.opacity = 1;
+    }
+
+    var visibleColumns = tableDiv.clientWidth <= 0 ? Math.max(columns.min, 1) : 1;
+    var columnNumber = columns.number;
+    var paddingCount = 0;
+
+    // track a list of added columns as we build the visible ones to allow us
+    // to remove columns when they don't fit anymore.
+    var columnHistory = [];
+
+    var lastTableHeight = 0;
+    var backwards = startBackwards;
+
+    var tableDivStyle = window.getComputedStyle(tableDiv, null);
+    var tableDivPadding = parsePadding(tableDivStyle.paddingLeft) +
+      parsePadding(tableDivStyle.paddingRight);
+
+    var addPaddingCol = false;
+    var currentWidth = 0;
+
+    while (true) {
+      columns.setVisibleColumns(columnNumber, visibleColumns, paddingCount);
+      currentWidth = columns.getWidth();
+
+      if (tableDiv.clientWidth - tableDivPadding < currentWidth) {
+        break;
+      }
+
+      columnHistory.push({
+        columnNumber: columnNumber,
+        visibleColumns: visibleColumns,
+        paddingCount: paddingCount
+      });
+
+      if (columnHistory.length > 100) {
+        console.error("More than 100 tries to fit columns, aborting");
+        break;
+      }
+
+      if (columns.max !== null &&
+        columns.visible + columns.getPaddingCount() >= columns.max) {
+        break;
+      }
+
+      // if we run out of right-columns
+      if (!backwards && columnNumber + columns.visible >= columns.total) {
+        // if we started adding right-columns, try adding left-columns
+        if (!startBackwards && columnNumber > 0) {
+          backwards = true;
+        }
+        else if (columns.min === null || visibleColumns + columns.getPaddingCount() >= columns.min) {
+          break;
+        }
+        else {
+          paddingCount = paddingCount + 1;
+        }
+      }
+
+      // if we run out of left-columns
+      if (backwards && columnNumber == 0) {
+        // if we started adding left-columns, try adding right-columns
+        if (startBackwards && columnNumber + columns.visible < columns.total) {
+          backwards = false;
+        }
+        else if (columns.min === null || visibleColumns + columns.getPaddingCount() >= columns.min) {
+          break;
+        }
+        else {
+          paddingCount = paddingCount + 1;
+        }
+      }
+
+      // when moving backwards try fitting left columns first
+      if (backwards && columnNumber > 0) {
+        columnNumber = columnNumber - 1;
+      }
+
+      if (columnNumber + visibleColumns < columns.total) {
+        visibleColumns = visibleColumns + 1;
+      }
+    }
+
+    var lastRenderableColumn = {
+        columnNumber: columnNumber,
+        visibleColumns: visibleColumns,
+        paddingCount: paddingCount
+    };
+
+    if (columnHistory.length > 0) {
+      lastRenderableColumn = columnHistory[columnHistory.length - 1];
+    }
+
+    columns.setVisibleColumns(
+      lastRenderableColumn.columnNumber,
+      lastRenderableColumn.visibleColumns,
+      lastRenderableColumn.paddingCount);
+
+    if (pagedTable.offsetWidth > 0) {
+      page.setVisiblePages(Math.max(Math.ceil(1.0 * (pagedTable.offsetWidth - 250) / 40), 2));
+    }
+
+    registerWidths();
+  };
+
+  me.fit = function(startBackwards) {
+    me.fitRows();
+    me.fitColumns(startBackwards);
+  }
+
+  me.render = function() {
+    me.fitColumns(false);
+
+    // render header/footer to measure height accurately
+    renderHeader();
+    renderFooter();
+
+    me.fitRows();
+    renderBody();
+
+    // re-render footer to match new rows
+    renderFooter();
+  }
+
+  var resizeLastWidth = -1;
+  var resizeLastHeight = -1;
+  var resizeNewWidth = -1;
+  var resizeNewHeight = -1;
+  var resizePending = false;
+
+  me.resize = function(newWidth, newHeight) {
+
+    function resizeDelayed() {
+      resizePending = false;
+
+      if (
+        (resizeNewWidth !== resizeLastWidth) ||
+        (!me.fixedHeight() && resizeNewHeight !== resizeLastHeight)
+      ) {
+        resizeLastWidth = resizeNewWidth;
+        resizeLastHeight = resizeNewHeight;
+
+        setTimeout(resizeDelayed, 200);
+        resizePending = true;
+      } else {
+        me.render();
+        triggerOnChange();
+
+        resizeLastWidth = -1;
+        resizeLastHeight = -1;
+      }
+    }
+
+    resizeNewWidth = newWidth;
+    resizeNewHeight = newHeight;
+
+    if (!resizePending) resizeDelayed();
+  };
+};
+
+var PagedTableDoc;
+(function (PagedTableDoc) {
+  var allPagedTables = [];
+
+  PagedTableDoc.initAll = function() {
+    allPagedTables = [];
+
+    var pagedTables = [].slice.call(document.querySelectorAll('[data-pagedtable="false"],[data-pagedtable=""]'));
+    pagedTables.forEach(function(pagedTable, idx) {
+      pagedTable.setAttribute("data-pagedtable", "true");
+      pagedTable.setAttribute("pagedtable-page", 0);
+      pagedTable.setAttribute("class", "pagedtable-wrapper");
+
+      var pagedTableInstance = new PagedTable(pagedTable);
+      pagedTableInstance.init();
+
+      allPagedTables.push(pagedTableInstance);
+    });
+  };
+
+  PagedTableDoc.resizeAll = function() {
+    allPagedTables.forEach(function(pagedTable) {
+      pagedTable.render();
+    });
+  };
+
+  window.addEventListener("resize", PagedTableDoc.resizeAll);
+
+  return PagedTableDoc;
+})(PagedTableDoc || (PagedTableDoc = {}));
+
+window.onload = function() {
+  PagedTableDoc.initAll();
+};
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -434,7 +1705,7 @@ summary {
 <h2>Task A</h2>
 <p>Assume that you are willing to use 168 and 48 hours ago consumption values as your naive approaches to predict next day’s consumption. Suppose the test period includes the dates after 1st of November, 2020 (included). For both approaches, report the summary statistics of MAPE values for the test period.</p>
 <pre class="r"><code>#Libraries
-
+library(rmarkdown)
 library(ggplot2)
 library(dplyr)
 library(yardstick)
@@ -474,36 +1745,18 @@ naive_test &lt;- consumption %&gt;% filter(Tarih &gt;= as.POSIXct(&quot;01-11-20
 mape_lag48_hourly &lt;- naive_test %&gt;% group_by(as.ITime(Tarih)) %&gt;% summarize(mape= mape(Tuketim,lag_48)) %&gt;% rename(Saat = `as.ITime(Tarih)`)
 mape_lag168_hourly &lt;- naive_test %&gt;% group_by(as.ITime(Tarih)) %&gt;% summarize(mape= mape(Tuketim,lag_168)) %&gt;% rename(Saat = `as.ITime(Tarih)`)
 
-mape_lag48_hourly</code></pre>
-<pre><code>## # A tibble: 24 x 2
-##    Saat       mape
-##    &lt;ITime&gt;   &lt;dbl&gt;
-##  1 00:00:00 0.0468
-##  2 01:00:00 0.0492
-##  3 02:00:00 0.0506
-##  4 03:00:00 0.0467
-##  5 04:00:00 0.0475
-##  6 05:00:00 0.0492
-##  7 06:00:00 0.0536
-##  8 07:00:00 0.0706
-##  9 08:00:00 0.122 
-## 10 09:00:00 0.141 
-## # ... with 14 more rows</code></pre>
-<pre class="r"><code>mape_lag168_hourly</code></pre>
-<pre><code>## # A tibble: 24 x 2
-##    Saat       mape
-##    &lt;ITime&gt;   &lt;dbl&gt;
-##  1 00:00:00 0.0277
-##  2 01:00:00 0.0259
-##  3 02:00:00 0.0264
-##  4 03:00:00 0.0256
-##  5 04:00:00 0.0258
-##  6 05:00:00 0.0261
-##  7 06:00:00 0.0270
-##  8 07:00:00 0.0328
-##  9 08:00:00 0.0326
-## 10 09:00:00 0.0401
-## # ... with 14 more rows</code></pre>
+paged_table(mape_lag48_hourly)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Saat"],"name":[1],"type":["ITime"],"align":["right"]},{"label":["mape"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"00:00:00","2":"0.04676979"},{"1":"01:00:00","2":"0.04921247"},{"1":"02:00:00","2":"0.05055477"},{"1":"03:00:00","2":"0.04673006"},{"1":"04:00:00","2":"0.04751160"},{"1":"05:00:00","2":"0.04915776"},{"1":"06:00:00","2":"0.05356758"},{"1":"07:00:00","2":"0.07056625"},{"1":"08:00:00","2":"0.12179013"},{"1":"09:00:00","2":"0.14147355"},{"1":"10:00:00","2":"0.13441474"},{"1":"11:00:00","2":"0.13036071"},{"1":"12:00:00","2":"0.11490255"},{"1":"13:00:00","2":"0.11633439"},{"1":"14:00:00","2":"0.12638872"},{"1":"15:00:00","2":"0.11982026"},{"1":"16:00:00","2":"0.10874954"},{"1":"17:00:00","2":"0.09008514"},{"1":"18:00:00","2":"0.06256267"},{"1":"19:00:00","2":"0.05465362"},{"1":"20:00:00","2":"0.05107272"},{"1":"21:00:00","2":"0.04864486"},{"1":"22:00:00","2":"0.04747899"},{"1":"23:00:00","2":"0.05167260"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>paged_table(mape_lag168_hourly)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Saat"],"name":[1],"type":["ITime"],"align":["right"]},{"label":["mape"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"00:00:00","2":"0.02773019"},{"1":"01:00:00","2":"0.02591936"},{"1":"02:00:00","2":"0.02644995"},{"1":"03:00:00","2":"0.02562837"},{"1":"04:00:00","2":"0.02576864"},{"1":"05:00:00","2":"0.02613395"},{"1":"06:00:00","2":"0.02702048"},{"1":"07:00:00","2":"0.03276225"},{"1":"08:00:00","2":"0.03257286"},{"1":"09:00:00","2":"0.04008395"},{"1":"10:00:00","2":"0.04631992"},{"1":"11:00:00","2":"0.04929627"},{"1":"12:00:00","2":"0.05441393"},{"1":"13:00:00","2":"0.05425815"},{"1":"14:00:00","2":"0.05021932"},{"1":"15:00:00","2":"0.04732190"},{"1":"16:00:00","2":"0.03933094"},{"1":"17:00:00","2":"0.03658346"},{"1":"18:00:00","2":"0.02855493"},{"1":"19:00:00","2":"0.02621172"},{"1":"20:00:00","2":"0.02465747"},{"1":"21:00:00","2":"0.02544987"},{"1":"22:00:00","2":"0.02707691"},{"1":"23:00:00","2":"0.02804044"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <p>MAPE values calculated by utilizing 1 week ago consumption values are considerably lower than that of calculated by utilizing 2 days ago consumption. Accordingly,it can be said that electricity consumption data have weekly seasonality. (The day of the week matters)</p>
 </div>
 <div id="task-b" class="section level2">
@@ -518,21 +1771,12 @@ lm_model &lt;- lm(Tuketim ~ lag_48+lag_168, lm_train)
 
 lm_test$prediction &lt;- predict(lm_model,lm_test)
 lm_mape &lt;- lm_test %&gt;% group_by(as.ITime(Tarih)) %&gt;% summarize(mape= mape(Tuketim, prediction)) %&gt;% rename(Saat = `as.ITime(Tarih)`)
-lm_mape</code></pre>
-<pre><code>## # A tibble: 24 x 2
-##    Saat       mape
-##    &lt;ITime&gt;   &lt;dbl&gt;
-##  1 00:00:00 0.0266
-##  2 01:00:00 0.0259
-##  3 02:00:00 0.0261
-##  4 03:00:00 0.0232
-##  5 04:00:00 0.0231
-##  6 05:00:00 0.0238
-##  7 06:00:00 0.0252
-##  8 07:00:00 0.0344
-##  9 08:00:00 0.0552
-## 10 09:00:00 0.0656
-## # ... with 14 more rows</code></pre>
+paged_table(lm_mape)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Saat"],"name":[1],"type":["ITime"],"align":["right"]},{"label":["mape"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"00:00:00","2":"0.02655885"},{"1":"01:00:00","2":"0.02590194"},{"1":"02:00:00","2":"0.02606538"},{"1":"03:00:00","2":"0.02319316"},{"1":"04:00:00","2":"0.02311746"},{"1":"05:00:00","2":"0.02375025"},{"1":"06:00:00","2":"0.02523686"},{"1":"07:00:00","2":"0.03442956"},{"1":"08:00:00","2":"0.05522666"},{"1":"09:00:00","2":"0.06558527"},{"1":"10:00:00","2":"0.06818207"},{"1":"11:00:00","2":"0.06844299"},{"1":"12:00:00","2":"0.06605537"},{"1":"13:00:00","2":"0.06619422"},{"1":"14:00:00","2":"0.06706841"},{"1":"15:00:00","2":"0.06317310"},{"1":"16:00:00","2":"0.05417238"},{"1":"17:00:00","2":"0.04721575"},{"1":"18:00:00","2":"0.03596023"},{"1":"19:00:00","2":"0.03213899"},{"1":"20:00:00","2":"0.03012991"},{"1":"21:00:00","2":"0.02964702"},{"1":"22:00:00","2":"0.02867048"},{"1":"23:00:00","2":"0.02932725"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <div id="task-c" class="section level2">
 <h2>Task C</h2>
@@ -555,32 +1799,12 @@ lm_models_hourly_mape$mape[i]&lt;-mape(predict_data$Tuketim,predict(lm_models_ho
 rm(predict_data)
 }
 
-lm_models_hourly_mape</code></pre>
-<pre><code>##    hour       mape
-## 1     0 0.03263542
-## 2     1 0.03283588
-## 3     2 0.03418989
-## 4     3 0.03202953
-## 5     4 0.03182975
-## 6     5 0.03189139
-## 7     6 0.03150869
-## 8     7 0.03780175
-## 9     8 0.04680474
-## 10    9 0.05494326
-## 11   10 0.06094937
-## 12   11 0.06279595
-## 13   12 0.06547895
-## 14   13 0.06686870
-## 15   14 0.06485375
-## 16   15 0.06087214
-## 17   16 0.05151109
-## 18   17 0.04613865
-## 19   18 0.03743047
-## 20   19 0.03436128
-## 21   20 0.03165305
-## 22   21 0.03167038
-## 23   22 0.03167298
-## 24   23 0.03387197</code></pre>
+paged_table(lm_models_hourly_mape)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["hour"],"name":[1],"type":["int"],"align":["right"]},{"label":["mape"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0","2":"0.03263542"},{"1":"1","2":"0.03283588"},{"1":"2","2":"0.03418989"},{"1":"3","2":"0.03202953"},{"1":"4","2":"0.03182975"},{"1":"5","2":"0.03189139"},{"1":"6","2":"0.03150869"},{"1":"7","2":"0.03780175"},{"1":"8","2":"0.04680474"},{"1":"9","2":"0.05494326"},{"1":"10","2":"0.06094937"},{"1":"11","2":"0.06279595"},{"1":"12","2":"0.06547895"},{"1":"13","2":"0.06686870"},{"1":"14","2":"0.06485375"},{"1":"15","2":"0.06087214"},{"1":"16","2":"0.05151109"},{"1":"17","2":"0.04613865"},{"1":"18","2":"0.03743047"},{"1":"19","2":"0.03436128"},{"1":"20","2":"0.03165305"},{"1":"21","2":"0.03167038"},{"1":"22","2":"0.03167298"},{"1":"23","2":"0.03387197"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <pre class="r"><code>print(paste(&quot;For how many hours, MAPE value calculated by utilizing linear models developed for each hour seperately are greater than that of calculated by utilizing linear model developed for the whole train data:&quot;,sum((lm_models_hourly_mape$mape - lm_mape$mape)&gt;0)))</code></pre>
 <pre><code>## [1] &quot;For how many hours, MAPE value calculated by utilizing linear models developed for each hour seperately are greater than that of calculated by utilizing linear model developed for the whole train data: 15&quot;</code></pre>
 <p>Modeling each hour separately does not result in better in terms of average MAPEs but the variance of MAPEs seem to be lower than previous approach.</p>
@@ -630,32 +1854,12 @@ for( i in c(&quot;00:00&quot;,&quot;01:00&quot;,&quot;02:00&quot;,&quot;03:00&qu
   rm(predict_data)
 }
 rm(k)
-lasso_models_hourly_mape</code></pre>
-<pre><code>##    hour       mape
-## 1     0 0.01426640
-## 2     1 0.01509363
-## 3     2 0.01538099
-## 4     3 0.01433916
-## 5     4 0.01385968
-## 6     5 0.01394573
-## 7     6 0.01609799
-## 8     7 0.01770681
-## 9     8 0.02520636
-## 10    9 0.03658073
-## 11   10 0.04312858
-## 12   11 0.04501858
-## 13   12 0.04737021
-## 14   13 0.04660118
-## 15   14 0.04400238
-## 16   15 0.03940056
-## 17   16 0.02958956
-## 18   17 0.02046426
-## 19   18 0.01588858
-## 20   19 0.01447569
-## 21   20 0.01568212
-## 22   21 0.01575178
-## 23   22 0.01489653
-## 24   23 0.01774688</code></pre>
+paged_table(lasso_models_hourly_mape)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["hour"],"name":[1],"type":["int"],"align":["right"]},{"label":["mape"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0","2":"0.01426640"},{"1":"1","2":"0.01509363"},{"1":"2","2":"0.01538099"},{"1":"3","2":"0.01433916"},{"1":"4","2":"0.01385968"},{"1":"5","2":"0.01394573"},{"1":"6","2":"0.01609799"},{"1":"7","2":"0.01770681"},{"1":"8","2":"0.02520636"},{"1":"9","2":"0.03658073"},{"1":"10","2":"0.04312858"},{"1":"11","2":"0.04501858"},{"1":"12","2":"0.04737021"},{"1":"13","2":"0.04660118"},{"1":"14","2":"0.04400238"},{"1":"15","2":"0.03940056"},{"1":"16","2":"0.02958956"},{"1":"17","2":"0.02046426"},{"1":"18","2":"0.01588858"},{"1":"19","2":"0.01447569"},{"1":"20","2":"0.01568212"},{"1":"21","2":"0.01575178"},{"1":"22","2":"0.01489653"},{"1":"23","2":"0.01774688"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <pre class="r"><code>coefs &lt;- matrix(0,nrow = 49 ,ncol = 1)
 
 for(i in 1:24)
@@ -757,21 +1961,12 @@ fused_lasso_results &lt;- rbind(fused_lasso_results,temp)
 
 evaluation &lt;- fused_lasso_results[-1,] %&gt;%group_by(hour,lambda) %&gt;% 
   summarise(Mean_MAPE = mean(MAPE), Se_MAPE = sqrt(var(MAPE)), Mean_Objective = mean(objective))%&gt;%ungroup()%&gt;% arrange(hour,lambda)
-print(evaluation)</code></pre>
-<pre><code>## # A tibble: 168 x 5
-##    hour     lambda Mean_MAPE Se_MAPE Mean_Objective
-##    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;          &lt;dbl&gt;
-##  1 00:00    200000    0.0208 0.00280        698212.
-##  2 00:00    500000    0.0207 0.00282        701259.
-##  3 00:00    800000    0.0207 0.00284        704097.
-##  4 00:00   1100000    0.0207 0.00287        706841.
-##  5 00:00  20000000    0.0204 0.00305        787661.
-##  6 00:00  50000000    0.0206 0.00301        851055.
-##  7 00:00 100000000    0.0209 0.00307        928952.
-##  8 01:00    200000    0.0218 0.00318        711680.
-##  9 01:00    500000    0.0218 0.00319        715025.
-## 10 01:00    800000    0.0218 0.00321        718128.
-## # ... with 158 more rows</code></pre>
+paged_table(evaluation)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["hour"],"name":[1],"type":["chr"],"align":["left"]},{"label":["lambda"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mean_MAPE"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Se_MAPE"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Mean_Objective"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"00:00","2":"2.0e+05","3":"0.02075567","4":"0.002795264","5":"698212.2"},{"1":"00:00","2":"5.0e+05","3":"0.02072476","4":"0.002818982","5":"701258.7"},{"1":"00:00","2":"8.0e+05","3":"0.02069837","4":"0.002842902","5":"704097.4"},{"1":"00:00","2":"1.1e+06","3":"0.02067667","4":"0.002865739","5":"706841.4"},{"1":"00:00","2":"2.0e+07","3":"0.02044547","4":"0.003049432","5":"787661.3"},{"1":"00:00","2":"5.0e+07","3":"0.02056249","4":"0.003006201","5":"851055.4"},{"1":"00:00","2":"1.0e+08","3":"0.02094533","4":"0.003070794","5":"928952.4"},{"1":"01:00","2":"2.0e+05","3":"0.02181500","4":"0.003175109","5":"711679.6"},{"1":"01:00","2":"5.0e+05","3":"0.02178678","4":"0.003192946","5":"715025.0"},{"1":"01:00","2":"8.0e+05","3":"0.02176727","4":"0.003209004","5":"718128.5"},{"1":"01:00","2":"1.1e+06","3":"0.02175307","4":"0.003224257","5":"721125.7"},{"1":"01:00","2":"2.0e+07","3":"0.02163958","4":"0.003346886","5":"806991.0"},{"1":"01:00","2":"5.0e+07","3":"0.02175549","4":"0.003179893","5":"869813.9"},{"1":"01:00","2":"1.0e+08","3":"0.02210635","4":"0.003106520","5":"939076.0"},{"1":"02:00","2":"2.0e+05","3":"0.02272538","4":"0.003303191","5":"733442.8"},{"1":"02:00","2":"5.0e+05","3":"0.02269847","4":"0.003322316","5":"736711.6"},{"1":"02:00","2":"8.0e+05","3":"0.02267648","4":"0.003339276","5":"739877.9"},{"1":"02:00","2":"1.1e+06","3":"0.02265804","4":"0.003359801","5":"742831.1"},{"1":"02:00","2":"2.0e+07","3":"0.02255021","4":"0.003591329","5":"835255.8"},{"1":"02:00","2":"5.0e+07","3":"0.02282072","4":"0.003470492","5":"904529.0"},{"1":"02:00","2":"1.0e+08","3":"0.02346485","4":"0.003348711","5":"972287.4"},{"1":"03:00","2":"2.0e+05","3":"0.02317741","4":"0.003262607","5":"734921.6"},{"1":"03:00","2":"5.0e+05","3":"0.02314189","4":"0.003275633","5":"738158.7"},{"1":"03:00","2":"8.0e+05","3":"0.02310962","4":"0.003287718","5":"741274.3"},{"1":"03:00","2":"1.1e+06","3":"0.02308026","4":"0.003302084","5":"744172.4"},{"1":"03:00","2":"2.0e+07","3":"0.02291837","4":"0.003553853","5":"835130.9"},{"1":"03:00","2":"5.0e+07","3":"0.02313309","4":"0.003470718","5":"903886.0"},{"1":"03:00","2":"1.0e+08","3":"0.02378232","4":"0.003386275","5":"965426.0"},{"1":"04:00","2":"2.0e+05","3":"0.02326021","4":"0.003391758","5":"722869.9"},{"1":"04:00","2":"5.0e+05","3":"0.02322413","4":"0.003407343","5":"726113.2"},{"1":"04:00","2":"8.0e+05","3":"0.02319340","4":"0.003420601","5":"729160.9"},{"1":"04:00","2":"1.1e+06","3":"0.02316613","4":"0.003434252","5":"732108.9"},{"1":"04:00","2":"2.0e+07","3":"0.02288247","4":"0.003622812","5":"818832.2"},{"1":"04:00","2":"5.0e+07","3":"0.02295894","4":"0.003614382","5":"885591.1"},{"1":"04:00","2":"1.0e+08","3":"0.02342610","4":"0.003783661","5":"940024.9"},{"1":"05:00","2":"2.0e+05","3":"0.02392453","4":"0.003567072","5":"728775.8"},{"1":"05:00","2":"5.0e+05","3":"0.02389034","4":"0.003570862","5":"731889.2"},{"1":"05:00","2":"8.0e+05","3":"0.02386347","4":"0.003575902","5":"734933.8"},{"1":"05:00","2":"1.1e+06","3":"0.02383622","4":"0.003580197","5":"737708.0"},{"1":"05:00","2":"2.0e+07","3":"0.02351570","4":"0.003749667","5":"824364.7"},{"1":"05:00","2":"5.0e+07","3":"0.02351889","4":"0.003774067","5":"892281.1"},{"1":"05:00","2":"1.0e+08","3":"0.02394791","4":"0.004110619","5":"957009.5"},{"1":"06:00","2":"2.0e+05","3":"0.02577342","4":"0.003886755","5":"847028.9"},{"1":"06:00","2":"5.0e+05","3":"0.02572409","4":"0.003899977","5":"850413.0"},{"1":"06:00","2":"8.0e+05","3":"0.02567987","4":"0.003913781","5":"853671.6"},{"1":"06:00","2":"1.1e+06","3":"0.02563892","4":"0.003926798","5":"856828.4"},{"1":"06:00","2":"2.0e+07","3":"0.02524819","4":"0.004015954","5":"964199.9"},{"1":"06:00","2":"5.0e+07","3":"0.02544757","4":"0.003727019","5":"1053505.3"},{"1":"06:00","2":"1.0e+08","3":"0.02612761","4":"0.003482111","5":"1130591.5"},{"1":"07:00","2":"2.0e+05","3":"0.03122175","4":"0.004931202","5":"1374322.1"},{"1":"07:00","2":"5.0e+05","3":"0.03116123","4":"0.004944333","5":"1379846.3"},{"1":"07:00","2":"8.0e+05","3":"0.03110870","4":"0.004958136","5":"1385189.8"},{"1":"07:00","2":"1.1e+06","3":"0.03106204","4":"0.004972896","5":"1390322.4"},{"1":"07:00","2":"2.0e+07","3":"0.03077909","4":"0.005512143","5":"1570547.9"},{"1":"07:00","2":"5.0e+07","3":"0.03125741","4":"0.005693448","5":"1710100.5"},{"1":"07:00","2":"1.0e+08","3":"0.03206443","4":"0.005765334","5":"1856588.9"},{"1":"08:00","2":"2.0e+05","3":"0.04127773","4":"0.008243381","5":"3049093.7"},{"1":"08:00","2":"5.0e+05","3":"0.04119950","4":"0.008261252","5":"3059352.1"},{"1":"08:00","2":"8.0e+05","3":"0.04112749","4":"0.008278618","5":"3069221.8"},{"1":"08:00","2":"1.1e+06","3":"0.04106293","4":"0.008294283","5":"3078791.5"},{"1":"08:00","2":"2.0e+07","3":"0.04025316","4":"0.008742686","5":"3420493.2"},{"1":"08:00","2":"5.0e+07","3":"0.04041311","4":"0.008783026","5":"3694973.6"},{"1":"08:00","2":"1.0e+08","3":"0.04101328","4":"0.008805690","5":"3958503.2"},{"1":"09:00","2":"2.0e+05","3":"0.04461763","4":"0.009414031","5":"4006915.4"},{"1":"09:00","2":"5.0e+05","3":"0.04454277","4":"0.009439229","5":"4019432.8"},{"1":"09:00","2":"8.0e+05","3":"0.04447249","4":"0.009463986","5":"4031538.6"},{"1":"09:00","2":"1.1e+06","3":"0.04441008","4":"0.009487880","5":"4043274.7"},{"1":"09:00","2":"2.0e+07","3":"0.04351987","4":"0.010054466","5":"4465335.1"},{"1":"09:00","2":"5.0e+07","3":"0.04368617","4":"0.010117677","5":"4803316.7"},{"1":"09:00","2":"1.0e+08","3":"0.04423125","4":"0.010271852","5":"5143928.6"},{"1":"10:00","2":"2.0e+05","3":"0.04489575","4":"0.010183462","5":"4183836.5"},{"1":"10:00","2":"5.0e+05","3":"0.04483422","4":"0.010207372","5":"4196660.4"},{"1":"10:00","2":"8.0e+05","3":"0.04477747","4":"0.010229014","5":"4209064.4"},{"1":"10:00","2":"1.1e+06","3":"0.04472613","4":"0.010247039","5":"4221089.4"},{"1":"10:00","2":"2.0e+07","3":"0.04411126","4":"0.010832162","5":"4643385.8"},{"1":"10:00","2":"5.0e+07","3":"0.04423950","4":"0.011022976","5":"4974902.3"},{"1":"10:00","2":"1.0e+08","3":"0.04466055","4":"0.011213929","5":"5314169.5"},{"1":"11:00","2":"2.0e+05","3":"0.04589332","4":"0.010559218","5":"4407116.6"},{"1":"11:00","2":"5.0e+05","3":"0.04584050","4":"0.010577590","5":"4420217.1"},{"1":"11:00","2":"8.0e+05","3":"0.04579309","4":"0.010592119","5":"4432883.8"},{"1":"11:00","2":"1.1e+06","3":"0.04575207","4":"0.010603105","5":"4445129.6"},{"1":"11:00","2":"2.0e+07","3":"0.04519249","4":"0.010934408","5":"4873601.9"},{"1":"11:00","2":"5.0e+07","3":"0.04528772","4":"0.011105098","5":"5209907.9"},{"1":"11:00","2":"1.0e+08","3":"0.04570684","4":"0.011332734","5":"5552692.2"},{"1":"12:00","2":"2.0e+05","3":"0.04510504","4":"0.010286605","5":"3877506.0"},{"1":"12:00","2":"5.0e+05","3":"0.04506422","4":"0.010302174","5":"3889430.2"},{"1":"12:00","2":"8.0e+05","3":"0.04502746","4":"0.010315995","5":"3900929.6"},{"1":"12:00","2":"1.1e+06","3":"0.04499323","4":"0.010329251","5":"3912023.7"},{"1":"12:00","2":"2.0e+07","3":"0.04442675","4":"0.010507134","5":"4283201.8"},{"1":"12:00","2":"5.0e+07","3":"0.04448340","4":"0.010600707","5":"4566355.2"},{"1":"12:00","2":"1.0e+08","3":"0.04504020","4":"0.010676606","5":"4848968.9"},{"1":"13:00","2":"2.0e+05","3":"0.04676902","4":"0.010383934","5":"4244082.2"},{"1":"13:00","2":"5.0e+05","3":"0.04673442","4":"0.010394777","5":"4257492.4"},{"1":"13:00","2":"8.0e+05","3":"0.04670276","4":"0.010402558","5":"4270451.1"},{"1":"13:00","2":"1.1e+06","3":"0.04667614","4":"0.010406908","5":"4282966.1"},{"1":"13:00","2":"2.0e+07","3":"0.04622404","4":"0.010578387","5":"4718957.2"},{"1":"13:00","2":"5.0e+07","3":"0.04658257","4":"0.010670757","5":"5066358.5"},{"1":"13:00","2":"1.0e+08","3":"0.04747034","4":"0.010782504","5":"5402501.2"},{"1":"14:00","2":"2.0e+05","3":"0.04853932","4":"0.010109533","5":"4737289.5"},{"1":"14:00","2":"5.0e+05","3":"0.04849425","4":"0.010109844","5":"4751100.2"},{"1":"14:00","2":"8.0e+05","3":"0.04845489","4":"0.010107521","5":"4764425.1"},{"1":"14:00","2":"1.1e+06","3":"0.04841972","4":"0.010103897","5":"4777296.7"},{"1":"14:00","2":"2.0e+07","3":"0.04787720","4":"0.010046382","5":"5221577.7"},{"1":"14:00","2":"5.0e+07","3":"0.04807240","4":"0.010061546","5":"5568060.0"},{"1":"14:00","2":"1.0e+08","3":"0.04875233","4":"0.010282079","5":"5911819.1"},{"1":"15:00","2":"2.0e+05","3":"0.04771949","4":"0.009037097","5":"4603210.4"},{"1":"15:00","2":"5.0e+05","3":"0.04767946","4":"0.009034355","5":"4617034.0"},{"1":"15:00","2":"8.0e+05","3":"0.04764685","4":"0.009028540","5":"4630372.9"},{"1":"15:00","2":"1.1e+06","3":"0.04761740","4":"0.009021733","5":"4643279.5"},{"1":"15:00","2":"2.0e+07","3":"0.04722734","4":"0.008880662","5":"5087810.2"},{"1":"15:00","2":"5.0e+07","3":"0.04748781","4":"0.008967523","5":"5426219.8"},{"1":"15:00","2":"1.0e+08","3":"0.04812405","4":"0.009127814","5":"5762180.4"},{"1":"16:00","2":"2.0e+05","3":"0.04540876","4":"0.007335741","5":"4294874.3"},{"1":"16:00","2":"5.0e+05","3":"0.04536385","4":"0.007335439","5":"4307919.7"},{"1":"16:00","2":"8.0e+05","3":"0.04532033","4":"0.007334082","5":"4320502.5"},{"1":"16:00","2":"1.1e+06","3":"0.04527991","4":"0.007333206","5":"4332713.8"},{"1":"16:00","2":"2.0e+07","3":"0.04469846","4":"0.007192618","5":"4758113.0"},{"1":"16:00","2":"5.0e+07","3":"0.04495781","4":"0.007220743","5":"5086246.7"},{"1":"16:00","2":"1.0e+08","3":"0.04564291","4":"0.007362774","5":"5411813.1"},{"1":"17:00","2":"2.0e+05","3":"0.03995179","4":"0.006165948","5":"3437629.5"},{"1":"17:00","2":"5.0e+05","3":"0.03990342","4":"0.006162837","5":"3448535.3"},{"1":"17:00","2":"8.0e+05","3":"0.03985757","4":"0.006160337","5":"3459066.3"},{"1":"17:00","2":"1.1e+06","3":"0.03981504","4":"0.006156660","5":"3469220.2"},{"1":"17:00","2":"2.0e+07","3":"0.03926788","4":"0.005894021","5":"3833087.0"},{"1":"17:00","2":"5.0e+07","3":"0.03950820","4":"0.005867593","5":"4129672.0"},{"1":"17:00","2":"1.0e+08","3":"0.04013321","4":"0.006041302","5":"4416911.5"},{"1":"18:00","2":"2.0e+05","3":"0.03295178","4":"0.005464123","5":"2405095.5"},{"1":"18:00","2":"5.0e+05","3":"0.03290783","4":"0.005458953","5":"2413697.8"},{"1":"18:00","2":"8.0e+05","3":"0.03286903","4":"0.005456013","5":"2421966.6"},{"1":"18:00","2":"1.1e+06","3":"0.03283339","4":"0.005455209","5":"2429921.5"},{"1":"18:00","2":"2.0e+07","3":"0.03240800","4":"0.005297205","5":"2706331.8"},{"1":"18:00","2":"5.0e+07","3":"0.03277034","4":"0.005285980","5":"2928075.6"},{"1":"18:00","2":"1.0e+08","3":"0.03355208","4":"0.005250662","5":"3122462.0"},{"1":"19:00","2":"2.0e+05","3":"0.02910211","4":"0.005227743","5":"1956424.0"},{"1":"19:00","2":"5.0e+05","3":"0.02905540","4":"0.005232705","5":"1963561.1"},{"1":"19:00","2":"8.0e+05","3":"0.02901529","4":"0.005237609","5":"1970428.2"},{"1":"19:00","2":"1.1e+06","3":"0.02898015","4":"0.005240074","5":"1977040.3"},{"1":"19:00","2":"2.0e+07","3":"0.02868664","4":"0.005293994","5":"2193203.8"},{"1":"19:00","2":"5.0e+07","3":"0.02904872","4":"0.005182814","5":"2345321.6"},{"1":"19:00","2":"1.0e+08","3":"0.02959096","4":"0.005192591","5":"2473522.5"},{"1":"20:00","2":"2.0e+05","3":"0.02697260","4":"0.004100740","5":"1726608.8"},{"1":"20:00","2":"5.0e+05","3":"0.02693697","4":"0.004093814","5":"1733492.3"},{"1":"20:00","2":"8.0e+05","3":"0.02690401","4":"0.004087443","5":"1740063.7"},{"1":"20:00","2":"1.1e+06","3":"0.02687382","4":"0.004080392","5":"1746394.6"},{"1":"20:00","2":"2.0e+07","3":"0.02672649","4":"0.004183021","5":"1951709.6"},{"1":"20:00","2":"5.0e+07","3":"0.02691049","4":"0.004251951","5":"2085743.5"},{"1":"20:00","2":"1.0e+08","3":"0.02722555","4":"0.004485754","5":"2208396.7"},{"1":"21:00","2":"2.0e+05","3":"0.02640487","4":"0.004433903","5":"1625771.4"},{"1":"21:00","2":"5.0e+05","3":"0.02635744","4":"0.004446226","5":"1632381.2"},{"1":"21:00","2":"8.0e+05","3":"0.02631521","4":"0.004456353","5":"1638743.2"},{"1":"21:00","2":"1.1e+06","3":"0.02627860","4":"0.004465997","5":"1644804.3"},{"1":"21:00","2":"2.0e+07","3":"0.02600434","4":"0.004663778","5":"1843377.5"},{"1":"21:00","2":"5.0e+07","3":"0.02620528","4":"0.004774592","5":"1978170.2"},{"1":"21:00","2":"1.0e+08","3":"0.02663376","4":"0.005040643","5":"2091444.7"},{"1":"22:00","2":"2.0e+05","3":"0.02663904","4":"0.004574979","5":"1616536.1"},{"1":"22:00","2":"5.0e+05","3":"0.02658207","4":"0.004579564","5":"1622285.6"},{"1":"22:00","2":"8.0e+05","3":"0.02653047","4":"0.004586007","5":"1627753.7"},{"1":"22:00","2":"1.1e+06","3":"0.02648223","4":"0.004592441","5":"1632964.2"},{"1":"22:00","2":"2.0e+07","3":"0.02588557","4":"0.004695431","5":"1801035.4"},{"1":"22:00","2":"5.0e+07","3":"0.02603802","4":"0.004803928","5":"1929638.3"},{"1":"22:00","2":"1.0e+08","3":"0.02649251","4":"0.004939896","5":"2042799.0"},{"1":"23:00","2":"2.0e+05","3":"0.02673130","4":"0.004494109","5":"1491602.6"},{"1":"23:00","2":"5.0e+05","3":"0.02667855","4":"0.004494482","5":"1497008.1"},{"1":"23:00","2":"8.0e+05","3":"0.02662794","4":"0.004495203","5":"1502161.7"},{"1":"23:00","2":"1.1e+06","3":"0.02658059","4":"0.004498200","5":"1507060.5"},{"1":"23:00","2":"2.0e+07","3":"0.02602265","4":"0.004577468","5":"1662934.1"},{"1":"23:00","2":"5.0e+07","3":"0.02622114","4":"0.004609369","5":"1777481.1"},{"1":"23:00","2":"1.0e+08","3":"0.02674651","4":"0.004646866","5":"1891126.3"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <p>10-fold cross validation is performed for each alternative lambda on train data. It can be seen that Lambda = 20000000 gives the best mean MAPE among all other lambda values for each hour. This value will be used to train fused penalized model and then the model will be tested on test data. Note that beta[49] is the intercept in this model, hence it does not show in the fused Lasso penalty or ridge penalty. Also note that beta[25] - beta[24] is not included to fused penalty since they belong to different time series. (Lag 48 and Lag 168)</p>
 <pre class="r"><code># Lambda = 20000000
 
@@ -804,241 +1999,12 @@ for( j in c(&quot;00:00&quot;,&quot;01:00&quot;,&quot;02:00&quot;,&quot;03:00&qu
 }
 })})
 fused_lasso_results2 &lt;- fused_lasso_results2[-1,]
-print(fused_lasso_results2)</code></pre>
-<pre><code>##      hour lambda  objective       MAPE         b1         b2          b3
-##  1: 00:00  2e+07 1375087077 0.01347946 -0.2353928 -0.1983145 -0.01071067
-##  2: 01:00  2e+07 1406682450 0.01444963 -0.3388630 -0.1936676  0.08073561
-##  3: 02:00  2e+07 1456643678 0.01381749 -0.4546216 -0.3225819  0.19772127
-##  4: 03:00  2e+07 1457041763 0.01310658 -0.4677674 -0.4086208  0.15660580
-##  5: 04:00  2e+07 1428001231 0.01334890 -0.4431014 -0.4211965 -0.01469718
-##  6: 05:00  2e+07 1437481983 0.01178753 -0.4251981 -0.3809558 -0.22467431
-##  7: 06:00  2e+07 1681744260 0.01493493 -0.4336929 -0.2853632 -0.20961739
-##  8: 07:00  2e+07 2741264101 0.01674509 -0.4450620 -0.3594308 -0.27392375
-##  9: 08:00  2e+07 5970023833 0.02557552 -0.8153165 -0.3929869 -0.37022471
-## 10: 09:00  2e+07 7795900004 0.03643563 -0.8623888 -0.4647727 -0.43343008
-## 11: 10:00  2e+07 8107045905 0.04173881 -0.8250639 -0.4733453 -0.41732606
-## 12: 11:00  2e+07 8510865532 0.04370653 -0.8319190 -0.4891871 -0.43935140
-## 13: 12:00  2e+07 7482363942 0.04610544 -0.6031988 -0.4842852 -0.39513484
-## 14: 13:00  2e+07 8238538139 0.04523480 -0.6978069 -0.4844934 -0.42080299
-## 15: 14:00  2e+07 9123458176 0.04308149 -0.8743807 -0.4791276 -0.44359428
-## 16: 15:00  2e+07 8893328383 0.03830162 -0.8815784 -0.4469697 -0.44696970
-## 17: 16:00  2e+07 8312665904 0.02954290 -0.8518713 -0.4591577 -0.42911785
-## 18: 17:00  2e+07 6690105791 0.02055859 -0.7583907 -0.4322389 -0.40997403
-## 19: 18:00  2e+07 4723007651 0.01534224 -0.6225764 -0.3954116 -0.35880327
-## 20: 19:00  2e+07 3830139493 0.01395434 -0.5346024 -0.3881254 -0.24435051
-## 21: 20:00  2e+07 3406112610 0.01503276 -0.3877075 -0.3628305 -0.33990827
-## 22: 21:00  2e+07 3217165985 0.01576854 -0.3636921 -0.3264043 -0.29115971
-## 23: 22:00  2e+07 3143895437 0.01485618 -0.3707616 -0.3170334 -0.26738347
-## 24: 23:00  2e+07 2903228854 0.01711506 -0.3430804 -0.2919370 -0.24417722
-##      hour lambda  objective       MAPE         b1         b2          b3
-##              b4         b5         b6         b7        b8          b9
-##  1:  0.03318667 0.06420548 0.08367104 0.13527069 0.3315020 -0.15782584
-##  2:  0.09218754 0.08765357 0.07470573 0.11491448 0.2583569 -0.06773445
-##  3:  0.19806183 0.19477651 0.05743046 0.08685965 0.2070485 -0.04986544
-##  4:  0.26574784 0.26326859 0.07653131 0.10866738 0.1702336 -0.05809736
-##  5:  0.28117135 0.25135441 0.19395887 0.17037569 0.1896511 -0.10660251
-##  6:  0.05411433 0.36796116 0.38020046 0.27345685 0.2408391 -0.21829026
-##  7: -0.06799067 0.27821134 0.31105129 0.37597286 0.3869359 -0.28662340
-##  8: -0.06642692 0.31400872 0.33340619 0.40214668 0.4836866 -0.31548533
-##  9: -0.16217447 0.62475671 0.60728628 0.48150794 0.4663418 -0.28478361
-## 10: -0.27902450 0.74250669 0.72627537 0.55824632 0.5546967 -0.41373139
-## 11: -0.36475824 0.74042417 0.71323923 0.62182169 0.6377227 -0.54510403
-## 12: -0.34975594 0.75869446 0.73359446 0.62348576 0.6495554 -0.58249314
-## 13: -0.32418647 0.61572305 0.58503442 0.57743859 0.6430035 -0.62445519
-## 14: -0.34151718 0.70673376 0.68392187 0.55806256 0.5860532 -0.62425699
-## 15: -0.28449544 0.80474799 0.78535447 0.54473240 0.5554095 -0.59757319
-## 16: -0.23982208 0.78490489 0.78490489 0.51561937 0.5156194 -0.58754314
-## 17: -0.22757045 0.78226939 0.76477433 0.49056799 0.4798570 -0.57149454
-## 18: -0.17950449 0.70332415 0.68473847 0.46641279 0.4587921 -0.58332042
-## 19: -0.06028486 0.55130306 0.51836629 0.42006227 0.3954400 -0.46817413
-## 20: -0.04503140 0.44165888 0.43051414 0.37366755 0.2945232 -0.36269626
-## 21: -0.26558895 0.52613713 0.52958968 0.31581698 0.2816007 -0.36182082
-## 22: -0.03702128 0.36189657 0.33307126 0.29797690 0.2857028 -0.30875470
-## 23: -0.04458004 0.36586793 0.33286500 0.29630110 0.2704340 -0.32610800
-## 24:  0.05536575 0.29052837 0.26754985 0.25149518 0.2421805 -0.26688151
-##              b4         b5         b6         b7        b8          b9
-##            b10        b11        b12        b13       b14         b15
-##  1: -0.3077581 -0.2916725 -0.2770396 0.23288576 0.2315922 -0.01261143
-##  2: -0.3221402 -0.3012681 -0.2834966 0.19602917 0.2025045  0.02143999
-##  3: -0.3062806 -0.2936793 -0.2833056 0.18299348 0.1979273  0.02066631
-##  4: -0.2992627 -0.2835780 -0.2719598 0.17674031 0.2054918  0.01487837
-##  5: -0.2947993 -0.2718476 -0.2511011 0.15184948 0.2516145  0.00445569
-##  6: -0.2824118 -0.2512740 -0.2232718 0.14961012 0.3108628 -0.01781092
-##  7: -0.2868633 -0.2595624 -0.2304806 0.18949306 0.3568906 -0.03701974
-##  8: -0.4151305 -0.2176734 -0.2097755 0.18712106 0.6200381 -0.19131936
-##  9: -0.5887740 -0.2879757 -0.2885321 0.09219039 1.3688838 -0.55455875
-## 10: -0.6685815 -0.3015314 -0.3074291 0.13185948 1.6968922 -0.72986259
-## 11: -0.7532823 -0.2297325 -0.2360434 0.20341512 1.6642523 -0.77718253
-## 12: -0.7897199 -0.2283989 -0.2331483 0.25654773 1.6798222 -0.79633160
-## 13: -0.6855847 -0.2681782 -0.2753230 0.42304125 1.4494980 -0.66208685
-## 14: -0.7663377 -0.2279762 -0.2355448 0.37334399 1.4585881 -0.66667453
-## 15: -0.7778211 -0.2683464 -0.2731201 0.29533932 1.5216042 -0.62948521
-## 16: -0.7628479 -0.2396546 -0.2396546 0.24682278 1.4156023 -0.63472747
-## 17: -0.7196450 -0.2231239 -0.2274310 0.21695537 1.3362071 -0.66430068
-## 18: -0.6207775 -0.2156391 -0.2165449 0.25188246 1.1737790 -0.58349939
-## 19: -0.4778905 -0.2379804 -0.2345990 0.23661298 0.9266272 -0.36039747
-## 20: -0.3650394 -0.2716506 -0.2663549 0.33972915 0.7509666 -0.28278945
-## 21: -0.3683145 -0.1999861 -0.1906700 0.30291041 0.6440107 -0.28617841
-## 22: -0.3169116 -0.2370262 -0.2244793 0.31716269 0.5503709 -0.21236431
-## 23: -0.3368998 -0.1794005 -0.1671679 0.30833376 0.4957688 -0.20301171
-## 24: -0.2640279 -0.2442563 -0.2238620 0.37207656 0.4653165 -0.19369469
-##            b10        b11        b12        b13       b14         b15
-##              b16          b17           b18         b19          b20
-##  1:  0.014075797  0.043075604  0.0487690787 0.017790679 -0.080211521
-##  2:  0.040925909  0.048948617  0.0357923448 0.020643247 -0.036390789
-##  3:  0.036276215  0.043457760  0.0339908564 0.025570107 -0.008733547
-##  4:  0.027344887  0.035685449  0.0339927974 0.027491334 -0.027948216
-##  5:  0.018106542  0.025501812  0.0238050961 0.016056715 -0.065075719
-##  6: -0.002818722  0.004422440 -0.0007728919 0.002443207  0.010263506
-##  7: -0.028248420 -0.026730227 -0.0221534005 0.021308127  0.030729870
-##  8: -0.067302657 -0.058704382 -0.0353255325 0.017274846  0.046388294
-##  9: -0.077734323 -0.087715970 -0.1058743126 0.049886144  0.068323822
-## 10: -0.101084288 -0.086522286 -0.0688577885 0.085004339  0.082013562
-## 11: -0.084323146 -0.055266324  0.0059235284 0.090616414  0.068202275
-## 12: -0.069072724 -0.033822488  0.0282319874 0.095858898  0.052869619
-## 13: -0.084790845 -0.026546711  0.0640475600 0.118843252  0.048185216
-## 14: -0.068597126 -0.010301075  0.0812244379 0.154345181 -0.001630565
-## 15: -0.043545248 -0.008646540  0.0344788642 0.154698975  0.038114884
-## 16:  0.009239338  0.009239338  0.0092393375 0.178809122  0.046301573
-## 17: -0.028215047  0.018948282  0.0740313960 0.220528065  0.063042572
-## 18: -0.207322033 -0.116827127  0.3554380066 0.364957308 -0.045683002
-## 19: -0.203976586 -0.138428370  0.0090398552 0.711209826 -0.010737881
-## 20: -0.158888779 -0.124947342 -0.1008433947 0.293226982  0.380206899
-## 21: -0.144105746 -0.090423940 -0.0122210842 0.049900032  0.039174772
-## 22: -0.164962931 -0.082997656  0.0037803541 0.100158929 -0.054015628
-## 23: -0.156249355 -0.078450945  0.0074635290 0.070947563  0.025619065
-## 24: -0.152007026 -0.079400091 -0.0011421291 0.071558950  0.044340916
-##              b16          b17           b18         b19          b20
-##              b21        b22          b23       b24          b25           b26
-##  1: -0.152959293 0.13558637  0.463529978 0.8648136  0.110130239  0.0695887222
-##  2: -0.202564469 0.08310499  0.468304327 0.8672199  0.062620876  0.0571425238
-##  3: -0.240890486 0.11614715  0.448587185 0.8439585  0.005574468  0.0244331062
-##  4: -0.167597210 0.11375512  0.409861030 0.8144398  0.004815578  0.0156350310
-##  5: -0.094118856 0.14946674  0.409006558 0.7366623 -0.002004806  0.0018182670
-##  6:  0.022889789 0.02697854  0.439902896 0.6527291 -0.016813642 -0.0219147182
-##  7:  0.024652484 0.05855695  0.443821947 0.6239332 -0.023719049  0.0003738455
-##  8:  0.052901931 0.13783098  0.406128908 0.6631149 -0.023256114  0.0144236523
-##  9:  0.132847660 0.20827268  0.318752120 0.8561501  0.027291754  0.0642137484
-## 10:  0.104451402 0.16712958  0.221161615 1.0135271  0.066491980  0.0993041775
-## 11:  0.049687324 0.09140066  0.199893408 1.0266199  0.104597164  0.1172138798
-## 12:  0.023748506 0.07667570  0.128499703 1.0835949  0.132838536  0.1306260178
-## 13:  0.003925838 0.02346939  0.049936665 1.0726955  0.169171505  0.1496386951
-## 14: -0.017305434 0.02201435  0.061596255 1.1295742  0.155156484  0.1432550536
-## 15:  0.008797481 0.03313526  0.059390671 1.1784959  0.174223357  0.1588896050
-## 16:  0.046301573 0.04630157  0.046301573 1.1500170  0.155562706  0.1555627055
-## 17:  0.044099964 0.05649224  0.060155172 1.0946064  0.139816588  0.1406138519
-## 18:  0.017454064 0.07416243  0.083783333 0.9775992  0.080748827  0.0923931711
-## 19:  0.004121375 0.04802734  0.054276509 0.8296025  0.049532463  0.0597336132
-## 20:  0.076296409 0.02875958 -0.006264563 0.8188020  0.025934796  0.0529804159
-## 21:  0.352289681 0.34028050 -0.027187281 0.6768267  0.082049564  0.0679925147
-## 22:  0.216451313 0.37884742  0.070428593 0.7075908  0.072088753  0.0686126459
-## 23:  0.082002210 0.18324301  0.200198932 0.7888286  0.057242352  0.0577489655
-## 24:  0.077157787 0.13024274  0.143917129 0.8421340  0.081959195  0.0699811309
-##              b21        b22          b23       b24          b25           b26
-##              b27          b28           b29          b30         b31       b32
-##  1:  0.008002520 -0.036640466 -0.0474159442 -0.016222981  0.09926673 0.1490284
-##  2:  0.031729592 -0.002895329 -0.0324931796 -0.023227921  0.07676092 0.1411314
-##  3:  0.035198592  0.025830220  0.0016006498 -0.004536724  0.04821762 0.1572577
-##  4:  0.019187433  0.012222584 -0.0006291407  0.002806374  0.05322933 0.1652781
-##  5:  0.004484949  0.009417752  0.0139286988  0.020702570  0.05312284 0.1706996
-##  6: -0.036656738 -0.031311717  0.0117690001  0.088560832  0.15764302 0.1637252
-##  7: -0.004616065 -0.051614717 -0.1226549982 -0.182857715  0.33938872 0.3375960
-##  8:  0.044407492  0.050989465 -0.2844675448 -0.313077230 -0.16619772 0.8286162
-##  9:  0.099891537  0.119375031 -0.5301271654 -0.553725740 -0.33338562 0.7058459
-## 10:  0.133452163  0.151911432 -0.6034385866 -0.622648918 -0.48625089 0.6696670
-## 11:  0.127973753  0.134367292 -0.5548272143 -0.569891620 -0.55622736 0.5830024
-## 12:  0.121501077  0.114417226 -0.5440565364 -0.562028269 -0.56528464 0.5353333
-## 13:  0.122021126  0.104821347 -0.5175778813 -0.538542385 -0.55328124 0.4777244
-## 14:  0.127210288  0.115823979 -0.5341989292 -0.556897217 -0.57825322 0.4749491
-## 15:  0.135188049  0.116735159 -0.5960453156 -0.604262530 -0.60403305 0.5167521
-## 16:  0.155562706  0.155562706 -0.6250476011 -0.625047601 -0.62504760 0.5534516
-## 17:  0.137079786  0.131539112 -0.6167463305 -0.616186986 -0.59889663 0.5810263
-## 18:  0.103325056  0.107088523 -0.5299793967 -0.545753323 -0.45524991 0.5388023
-## 19:  0.067151453  0.065675792 -0.3795108638 -0.390070527 -0.37477937 0.4709736
-## 20:  0.072651676  0.073719629 -0.3534347736 -0.343758732 -0.24993415 0.3853950
-## 21:  0.035634706  0.010668975 -0.3078572195 -0.307874324 -0.30050190 0.3815574
-## 22:  0.050780178  0.035705322 -0.2708907287 -0.427596810 -0.27824614 0.3798988
-## 23:  0.044175727  0.029737003 -0.2974444936 -0.314981681 -0.25425237 0.3477875
-## 24:  0.044123906  0.024197499 -0.3218381208 -0.339706942 -0.18728360 0.3251487
-##              b27          b28           b29          b30         b31       b32
-##            b33         b34          b35         b36          b37         b38
-##  1: 0.05202906 0.007633786 -0.002418688  0.01490884  0.025983203  0.01182832
-##  2: 0.08621877 0.012404841 -0.017766223 -0.01433635  0.004529553  0.02189629
-##  3: 0.10051821 0.021671721 -0.022963684 -0.02657422 -0.002808811  0.02734079
-##  4: 0.10548067 0.023320314 -0.024295342 -0.03115193 -0.008079632  0.03199423
-##  5: 0.11215874 0.029647560 -0.023657334 -0.04090207 -0.023968483  0.03194506
-##  6: 0.11106249 0.027845265 -0.028203589 -0.04837065 -0.030688553  0.02717844
-##  7: 0.15935181 0.027697380 -0.035721377 -0.07791583 -0.068151249  0.01095564
-##  8: 0.33726529 0.004688864 -0.048786481 -0.09918876 -0.106099989 -0.01847676
-##  9: 0.68747261 0.234835423  0.040128103 -0.25948430 -0.277461776  0.01053824
-## 10: 0.63424091 0.349764404  0.193344052 -0.26793279 -0.276227038  0.01697270
-## 11: 0.52838268 0.307043471  0.274350081 -0.21563167 -0.220433051  0.02583403
-## 12: 0.48763283 0.283343449  0.250300355 -0.17461587 -0.186360563  0.01097815
-## 13: 0.43525391 0.168047761  0.125614369 -0.13623756 -0.008417652  0.07324990
-## 14: 0.45728608 0.251266024  0.213867802 -0.49260663 -0.484191214  0.78194549
-## 15: 0.51309542 0.217614987  0.189071352 -0.40352107 -0.412376543  0.16162294
-## 16: 0.55345156 0.168881640  0.114976035 -0.37699222 -0.376992223  0.05962415
-## 17: 0.57484952 0.164169294  0.009585039 -0.37403702 -0.372068696  0.02112631
-## 18: 0.53210617 0.111928191 -0.060901031 -0.31318220 -0.308776962  0.01572506
-## 19: 0.46720812 0.007904184 -0.087566993 -0.23667010 -0.230399352  0.07434518
-## 20: 0.39422550 0.070710885 -0.193220682 -0.19350636 -0.173024365  0.08956185
-## 21: 0.37221098 0.049818975 -0.162665217 -0.20261252 -0.193889857  0.08455248
-## 22: 0.35367240 0.108801380 -0.196001306 -0.19303501 -0.181279129  0.08292066
-## 23: 0.33608211 0.075485954 -0.145052943 -0.17299682 -0.196181312  0.08327080
-## 24: 0.29237427 0.092731472 -0.154398824 -0.15440687 -0.115358866  0.01160879
-##            b33         b34          b35         b36          b37         b38
-##            b39        b40         b41          b42         b43         b44
-##  1: 0.03419090 0.03363661 0.008378632 -0.027996094 -0.06537100 -0.13119654
-##  2: 0.05513469 0.05493893 0.012289520 -0.042057680 -0.06836855 -0.12453418
-##  3: 0.05529568 0.05511560 0.016547673 -0.041095661 -0.07650982 -0.11914271
-##  4: 0.06144820 0.05818649 0.016572266 -0.038812057 -0.07090081 -0.12635844
-##  5: 0.06682601 0.06413574 0.022687362 -0.030299031 -0.06773693 -0.13975958
-##  6: 0.06886385 0.07493169 0.042449663 -0.023402553 -0.08310120 -0.12120791
-##  7: 0.08106083 0.09643546 0.055898783 -0.010060117 -0.03089529 -0.05071186
-##  8: 0.08039717 0.12174454 0.099411140  0.035472938  0.01020680 -0.21652697
-##  9: 0.11717690 0.20015183 0.178283454  0.123674849 -0.20404214 -0.26483953
-## 10: 0.08244421 0.20750632 0.177826618  0.140657152 -0.27617780 -0.33612917
-## 11: 0.08556142 0.18946911 0.154394171  0.114128733 -0.29203312 -0.40045178
-## 12: 0.08815790 0.20747719 0.163919993  0.114993216 -0.33368758 -0.41672709
-## 13: 0.09464979 0.10620590 0.110655282  0.106687692 -0.31764441 -0.37492171
-## 14: 0.08333141 0.09334279 0.095610664  0.089618668 -0.32918470 -0.36558444
-## 15: 0.24732192 0.29434191 0.295293393  0.118029104 -0.40395121 -0.41694104
-## 16: 0.16576217 0.37534613 0.375346132  0.180111960 -0.41853203 -0.41853203
-## 17: 0.15193388 0.36625441 0.359275712  0.343366320 -0.43029442 -0.42474603
-## 18: 0.10458400 0.19032381 0.378716630  0.430059383 -0.31992322 -0.37330052
-## 19: 0.12177832 0.15852512 0.174194953  0.143757167  0.08500133 -0.29851312
-## 20: 0.13380614 0.14970144 0.125111414  0.004667344 -0.08371680 -0.04339227
-## 21: 0.12751105 0.14588634 0.115293023  0.056056460 -0.15457258 -0.17910430
-## 22: 0.12125030 0.13638904 0.105232300  0.059113306 -0.16731058 -0.23395272
-## 23: 0.11921590 0.13832404 0.122233434  0.087503360 -0.17706979 -0.31424263
-## 24: 0.09118880 0.12865348 0.118796860  0.084700973 -0.13215880 -0.31843003
-##            b39        b40         b41          b42         b43         b44
-##             b45         b46          b47          b48      b49
-##  1: -0.14817416 -0.08781285 -0.023867478  0.017639213 1582.671
-##  2: -0.14236477 -0.08321016 -0.025058707  0.011982016 1499.151
-##  3: -0.12581405 -0.07419089 -0.029827082 -0.005536757 1834.610
-##  4: -0.12855909 -0.07340262 -0.025311400 -0.002838306 1920.589
-##  5: -0.12624755 -0.06752270 -0.025176927 -0.013264519 1925.496
-##  6: -0.12877488 -0.10110321 -0.037822574  0.006763905 1418.164
-##  7: -0.24117042 -0.13329901 -0.051290538  0.004233349 2017.740
-##  8: -0.29659468 -0.10704529 -0.037553623  0.026969261 2819.689
-##  9: -0.45102089 -0.05839181 -0.007945260  0.046248018 4930.853
-## 10: -0.51974891 -0.02084224  0.031082517  0.081679513 6033.637
-## 11: -0.49151046  0.01464673  0.062566176  0.107217200 6830.163
-## 12: -0.47250852  0.03892614  0.083246791  0.118339182 7505.368
-## 13: -0.38565546  0.08190590  0.101542114  0.115120798 5876.817
-## 14: -0.37435224  0.10894275  0.112460946  0.110495402 6306.649
-## 15: -0.42539886  0.11367764  0.120313536  0.128387250 6702.101
-## 16: -0.41853203  0.11971443  0.119714426  0.119714426 6228.512
-## 17: -0.41640756  0.14035113  0.128585758  0.124829978 6111.799
-## 18: -0.37165299  0.12286299  0.102620787  0.097474841 5952.911
-## 19: -0.29895974  0.08617977  0.060611522  0.046308207 5704.565
-## 20: -0.04537732 -0.03164997  0.006919543  0.046542956 4767.843
-## 21: -0.04240888  0.10130712  0.094332426  0.084792514 4376.499
-## 22: -0.23800317  0.36725796  0.098890515  0.079030510 4943.389
-## 23: -0.32504306  0.23417569  0.211925059  0.190389097 5888.298
-## 24: -0.33219126  0.19622639  0.214379904  0.239063809 4791.962
-##             b45         b46          b47          b48      b49</code></pre>
+paged_table(fused_lasso_results2)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["hour"],"name":[1],"type":["chr"],"align":["left"]},{"label":["lambda"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["objective"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["MAPE"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["b1"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["b2"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["b3"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["b4"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["b5"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["b6"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["b7"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["b8"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["b9"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["b10"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["b11"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["b12"],"name":[16],"type":["dbl"],"align":["right"]},{"label":["b13"],"name":[17],"type":["dbl"],"align":["right"]},{"label":["b14"],"name":[18],"type":["dbl"],"align":["right"]},{"label":["b15"],"name":[19],"type":["dbl"],"align":["right"]},{"label":["b16"],"name":[20],"type":["dbl"],"align":["right"]},{"label":["b17"],"name":[21],"type":["dbl"],"align":["right"]},{"label":["b18"],"name":[22],"type":["dbl"],"align":["right"]},{"label":["b19"],"name":[23],"type":["dbl"],"align":["right"]},{"label":["b20"],"name":[24],"type":["dbl"],"align":["right"]},{"label":["b21"],"name":[25],"type":["dbl"],"align":["right"]},{"label":["b22"],"name":[26],"type":["dbl"],"align":["right"]},{"label":["b23"],"name":[27],"type":["dbl"],"align":["right"]},{"label":["b24"],"name":[28],"type":["dbl"],"align":["right"]},{"label":["b25"],"name":[29],"type":["dbl"],"align":["right"]},{"label":["b26"],"name":[30],"type":["dbl"],"align":["right"]},{"label":["b27"],"name":[31],"type":["dbl"],"align":["right"]},{"label":["b28"],"name":[32],"type":["dbl"],"align":["right"]},{"label":["b29"],"name":[33],"type":["dbl"],"align":["right"]},{"label":["b30"],"name":[34],"type":["dbl"],"align":["right"]},{"label":["b31"],"name":[35],"type":["dbl"],"align":["right"]},{"label":["b32"],"name":[36],"type":["dbl"],"align":["right"]},{"label":["b33"],"name":[37],"type":["dbl"],"align":["right"]},{"label":["b34"],"name":[38],"type":["dbl"],"align":["right"]},{"label":["b35"],"name":[39],"type":["dbl"],"align":["right"]},{"label":["b36"],"name":[40],"type":["dbl"],"align":["right"]},{"label":["b37"],"name":[41],"type":["dbl"],"align":["right"]},{"label":["b38"],"name":[42],"type":["dbl"],"align":["right"]},{"label":["b39"],"name":[43],"type":["dbl"],"align":["right"]},{"label":["b40"],"name":[44],"type":["dbl"],"align":["right"]},{"label":["b41"],"name":[45],"type":["dbl"],"align":["right"]},{"label":["b42"],"name":[46],"type":["dbl"],"align":["right"]},{"label":["b43"],"name":[47],"type":["dbl"],"align":["right"]},{"label":["b44"],"name":[48],"type":["dbl"],"align":["right"]},{"label":["b45"],"name":[49],"type":["dbl"],"align":["right"]},{"label":["b46"],"name":[50],"type":["dbl"],"align":["right"]},{"label":["b47"],"name":[51],"type":["dbl"],"align":["right"]},{"label":["b48"],"name":[52],"type":["dbl"],"align":["right"]},{"label":["b49"],"name":[53],"type":["dbl"],"align":["right"]}],"data":[{"1":"00:00","2":"2e+07","3":"1375087077","4":"0.01347946","5":"-0.2353928","6":"-0.1983145","7":"-0.01071067","8":"0.03318667","9":"0.06420548","10":"0.08367104","11":"0.13527069","12":"0.3315020","13":"-0.15782584","14":"-0.3077581","15":"-0.2916725","16":"-0.2770396","17":"0.23288576","18":"0.2315922","19":"-0.01261143","20":"0.014075797","21":"0.043075604","22":"0.0487690787","23":"0.017790679","24":"-0.080211521","25":"-0.152959293","26":"0.13558637","27":"0.463529978","28":"0.8648136","29":"0.110130239","30":"0.0695887222","31":"0.008002520","32":"-0.036640466","33":"-0.0474159442","34":"-0.016222981","35":"0.09926673","36":"0.1490284","37":"0.05202906","38":"0.007633786","39":"-0.002418688","40":"0.01490884","41":"0.025983203","42":"0.01182832","43":"0.03419090","44":"0.03363661","45":"0.008378632","46":"-0.027996094","47":"-0.06537100","48":"-0.13119654","49":"-0.14817416","50":"-0.08781285","51":"-0.023867478","52":"0.017639213","53":"1582.671"},{"1":"01:00","2":"2e+07","3":"1406682450","4":"0.01444963","5":"-0.3388630","6":"-0.1936676","7":"0.08073561","8":"0.09218754","9":"0.08765357","10":"0.07470573","11":"0.11491448","12":"0.2583569","13":"-0.06773445","14":"-0.3221402","15":"-0.3012681","16":"-0.2834966","17":"0.19602917","18":"0.2025045","19":"0.02143999","20":"0.040925909","21":"0.048948617","22":"0.0357923448","23":"0.020643247","24":"-0.036390789","25":"-0.202564469","26":"0.08310499","27":"0.468304327","28":"0.8672199","29":"0.062620876","30":"0.0571425238","31":"0.031729592","32":"-0.002895329","33":"-0.0324931796","34":"-0.023227921","35":"0.07676092","36":"0.1411314","37":"0.08621877","38":"0.012404841","39":"-0.017766223","40":"-0.01433635","41":"0.004529553","42":"0.02189629","43":"0.05513469","44":"0.05493893","45":"0.012289520","46":"-0.042057680","47":"-0.06836855","48":"-0.12453418","49":"-0.14236477","50":"-0.08321016","51":"-0.025058707","52":"0.011982016","53":"1499.151"},{"1":"02:00","2":"2e+07","3":"1456643678","4":"0.01381749","5":"-0.4546216","6":"-0.3225819","7":"0.19772127","8":"0.19806183","9":"0.19477651","10":"0.05743046","11":"0.08685965","12":"0.2070485","13":"-0.04986544","14":"-0.3062806","15":"-0.2936793","16":"-0.2833056","17":"0.18299348","18":"0.1979273","19":"0.02066631","20":"0.036276215","21":"0.043457760","22":"0.0339908564","23":"0.025570107","24":"-0.008733547","25":"-0.240890486","26":"0.11614715","27":"0.448587185","28":"0.8439585","29":"0.005574468","30":"0.0244331062","31":"0.035198592","32":"0.025830220","33":"0.0016006498","34":"-0.004536724","35":"0.04821762","36":"0.1572577","37":"0.10051821","38":"0.021671721","39":"-0.022963684","40":"-0.02657422","41":"-0.002808811","42":"0.02734079","43":"0.05529568","44":"0.05511560","45":"0.016547673","46":"-0.041095661","47":"-0.07650982","48":"-0.11914271","49":"-0.12581405","50":"-0.07419089","51":"-0.029827082","52":"-0.005536757","53":"1834.610"},{"1":"03:00","2":"2e+07","3":"1457041763","4":"0.01310658","5":"-0.4677674","6":"-0.4086208","7":"0.15660580","8":"0.26574784","9":"0.26326859","10":"0.07653131","11":"0.10866738","12":"0.1702336","13":"-0.05809736","14":"-0.2992627","15":"-0.2835780","16":"-0.2719598","17":"0.17674031","18":"0.2054918","19":"0.01487837","20":"0.027344887","21":"0.035685449","22":"0.0339927974","23":"0.027491334","24":"-0.027948216","25":"-0.167597210","26":"0.11375512","27":"0.409861030","28":"0.8144398","29":"0.004815578","30":"0.0156350310","31":"0.019187433","32":"0.012222584","33":"-0.0006291407","34":"0.002806374","35":"0.05322933","36":"0.1652781","37":"0.10548067","38":"0.023320314","39":"-0.024295342","40":"-0.03115193","41":"-0.008079632","42":"0.03199423","43":"0.06144820","44":"0.05818649","45":"0.016572266","46":"-0.038812057","47":"-0.07090081","48":"-0.12635844","49":"-0.12855909","50":"-0.07340262","51":"-0.025311400","52":"-0.002838306","53":"1920.589"},{"1":"04:00","2":"2e+07","3":"1428001231","4":"0.01334890","5":"-0.4431014","6":"-0.4211965","7":"-0.01469718","8":"0.28117135","9":"0.25135441","10":"0.19395887","11":"0.17037569","12":"0.1896511","13":"-0.10660251","14":"-0.2947993","15":"-0.2718476","16":"-0.2511011","17":"0.15184948","18":"0.2516145","19":"0.00445569","20":"0.018106542","21":"0.025501812","22":"0.0238050961","23":"0.016056715","24":"-0.065075719","25":"-0.094118856","26":"0.14946674","27":"0.409006558","28":"0.7366623","29":"-0.002004806","30":"0.0018182670","31":"0.004484949","32":"0.009417752","33":"0.0139286988","34":"0.020702570","35":"0.05312284","36":"0.1706996","37":"0.11215874","38":"0.029647560","39":"-0.023657334","40":"-0.04090207","41":"-0.023968483","42":"0.03194506","43":"0.06682601","44":"0.06413574","45":"0.022687362","46":"-0.030299031","47":"-0.06773693","48":"-0.13975958","49":"-0.12624755","50":"-0.06752270","51":"-0.025176927","52":"-0.013264519","53":"1925.496"},{"1":"05:00","2":"2e+07","3":"1437481983","4":"0.01178753","5":"-0.4251981","6":"-0.3809558","7":"-0.22467431","8":"0.05411433","9":"0.36796116","10":"0.38020046","11":"0.27345685","12":"0.2408391","13":"-0.21829026","14":"-0.2824118","15":"-0.2512740","16":"-0.2232718","17":"0.14961012","18":"0.3108628","19":"-0.01781092","20":"-0.002818722","21":"0.004422440","22":"-0.0007728919","23":"0.002443207","24":"0.010263506","25":"0.022889789","26":"0.02697854","27":"0.439902896","28":"0.6527291","29":"-0.016813642","30":"-0.0219147182","31":"-0.036656738","32":"-0.031311717","33":"0.0117690001","34":"0.088560832","35":"0.15764302","36":"0.1637252","37":"0.11106249","38":"0.027845265","39":"-0.028203589","40":"-0.04837065","41":"-0.030688553","42":"0.02717844","43":"0.06886385","44":"0.07493169","45":"0.042449663","46":"-0.023402553","47":"-0.08310120","48":"-0.12120791","49":"-0.12877488","50":"-0.10110321","51":"-0.037822574","52":"0.006763905","53":"1418.164"},{"1":"06:00","2":"2e+07","3":"1681744260","4":"0.01493493","5":"-0.4336929","6":"-0.2853632","7":"-0.20961739","8":"-0.06799067","9":"0.27821134","10":"0.31105129","11":"0.37597286","12":"0.3869359","13":"-0.28662340","14":"-0.2868633","15":"-0.2595624","16":"-0.2304806","17":"0.18949306","18":"0.3568906","19":"-0.03701974","20":"-0.028248420","21":"-0.026730227","22":"-0.0221534005","23":"0.021308127","24":"0.030729870","25":"0.024652484","26":"0.05855695","27":"0.443821947","28":"0.6239332","29":"-0.023719049","30":"0.0003738455","31":"-0.004616065","32":"-0.051614717","33":"-0.1226549982","34":"-0.182857715","35":"0.33938872","36":"0.3375960","37":"0.15935181","38":"0.027697380","39":"-0.035721377","40":"-0.07791583","41":"-0.068151249","42":"0.01095564","43":"0.08106083","44":"0.09643546","45":"0.055898783","46":"-0.010060117","47":"-0.03089529","48":"-0.05071186","49":"-0.24117042","50":"-0.13329901","51":"-0.051290538","52":"0.004233349","53":"2017.740"},{"1":"07:00","2":"2e+07","3":"2741264101","4":"0.01674509","5":"-0.4450620","6":"-0.3594308","7":"-0.27392375","8":"-0.06642692","9":"0.31400872","10":"0.33340619","11":"0.40214668","12":"0.4836866","13":"-0.31548533","14":"-0.4151305","15":"-0.2176734","16":"-0.2097755","17":"0.18712106","18":"0.6200381","19":"-0.19131936","20":"-0.067302657","21":"-0.058704382","22":"-0.0353255325","23":"0.017274846","24":"0.046388294","25":"0.052901931","26":"0.13783098","27":"0.406128908","28":"0.6631149","29":"-0.023256114","30":"0.0144236523","31":"0.044407492","32":"0.050989465","33":"-0.2844675448","34":"-0.313077230","35":"-0.16619772","36":"0.8286162","37":"0.33726529","38":"0.004688864","39":"-0.048786481","40":"-0.09918876","41":"-0.106099989","42":"-0.01847676","43":"0.08039717","44":"0.12174454","45":"0.099411140","46":"0.035472938","47":"0.01020680","48":"-0.21652697","49":"-0.29659468","50":"-0.10704529","51":"-0.037553623","52":"0.026969261","53":"2819.689"},{"1":"08:00","2":"2e+07","3":"5970023833","4":"0.02557552","5":"-0.8153165","6":"-0.3929869","7":"-0.37022471","8":"-0.16217447","9":"0.62475671","10":"0.60728628","11":"0.48150794","12":"0.4663418","13":"-0.28478361","14":"-0.5887740","15":"-0.2879757","16":"-0.2885321","17":"0.09219039","18":"1.3688838","19":"-0.55455875","20":"-0.077734323","21":"-0.087715970","22":"-0.1058743126","23":"0.049886144","24":"0.068323822","25":"0.132847660","26":"0.20827268","27":"0.318752120","28":"0.8561501","29":"0.027291754","30":"0.0642137484","31":"0.099891537","32":"0.119375031","33":"-0.5301271654","34":"-0.553725740","35":"-0.33338562","36":"0.7058459","37":"0.68747261","38":"0.234835423","39":"0.040128103","40":"-0.25948430","41":"-0.277461776","42":"0.01053824","43":"0.11717690","44":"0.20015183","45":"0.178283454","46":"0.123674849","47":"-0.20404214","48":"-0.26483953","49":"-0.45102089","50":"-0.05839181","51":"-0.007945260","52":"0.046248018","53":"4930.853"},{"1":"09:00","2":"2e+07","3":"7795900004","4":"0.03643563","5":"-0.8623888","6":"-0.4647727","7":"-0.43343008","8":"-0.27902450","9":"0.74250669","10":"0.72627537","11":"0.55824632","12":"0.5546967","13":"-0.41373139","14":"-0.6685815","15":"-0.3015314","16":"-0.3074291","17":"0.13185948","18":"1.6968922","19":"-0.72986259","20":"-0.101084288","21":"-0.086522286","22":"-0.0688577885","23":"0.085004339","24":"0.082013562","25":"0.104451402","26":"0.16712958","27":"0.221161615","28":"1.0135271","29":"0.066491980","30":"0.0993041775","31":"0.133452163","32":"0.151911432","33":"-0.6034385866","34":"-0.622648918","35":"-0.48625089","36":"0.6696670","37":"0.63424091","38":"0.349764404","39":"0.193344052","40":"-0.26793279","41":"-0.276227038","42":"0.01697270","43":"0.08244421","44":"0.20750632","45":"0.177826618","46":"0.140657152","47":"-0.27617780","48":"-0.33612917","49":"-0.51974891","50":"-0.02084224","51":"0.031082517","52":"0.081679513","53":"6033.637"},{"1":"10:00","2":"2e+07","3":"8107045905","4":"0.04173881","5":"-0.8250639","6":"-0.4733453","7":"-0.41732606","8":"-0.36475824","9":"0.74042417","10":"0.71323923","11":"0.62182169","12":"0.6377227","13":"-0.54510403","14":"-0.7532823","15":"-0.2297325","16":"-0.2360434","17":"0.20341512","18":"1.6642523","19":"-0.77718253","20":"-0.084323146","21":"-0.055266324","22":"0.0059235284","23":"0.090616414","24":"0.068202275","25":"0.049687324","26":"0.09140066","27":"0.199893408","28":"1.0266199","29":"0.104597164","30":"0.1172138798","31":"0.127973753","32":"0.134367292","33":"-0.5548272143","34":"-0.569891620","35":"-0.55622736","36":"0.5830024","37":"0.52838268","38":"0.307043471","39":"0.274350081","40":"-0.21563167","41":"-0.220433051","42":"0.02583403","43":"0.08556142","44":"0.18946911","45":"0.154394171","46":"0.114128733","47":"-0.29203312","48":"-0.40045178","49":"-0.49151046","50":"0.01464673","51":"0.062566176","52":"0.107217200","53":"6830.163"},{"1":"11:00","2":"2e+07","3":"8510865532","4":"0.04370653","5":"-0.8319190","6":"-0.4891871","7":"-0.43935140","8":"-0.34975594","9":"0.75869446","10":"0.73359446","11":"0.62348576","12":"0.6495554","13":"-0.58249314","14":"-0.7897199","15":"-0.2283989","16":"-0.2331483","17":"0.25654773","18":"1.6798222","19":"-0.79633160","20":"-0.069072724","21":"-0.033822488","22":"0.0282319874","23":"0.095858898","24":"0.052869619","25":"0.023748506","26":"0.07667570","27":"0.128499703","28":"1.0835949","29":"0.132838536","30":"0.1306260178","31":"0.121501077","32":"0.114417226","33":"-0.5440565364","34":"-0.562028269","35":"-0.56528464","36":"0.5353333","37":"0.48763283","38":"0.283343449","39":"0.250300355","40":"-0.17461587","41":"-0.186360563","42":"0.01097815","43":"0.08815790","44":"0.20747719","45":"0.163919993","46":"0.114993216","47":"-0.33368758","48":"-0.41672709","49":"-0.47250852","50":"0.03892614","51":"0.083246791","52":"0.118339182","53":"7505.368"},{"1":"12:00","2":"2e+07","3":"7482363942","4":"0.04610544","5":"-0.6031988","6":"-0.4842852","7":"-0.39513484","8":"-0.32418647","9":"0.61572305","10":"0.58503442","11":"0.57743859","12":"0.6430035","13":"-0.62445519","14":"-0.6855847","15":"-0.2681782","16":"-0.2753230","17":"0.42304125","18":"1.4494980","19":"-0.66208685","20":"-0.084790845","21":"-0.026546711","22":"0.0640475600","23":"0.118843252","24":"0.048185216","25":"0.003925838","26":"0.02346939","27":"0.049936665","28":"1.0726955","29":"0.169171505","30":"0.1496386951","31":"0.122021126","32":"0.104821347","33":"-0.5175778813","34":"-0.538542385","35":"-0.55328124","36":"0.4777244","37":"0.43525391","38":"0.168047761","39":"0.125614369","40":"-0.13623756","41":"-0.008417652","42":"0.07324990","43":"0.09464979","44":"0.10620590","45":"0.110655282","46":"0.106687692","47":"-0.31764441","48":"-0.37492171","49":"-0.38565546","50":"0.08190590","51":"0.101542114","52":"0.115120798","53":"5876.817"},{"1":"13:00","2":"2e+07","3":"8238538139","4":"0.04523480","5":"-0.6978069","6":"-0.4844934","7":"-0.42080299","8":"-0.34151718","9":"0.70673376","10":"0.68392187","11":"0.55806256","12":"0.5860532","13":"-0.62425699","14":"-0.7663377","15":"-0.2279762","16":"-0.2355448","17":"0.37334399","18":"1.4585881","19":"-0.66667453","20":"-0.068597126","21":"-0.010301075","22":"0.0812244379","23":"0.154345181","24":"-0.001630565","25":"-0.017305434","26":"0.02201435","27":"0.061596255","28":"1.1295742","29":"0.155156484","30":"0.1432550536","31":"0.127210288","32":"0.115823979","33":"-0.5341989292","34":"-0.556897217","35":"-0.57825322","36":"0.4749491","37":"0.45728608","38":"0.251266024","39":"0.213867802","40":"-0.49260663","41":"-0.484191214","42":"0.78194549","43":"0.08333141","44":"0.09334279","45":"0.095610664","46":"0.089618668","47":"-0.32918470","48":"-0.36558444","49":"-0.37435224","50":"0.10894275","51":"0.112460946","52":"0.110495402","53":"6306.649"},{"1":"14:00","2":"2e+07","3":"9123458176","4":"0.04308149","5":"-0.8743807","6":"-0.4791276","7":"-0.44359428","8":"-0.28449544","9":"0.80474799","10":"0.78535447","11":"0.54473240","12":"0.5554095","13":"-0.59757319","14":"-0.7778211","15":"-0.2683464","16":"-0.2731201","17":"0.29533932","18":"1.5216042","19":"-0.62948521","20":"-0.043545248","21":"-0.008646540","22":"0.0344788642","23":"0.154698975","24":"0.038114884","25":"0.008797481","26":"0.03313526","27":"0.059390671","28":"1.1784959","29":"0.174223357","30":"0.1588896050","31":"0.135188049","32":"0.116735159","33":"-0.5960453156","34":"-0.604262530","35":"-0.60403305","36":"0.5167521","37":"0.51309542","38":"0.217614987","39":"0.189071352","40":"-0.40352107","41":"-0.412376543","42":"0.16162294","43":"0.24732192","44":"0.29434191","45":"0.295293393","46":"0.118029104","47":"-0.40395121","48":"-0.41694104","49":"-0.42539886","50":"0.11367764","51":"0.120313536","52":"0.128387250","53":"6702.101"},{"1":"15:00","2":"2e+07","3":"8893328383","4":"0.03830162","5":"-0.8815784","6":"-0.4469697","7":"-0.44696970","8":"-0.23982208","9":"0.78490489","10":"0.78490489","11":"0.51561937","12":"0.5156194","13":"-0.58754314","14":"-0.7628479","15":"-0.2396546","16":"-0.2396546","17":"0.24682278","18":"1.4156023","19":"-0.63472747","20":"0.009239338","21":"0.009239338","22":"0.0092393375","23":"0.178809122","24":"0.046301573","25":"0.046301573","26":"0.04630157","27":"0.046301573","28":"1.1500170","29":"0.155562706","30":"0.1555627055","31":"0.155562706","32":"0.155562706","33":"-0.6250476011","34":"-0.625047601","35":"-0.62504760","36":"0.5534516","37":"0.55345156","38":"0.168881640","39":"0.114976035","40":"-0.37699222","41":"-0.376992223","42":"0.05962415","43":"0.16576217","44":"0.37534613","45":"0.375346132","46":"0.180111960","47":"-0.41853203","48":"-0.41853203","49":"-0.41853203","50":"0.11971443","51":"0.119714426","52":"0.119714426","53":"6228.512"},{"1":"16:00","2":"2e+07","3":"8312665904","4":"0.02954290","5":"-0.8518713","6":"-0.4591577","7":"-0.42911785","8":"-0.22757045","9":"0.78226939","10":"0.76477433","11":"0.49056799","12":"0.4798570","13":"-0.57149454","14":"-0.7196450","15":"-0.2231239","16":"-0.2274310","17":"0.21695537","18":"1.3362071","19":"-0.66430068","20":"-0.028215047","21":"0.018948282","22":"0.0740313960","23":"0.220528065","24":"0.063042572","25":"0.044099964","26":"0.05649224","27":"0.060155172","28":"1.0946064","29":"0.139816588","30":"0.1406138519","31":"0.137079786","32":"0.131539112","33":"-0.6167463305","34":"-0.616186986","35":"-0.59889663","36":"0.5810263","37":"0.57484952","38":"0.164169294","39":"0.009585039","40":"-0.37403702","41":"-0.372068696","42":"0.02112631","43":"0.15193388","44":"0.36625441","45":"0.359275712","46":"0.343366320","47":"-0.43029442","48":"-0.42474603","49":"-0.41640756","50":"0.14035113","51":"0.128585758","52":"0.124829978","53":"6111.799"},{"1":"17:00","2":"2e+07","3":"6690105791","4":"0.02055859","5":"-0.7583907","6":"-0.4322389","7":"-0.40997403","8":"-0.17950449","9":"0.70332415","10":"0.68473847","11":"0.46641279","12":"0.4587921","13":"-0.58332042","14":"-0.6207775","15":"-0.2156391","16":"-0.2165449","17":"0.25188246","18":"1.1737790","19":"-0.58349939","20":"-0.207322033","21":"-0.116827127","22":"0.3554380066","23":"0.364957308","24":"-0.045683002","25":"0.017454064","26":"0.07416243","27":"0.083783333","28":"0.9775992","29":"0.080748827","30":"0.0923931711","31":"0.103325056","32":"0.107088523","33":"-0.5299793967","34":"-0.545753323","35":"-0.45524991","36":"0.5388023","37":"0.53210617","38":"0.111928191","39":"-0.060901031","40":"-0.31318220","41":"-0.308776962","42":"0.01572506","43":"0.10458400","44":"0.19032381","45":"0.378716630","46":"0.430059383","47":"-0.31992322","48":"-0.37330052","49":"-0.37165299","50":"0.12286299","51":"0.102620787","52":"0.097474841","53":"5952.911"},{"1":"18:00","2":"2e+07","3":"4723007651","4":"0.01534224","5":"-0.6225764","6":"-0.3954116","7":"-0.35880327","8":"-0.06028486","9":"0.55130306","10":"0.51836629","11":"0.42006227","12":"0.3954400","13":"-0.46817413","14":"-0.4778905","15":"-0.2379804","16":"-0.2345990","17":"0.23661298","18":"0.9266272","19":"-0.36039747","20":"-0.203976586","21":"-0.138428370","22":"0.0090398552","23":"0.711209826","24":"-0.010737881","25":"0.004121375","26":"0.04802734","27":"0.054276509","28":"0.8296025","29":"0.049532463","30":"0.0597336132","31":"0.067151453","32":"0.065675792","33":"-0.3795108638","34":"-0.390070527","35":"-0.37477937","36":"0.4709736","37":"0.46720812","38":"0.007904184","39":"-0.087566993","40":"-0.23667010","41":"-0.230399352","42":"0.07434518","43":"0.12177832","44":"0.15852512","45":"0.174194953","46":"0.143757167","47":"0.08500133","48":"-0.29851312","49":"-0.29895974","50":"0.08617977","51":"0.060611522","52":"0.046308207","53":"5704.565"},{"1":"19:00","2":"2e+07","3":"3830139493","4":"0.01395434","5":"-0.5346024","6":"-0.3881254","7":"-0.24435051","8":"-0.04503140","9":"0.44165888","10":"0.43051414","11":"0.37366755","12":"0.2945232","13":"-0.36269626","14":"-0.3650394","15":"-0.2716506","16":"-0.2663549","17":"0.33972915","18":"0.7509666","19":"-0.28278945","20":"-0.158888779","21":"-0.124947342","22":"-0.1008433947","23":"0.293226982","24":"0.380206899","25":"0.076296409","26":"0.02875958","27":"-0.006264563","28":"0.8188020","29":"0.025934796","30":"0.0529804159","31":"0.072651676","32":"0.073719629","33":"-0.3534347736","34":"-0.343758732","35":"-0.24993415","36":"0.3853950","37":"0.39422550","38":"0.070710885","39":"-0.193220682","40":"-0.19350636","41":"-0.173024365","42":"0.08956185","43":"0.13380614","44":"0.14970144","45":"0.125111414","46":"0.004667344","47":"-0.08371680","48":"-0.04339227","49":"-0.04537732","50":"-0.03164997","51":"0.006919543","52":"0.046542956","53":"4767.843"},{"1":"20:00","2":"2e+07","3":"3406112610","4":"0.01503276","5":"-0.3877075","6":"-0.3628305","7":"-0.33990827","8":"-0.26558895","9":"0.52613713","10":"0.52958968","11":"0.31581698","12":"0.2816007","13":"-0.36182082","14":"-0.3683145","15":"-0.1999861","16":"-0.1906700","17":"0.30291041","18":"0.6440107","19":"-0.28617841","20":"-0.144105746","21":"-0.090423940","22":"-0.0122210842","23":"0.049900032","24":"0.039174772","25":"0.352289681","26":"0.34028050","27":"-0.027187281","28":"0.6768267","29":"0.082049564","30":"0.0679925147","31":"0.035634706","32":"0.010668975","33":"-0.3078572195","34":"-0.307874324","35":"-0.30050190","36":"0.3815574","37":"0.37221098","38":"0.049818975","39":"-0.162665217","40":"-0.20261252","41":"-0.193889857","42":"0.08455248","43":"0.12751105","44":"0.14588634","45":"0.115293023","46":"0.056056460","47":"-0.15457258","48":"-0.17910430","49":"-0.04240888","50":"0.10130712","51":"0.094332426","52":"0.084792514","53":"4376.499"},{"1":"21:00","2":"2e+07","3":"3217165985","4":"0.01576854","5":"-0.3636921","6":"-0.3264043","7":"-0.29115971","8":"-0.03702128","9":"0.36189657","10":"0.33307126","11":"0.29797690","12":"0.2857028","13":"-0.30875470","14":"-0.3169116","15":"-0.2370262","16":"-0.2244793","17":"0.31716269","18":"0.5503709","19":"-0.21236431","20":"-0.164962931","21":"-0.082997656","22":"0.0037803541","23":"0.100158929","24":"-0.054015628","25":"0.216451313","26":"0.37884742","27":"0.070428593","28":"0.7075908","29":"0.072088753","30":"0.0686126459","31":"0.050780178","32":"0.035705322","33":"-0.2708907287","34":"-0.427596810","35":"-0.27824614","36":"0.3798988","37":"0.35367240","38":"0.108801380","39":"-0.196001306","40":"-0.19303501","41":"-0.181279129","42":"0.08292066","43":"0.12125030","44":"0.13638904","45":"0.105232300","46":"0.059113306","47":"-0.16731058","48":"-0.23395272","49":"-0.23800317","50":"0.36725796","51":"0.098890515","52":"0.079030510","53":"4943.389"},{"1":"22:00","2":"2e+07","3":"3143895437","4":"0.01485618","5":"-0.3707616","6":"-0.3170334","7":"-0.26738347","8":"-0.04458004","9":"0.36586793","10":"0.33286500","11":"0.29630110","12":"0.2704340","13":"-0.32610800","14":"-0.3368998","15":"-0.1794005","16":"-0.1671679","17":"0.30833376","18":"0.4957688","19":"-0.20301171","20":"-0.156249355","21":"-0.078450945","22":"0.0074635290","23":"0.070947563","24":"0.025619065","25":"0.082002210","26":"0.18324301","27":"0.200198932","28":"0.7888286","29":"0.057242352","30":"0.0577489655","31":"0.044175727","32":"0.029737003","33":"-0.2974444936","34":"-0.314981681","35":"-0.25425237","36":"0.3477875","37":"0.33608211","38":"0.075485954","39":"-0.145052943","40":"-0.17299682","41":"-0.196181312","42":"0.08327080","43":"0.11921590","44":"0.13832404","45":"0.122233434","46":"0.087503360","47":"-0.17706979","48":"-0.31424263","49":"-0.32504306","50":"0.23417569","51":"0.211925059","52":"0.190389097","53":"5888.298"},{"1":"23:00","2":"2e+07","3":"2903228854","4":"0.01711506","5":"-0.3430804","6":"-0.2919370","7":"-0.24417722","8":"0.05536575","9":"0.29052837","10":"0.26754985","11":"0.25149518","12":"0.2421805","13":"-0.26688151","14":"-0.2640279","15":"-0.2442563","16":"-0.2238620","17":"0.37207656","18":"0.4653165","19":"-0.19369469","20":"-0.152007026","21":"-0.079400091","22":"-0.0011421291","23":"0.071558950","24":"0.044340916","25":"0.077157787","26":"0.13024274","27":"0.143917129","28":"0.8421340","29":"0.081959195","30":"0.0699811309","31":"0.044123906","32":"0.024197499","33":"-0.3218381208","34":"-0.339706942","35":"-0.18728360","36":"0.3251487","37":"0.29237427","38":"0.092731472","39":"-0.154398824","40":"-0.15440687","41":"-0.115358866","42":"0.01160879","43":"0.09118880","44":"0.12865348","45":"0.118796860","46":"0.084700973","47":"-0.13215880","48":"-0.31843003","49":"-0.33219126","50":"0.19622639","51":"0.214379904","52":"0.239063809","53":"4791.962"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <p>Model coefficients and MAPE values can be seen from the table above. MAPE values are slightly decreased for almost each hour compared to lasso regression. Note that all coefficients (i.e. beta1, beta2..) are non-zero in this model.</p>
 </div>
 <div id="task-f" class="section level2">
