@@ -31,3 +31,12 @@ _Abdulsamed Kağıt_ - 2016402192
 [Here](files/HW3/HW-3.html) is Homework-3  report.
 
 [Here](files/HW3/Full_R_Code_HW_3.R) is Homework-3 R script.
+
+### Homework 4
+
+[Here](files/HW4/Homework4.pdf) is Homework-4 definition.
+
+
+[Here](files/HW4/IE582 HW_4.html) is Homework-4  report.
+
+[Here](files/HW4/Full_R_Code_HW_4.R) is Homework-4 R script.

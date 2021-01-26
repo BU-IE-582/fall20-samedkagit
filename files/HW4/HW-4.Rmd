@@ -1,0 +1,570 @@
+---
+title: "IE582 HW_4"
+author: "Abdulsamed Kağıt"
+date: "26/01/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+```
+
+## Online Datasets and Explanations of the Features
+
+### Dataset 1: Online News Popularity Dataset
+
+The task of this dataset is to predict the number of shares in social networks of articles published by Mashable. 
+
+Link: https://archive.ics.uci.edu/ml/datasets/Online+News+Popularity
+
+Number of Instances: 39797 
+
+Number of Attributes: 61 (58 predictive attributes, 2 non-predictive, 1 goal field)
+
+Explanation of Features:
+     0. url:                           URL of the article
+     1. timedelta:                     Days between the article publication and
+                                       the dataset acquisition
+     2. n_tokens_title:                Number of words in the title
+     3. n_tokens_content:              Number of words in the content
+     4. n_unique_tokens:               Rate of unique words in the content
+     5. n_non_stop_words:              Rate of non-stop words in the content
+     6. n_non_stop_unique_tokens:      Rate of unique non-stop words in the
+                                       content
+     7. num_hrefs:                     Number of links
+     8. num_self_hrefs:                Number of links to other articles
+                                       published by Mashable
+     9. num_imgs:                      Number of images
+    10. num_videos:                    Number of videos
+    11. average_token_length:          Average length of the words in the
+                                       content
+    12. num_keywords:                  Number of keywords in the metadata
+    13. data_channel_is_lifestyle:     Is data channel 'Lifestyle'?
+    14. data_channel_is_entertainment: Is data channel 'Entertainment'?
+    15. data_channel_is_bus:           Is data channel 'Business'?
+    16. data_channel_is_socmed:        Is data channel 'Social Media'?
+    17. data_channel_is_tech:          Is data channel 'Tech'?
+    18. data_channel_is_world:         Is data channel 'World'?
+    19. kw_min_min:                    Worst keyword (min. shares)
+    20. kw_max_min:                    Worst keyword (max. shares)
+    21. kw_avg_min:                    Worst keyword (avg. shares)
+    22. kw_min_max:                    Best keyword (min. shares)
+    23. kw_max_max:                    Best keyword (max. shares)
+    24. kw_avg_max:                    Best keyword (avg. shares)
+    25. kw_min_avg:                    Avg. keyword (min. shares)
+    26. kw_max_avg:                    Avg. keyword (max. shares)
+    27. kw_avg_avg:                    Avg. keyword (avg. shares)
+    28. self_reference_min_shares:     Min. shares of referenced articles in
+                                       Mashable
+    29. self_reference_max_shares:     Max. shares of referenced articles in
+                                       Mashable
+    30. self_reference_avg_sharess:    Avg. shares of referenced articles in
+                                       Mashable
+    31. weekday_is_monday:             Was the article published on a Monday?
+    32. weekday_is_tuesday:            Was the article published on a Tuesday?
+    33. weekday_is_wednesday:          Was the article published on a Wednesday?
+    34. weekday_is_thursday:           Was the article published on a Thursday?
+    35. weekday_is_friday:             Was the article published on a Friday?
+    36. weekday_is_saturday:           Was the article published on a Saturday?
+    37. weekday_is_sunday:             Was the article published on a Sunday?
+    38. is_weekend:                    Was the article published on the weekend?
+    39. LDA_00:                        Closeness to LDA topic 0
+    40. LDA_01:                        Closeness to LDA topic 1
+    41. LDA_02:                        Closeness to LDA topic 2
+    42. LDA_03:                        Closeness to LDA topic 3
+    43. LDA_04:                        Closeness to LDA topic 4
+    44. global_subjectivity:           Text subjectivity
+    45. global_sentiment_polarity:     Text sentiment polarity
+    46. global_rate_positive_words:    Rate of positive words in the content
+    47. global_rate_negative_words:    Rate of negative words in the content
+    48. rate_positive_words:           Rate of positive words among non-neutral
+                                       tokens
+    49. rate_negative_words:           Rate of negative words among non-neutral
+                                       tokens
+    50. avg_positive_polarity:         Avg. polarity of positive words
+    51. min_positive_polarity:         Min. polarity of positive words
+    52. max_positive_polarity:         Max. polarity of positive words
+    53. avg_negative_polarity:         Avg. polarity of negative  words
+    54. min_negative_polarity:         Min. polarity of negative  words
+    55. max_negative_polarity:         Max. polarity of negative  words
+    56. title_subjectivity:            Title subjectivity
+    57. title_sentiment_polarity:      Title polarity
+    58. abs_title_subjectivity:        Absolute subjectivity level
+    59. abs_title_sentiment_polarity:  Absolute polarity level
+    60. shares:                        Number of shares (target)
+
+Source Information:
+
+    K. Fernandes, P. Vinagre and P. Cortez. A Proactive Intelligent Decision
+    Support System for Predicting the Popularity of Online News. Proceedings
+    of the 17th EPIA 2015 - Portuguese Conference on Artificial Intelligence,
+    September, Coimbra, Portugal.
+    
+### Dataset 2: UFC Dataset    
+  
+The task of this dataset is to predict which side (Blue or Red) will win the fight.
+
+Link: https://www.kaggle.com/mdabbert/ultimate-ufc-dataset?select=ufc-master.csv
+
+Number of Instances: 3138 
+
+Number of Attributes: 71/131 is used due to missing values and existance of irrelevant features.
+
+Explanation of Features Used:
+
+Winner: The winner of the fight [Red, Blue]
+R_odds, B_odds: The American odds that the fighter will win.
+R_ev, B_ev: The profit on a 100 credit winning bet
+no_of_rounds: The number of rounds in the fight
+B_current_lose_streak, R_current_lose_streak: Current losing streak
+B_current_win_streak, R_current_win_streak: Current winning streak
+B_draw, R_draw: Number of draws
+B_avg_SIG_STR_landed, R_avg_SIG_STR_landed : Significant Strikes Landed per minute
+B_avg_SIG_STR_pct, R_avg_SIG_STR_pct: Significant Striking Accuracy
+B_avg_SUB_ATT, R_avg_SUB_ATT: Average Submissions Attempted per 15 Minutes
+B_avg_TD_landed, R_avg_TD_landed: Average takedowns landed per 15 minutes
+B_avg_TD_pct, R_avg_TD_pct: Takedown accuracy
+B_longest_win_streak, R_longest_win_streak: Longest winning streak
+B_losses, R_losses: Total number of losses
+B_total_rounds_fought, R_total_rounds_fought: Total rounds fought
+B_total_title_bouts, R_total_title_bouts: Total number of title bouts
+B_win_by_Decision_Majority, R_win_by_Decision_Majority: Wins by Majority Decision
+B_win_by_Decision_Split, R_win_by_Decision_Split: Wins by Split Decision
+B_win_by_Decision_Unanimous, R_win_by_Decision_Unanimous: Wins by Unanimous Decision
+B_win_by_KO/TKO, R_win_by_KO/TKO: Wins by KO/TKO
+B_win_by_Submission, R_win_by_Submission: Wins by Submission
+B_win_by_TKO_Doctor_Stoppage, R_win_by_TKO_Doctor_Stoppage: Wins by Doctor Stoppage
+B_wins, R_wins: Total career wins
+B_Stance, R_stance: Fighter stance
+B_Height_cms, R_Height_cms: Fighter height in cms
+B_Reach_cms, R_Reach_cms: Fighter reach in cms
+B_Weight_lbs, R_Weight_lbs: Fighter weight in pounds
+B_age, R_age: Fighter age
+lose_streak_dif: (Blue lose streak) - (Red lose streak)
+winstreakdif: (Blue win streak) - (Red win streak)
+longest_win_streak_dif: (Blue longest win streak) - (Red longest win streak)
+win_dif: (Blue wins) - (Red wins)
+loss_dif: (Blue losses) - (Red losses)
+total_round_dif: (Blue total rounds fought) - (Red total rounds fought)
+total_title_bout_dif: (Blue number of title fights) - (Red number of title fights)
+ko_dif: (Blue wins by KO/TKO) - (Red wins by KO/TKO)
+sub_dif: (Blue wins by submission) - (Red wins by submission)
+height_dif: (Blue height) - (Red height) in cms
+reach_dif: (Blue reach) - (Red reach) in cms
+age_dif: (Blue age) - (Red age)
+sig_str_dif: (Blue sig strikes per minute) - (Red sig strikes per minute)
+avg_sub_att_dif: (Blue submission attempts) - (Red submission attempts)
+avg_td_dif: (Blue TD attempts) - (Red TD attempts)
+empty_arena: Did this fight occur in an empty arena? (1,0)
+total_fight_time_secs: Total time of the fight in seconds
+
+These features are categorical: "B_Stance" "R_Stance" 
+
+### Dataset 3: HR Analytics Employee Attrition Dataset    
+  
+The task of this dataset is to predict attrition of employees.
+
+Link: https://www.kaggle.com/pavansubhasht/ibm-hr-analytics-attrition-dataset?select=WA_Fn-UseC_-HR-Employee-Attrition.csv
+
+Number of Instances: 1470 
+
+Number of Attributes: 34/35 is used.
+
+Name of the Features are quite intuitive.
+
+These features are categorical: "Attrition", "BusinessTravel", "Department", "EducationField", "Gender", "JobRole", "MaritalStatus", "OverTime".
+
+Class distribution is imbalanced with ratio 5:1
+
+### Dataset 4: Human Activity Recognition with Smartphones    
+  
+The task of this dataset is to classify activities into one of the six activities performed. 
+
+Link: https://www.kaggle.com/uciml/human-activity-recognition-with-smartphones?select=test.csv
+
+Number of Instances: 10299 
+
+Number of Attributes: 563 (561 predictive attributes, 1 non-predictive, 1 goal field)
+
+Explanation of Features:
+
+For each record in the dataset the following is provided:
+
+Triaxial acceleration from the accelerometer (total acceleration) and the estimated body acceleration.
+
+Triaxial Angular velocity from the gyroscope.
+
+A 561-feature vector with time and frequency domain variables.
+
+Its activity label.
+
+## Data Reading
+
+```{r Data Reading, echo=TRUE, message=FALSE, warning=FALSE}
+#Libraries
+library(rmarkdown)
+library(ggplot2)
+library(dplyr)
+library(yardstick)
+library(broom)
+library(data.table)
+library(stringr)
+library(tidyr)
+require(glmnet)
+library(cvAUC)
+library(pROC)
+library(caret)
+library(ranger)
+library(rpart)
+library(MLmetrics)
+
+
+## Read Data & Necessary Manipulations
+
+data_popularity <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW4/OnlineNewsPopularity.csv")
+data_ufc    <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW4/ufc-master.csv")
+data_hr  <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW4/HR-Employee-Attrition.csv")
+data_activity_train  <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW4/activity-train.csv")
+data_activity_test  <- fread("C:/Users/Abdulsamed/Documents/GitHub/fall20-samedkagit/files/HW4/activity-test.csv")
+
+data_popularity <- data_popularity %>% select(-url)
+
+unique.names <- make.unique(colnames(data_activity_train))
+colnames(data_activity_test) <- unique.names
+colnames(data_activity_train) <- unique.names
+
+activity_train <- data_activity_train %>% select(-subject)
+activity_test <- data_activity_test %>% select(-subject)
+rm(data_activity_test,data_activity_train)
+
+colnames(activity_train) <- make.names(colnames(activity_train))
+colnames(activity_test) <- make.names(colnames(activity_test))
+
+
+data_ufc <- data_ufc %>% select(-ends_with("_rank"),-ends_with("_bout"),-R_fighter,-B_fighter,-date,-location,-country,-weight_class,-gender,-constant_1,
+                                -starts_with("finish")) %>%drop_na() 
+
+colnames(data_ufc) <- make.names(colnames(data_ufc))
+
+data_hr <- data_hr %>% select(-Over18)
+
+#Metric Function Definition
+RMSE = function(m, o){
+  sqrt(mean((m - o)^2))
+}
+
+
+```
+
+
+## Popularity Data 
+
+Apply all four methods to Online News Popularity dataset.
+
+```{r Popularity, echo=TRUE, message=FALSE, warning=FALSE}
+#Data_Popularity 
+
+#Train-Test
+set.seed(42)
+popularity_train_index <- sample(nrow(data_popularity),38644)
+popularity_train <- data_popularity[popularity_train_index,]
+popularity_test <- data_popularity[-popularity_train_index,]
+rm(data_popularity)
+
+set.seed(42)
+myFolds1 <- createMultiFolds(popularity_train$shares,k=10,times = 1)
+
+myControlReg1 <-trainControl(method="cv", verboseIter=TRUE,index=myFolds1,allowParallel=TRUE)
+
+
+myGridGlmnet1 <- expand.grid(alpha= 1, lambda = c(seq(0.0001,40,length=6)))
+myGridForest1 <- expand.grid(mtry = c(2,5,7,10) ,min.node.size=5, splitrule = "variance")
+myGridGbm1 <- expand.grid(interaction.depth=c(1,3,5), n.trees = (3:5)*50,shrinkage=c(0.05,0.01,0.02), n.minobsinnode=10)
+myGridDt1 <- expand.grid(cp=c(0.005,0.01,0.003,0.007,0.0005,0.001))
+
+
+#Model 1 - Lasso Regression
+
+glmnet1 <- train(shares ~., data=popularity_train, method="glmnet", tuneGrid= myGridGlmnet1, trControl= myControlReg1,preProcess=c("center","scale"))
+
+#Model 2 - Decision Tree - Manually Tune minbucket 
+set.seed(42)
+dt1 <- train(shares~., data=popularity_train,method ="rpart",tuneGrid = myGridDt1,trControl=myControlReg1, control = rpart.control(minbucket=c(1)))
+set.seed(42)
+dt2 <- train(shares~., data=popularity_train,method ="rpart",tuneGrid = myGridDt1,trControl=myControlReg1, control = rpart.control(minbucket=c(5)))
+set.seed(42)
+dt3 <- train(shares~., data=popularity_train,method ="rpart",tuneGrid = myGridDt1,trControl=myControlReg1, control = rpart.control(minbucket=c(10)))
+
+#dt3 is the best among them
+
+#Model 3 - Random Forest
+set.seed(42)
+forest1 <- train(shares ~., data=popularity_train, method="ranger", tuneGrid= myGridForest1, trControl= myControlReg1)
+
+#Model 4 - SGB
+set.seed(42)
+gbm1 <- train(shares ~., data=popularity_train, method="gbm", tuneGrid= myGridGbm1, trControl= myControlReg1)
+
+```
+
+```{r Compare1, echo=TRUE, message=FALSE, warning=FALSE}
+#Compare Models in train data
+
+model_list1 <- list(Glmnet=glmnet1, DT=dt3, Forest = forest1, SGBM = gbm1)
+resamp1 <- resamples(model_list1)
+bwplot(resamp1,metric ="RMSE")
+
+#Compare Models in test data
+prediction_popularity_glm <- predict(glmnet1,popularity_test)
+prediction_popularity_dt <- predict(dt3,popularity_test)
+prediction_popularity_forest <- predict(forest1,popularity_test)
+prediction_popularity_gbm <- predict(gbm1,popularity_test)
+
+Test_Performances1 <- data.table(
+Glm_Test_RMSE = RMSE(popularity_test$shares,prediction_popularity_glm),
+Dt_Test_RMSE = RMSE(popularity_test$shares,prediction_popularity_dt),
+Forest_Test_RMSE = RMSE(popularity_test$shares,prediction_popularity_forest),
+SGBM_Test_RMSE = RMSE(popularity_test$shares,prediction_popularity_gbm)
+)
+
+paged_table(Test_Performances1)
+
+summary(popularity_train$shares)
+summary(popularity_test$shares)
+```
+
+
+RMSE is used to evaluate model performances and all of the models performed similarly (Around 11000 RMSE) which can be seen from the plot. 
+Cross-validation error rates of the models ,which are around 11000 RMSE, are not consistent with the test error rates which are around 6500 RMSE for each
+model. The fact that test error is lower than train error is due to existence of outliers in the training set. Maximum value of shares in train data is
+843300 whereas in test data it is 122800. Considering half of the shares lies between 946 (first quantile) and 2800 (second quantile), RMSE values are high
+for both train and test error which implies underfitting. 
+
+## UFC Data
+
+```{r UFC Data, message=FALSE, warning=FALSE}
+#Data UFC
+#Train-Test
+set.seed(42)
+ufc_train_index <- sample(nrow(data_ufc),2638)
+ufc_train <- data_ufc[ufc_train_index,]
+ufc_test <- data_ufc[-ufc_train_index,]
+rm(data_ufc)
+
+set.seed(42)
+myFolds2 <- createMultiFolds(ufc_train$Winner,k=10,times = 1)
+
+myControlClass2<-trainControl(method="cv",verboseIter=TRUE,summaryFunction=twoClassSummary,classProbs=TRUE,savePredictions=TRUE,index=myFolds2,allowParallel=TRUE)
+
+
+myGridGlmnet2 <- expand.grid(alpha= 1, lambda = c(seq(0.0001,0.1,length=6)))
+myGridForest2 <- expand.grid(mtry = c(2,5,7,10) ,min.node.size=5, splitrule = "gini")
+myGridGbm2 <- expand.grid(interaction.depth=c(1,3,5), n.trees = (3:5)*50,shrinkage=c(0.05,0.01, 0.005), n.minobsinnode=10)
+myGridDt2 <- expand.grid(cp=c(0.005,0.01,0.003,0.007,0.1,0.03))
+
+model_weights <- ifelse(ufc_train$Winner == "red",
+                        (1/table(ufc_train$Winner)[1]) * 0.5,
+                        (1/table(ufc_train$Winner)[2]) * 0.5)
+
+
+#Model 1 - Lasso Regression
+
+glmnet2<-train(Winner~.,data=ufc_train,method="glmnet",tuneGrid=myGridGlmnet2,trControl=myControlClass2,preProcess=c("center","scale"),weights =model_weights)
+
+#Model 2 - Decision Tree - Manually Tune minbucket 
+set.seed(42)
+dt4 <- train(Winner~., data=ufc_train,method ="rpart",tuneGrid = myGridDt2,trControl=myControlClass2, control = rpart.control(minbucket=c(1)),weights =model_weights)
+set.seed(42)
+dt5 <- train(Winner~., data=ufc_train,method ="rpart",tuneGrid = myGridDt2,trControl=myControlClass2, control = rpart.control(minbucket=c(5)),weights =model_weights)
+set.seed(42)
+dt6 <- train(Winner~., data=ufc_train,method ="rpart",tuneGrid = myGridDt2,trControl=myControlClass2, control = rpart.control(minbucket=c(10)),weights =model_weights)
+
+#All the same
+
+#Model 3 - Random Forest
+set.seed(42)
+forest2 <- train(Winner ~., data=ufc_train, method="ranger", tuneGrid= myGridForest2, trControl= myControlClass2,weights =model_weights)
+
+#Model 4 - SGB
+set.seed(42)
+gbm2 <- train(Winner ~., data=ufc_train, method="gbm", tuneGrid= myGridGbm2, trControl= myControlClass2,weights =model_weights)
+
+```
+
+```{r Comparison2, message=FALSE, warning=FALSE}
+#Compare Models in train data
+
+model_list2 <- list(Glmnet=glmnet2, DT=dt6, Forest = forest2, SGBM = gbm2)
+resamp2 <- resamples(model_list2)
+bwplot(resamp2,metric ="ROC")
+
+#Compare Models in test data
+prediction_ufc_glm <- predict(glmnet2,ufc_test,type="prob")
+prediction_ufc_dt <- predict(dt6,ufc_test,type="prob")
+prediction_ufc_forest <- predict(forest2,ufc_test,type="prob")
+prediction_ufc_gbm <- predict(gbm2,ufc_test,type="prob")
+
+Test_Performances2 <- data.table(
+  Glm_Test_ROC = roc(ufc_test$Winner,prediction_ufc_glm[,1])$auc,
+  Dt_Test_ROC = roc(ufc_test$Winner,prediction_ufc_dt[,1])$auc,
+  Forest_Test_ROC =roc(ufc_test$Winner,prediction_ufc_forest[,1])$auc,
+  SGBM_Test_ROC = roc(ufc_test$Winner,prediction_ufc_gbm[,1])$auc
+)
+
+paged_table(Test_Performances2)
+```
+
+
+AUC is used to evaluate model performances. Penalized Regression and Stochastic Gradient Boosting performed better than other two approaches. Random Forest
+performed slightly worse than PRA and SGB, Decision Tree is the worst approach for this dataset. Cross-validation error rates of the models are consistent 
+with the test error rates. The task is to predict which fighter will win the fight and 0.7 is a good enough AUC value for this task which includes modeling
+human behavior.
+
+## Human Activity Recognition with Smartphones
+
+
+```{r Activity Recognition, message=FALSE, warning=FALSE}
+#Data Activity
+set.seed(42)
+myFolds3 <- createMultiFolds(activity_train$Activity,k=10,times =1)
+
+myControlClass3<-trainControl(method="cv",verboseIter=TRUE,summaryFunction=multiClassSummary,classProbs=TRUE,savePredictions=TRUE,index=myFolds3,allowParallel=TRUE)
+
+myGridGlmnet3 <- expand.grid(alpha= 1, lambda = c(seq(0.0001,0.02,length=6)))
+myGridForest3 <- expand.grid(mtry = c(2,5,7,10) ,min.node.size=5, splitrule = "gini")
+myGridGbm3 <- expand.grid(interaction.depth=c(1,3,5), n.trees = (3:5)*50,shrinkage=c(0.05,0.01, 0.005), n.minobsinnode=10)
+myGridDt3 <- expand.grid(cp=c(0.005,0.01,0.003,0.007,0.1,0.03))
+
+#Model 1 - Lasso Regression
+
+glmnet3<-train(Activity~.,data=activity_train,method="glmnet",tuneGrid=myGridGlmnet3,metric="logLoss",trControl=myControlClass3,preProcess=c("zv","center","scale"))
+
+#########
+#Model 2 - Decision Tree - Manually Tune minbucket 
+set.seed(42)
+dt7 <- train(Activity~., data=activity_train,method ="rpart",tuneGrid = myGridDt3,metric="logLoss",trControl=myControlClass3, control = rpart.control(minbucket=c(1)))
+set.seed(42)
+dt8 <- train(Activity~., data=activity_train,method ="rpart",tuneGrid = myGridDt3,metric="logLoss",trControl=myControlClass3, control = rpart.control(minbucket=c(5)))
+set.seed(42)
+dt9 <- train(Activity~., data=activity_train,method ="rpart",tuneGrid = myGridDt3,metric="logLoss",trControl=myControlClass3, control = rpart.control(minbucket=c(10)))
+
+#All are the same
+
+#Model 3 - Random Forest
+set.seed(42)
+forest3 <- train(Activity ~., data=activity_train, method="ranger", tuneGrid= myGridForest3,metric="logLoss",trControl= myControlClass3)
+
+#Model 4 - SGB
+set.seed(42)
+gbm3 <- train(Activity ~., data=activity_train, method="gbm", tuneGrid= myGridGbm3,metric="logLoss",trControl= myControlClass3)
+
+
+```
+
+```{r Comparison3, message=FALSE, warning=FALSE}
+#Compare Models in train data
+
+model_list3 <- list(Glmnet=glmnet3, DT=dt9, Forest = forest3, SGBM = gbm3)
+resamp3 <- resamples(model_list3)
+bwplot(resamp3,metric ="logLoss")
+
+#Compare Models in test data
+prediction_activity_glm <- predict(glmnet3,activity_test,type="prob")
+prediction_activity_dt <- predict(dt9,activity_test,type="prob")
+prediction_activity_forest <- predict(forest3,activity_test,type="prob")
+prediction_activity_gbm <- predict(gbm3,activity_test,type="prob")
+
+
+Test_Performances3 <- data.table(
+  Glm_Test_LL = MultiLogLoss(y_true =activity_test$Activity,y_pred =data.matrix(prediction_activity_glm)),
+  Dt_Test_LL =MultiLogLoss(y_true =activity_test$Activity,y_pred =data.matrix(prediction_activity_dt)),
+  Forest_Test_LL =MultiLogLoss(y_true =activity_test$Activity,y_pred =data.matrix(prediction_activity_forest)),
+  SGBM_Test_LL = MultiLogLoss(y_true =activity_test$Activity,y_pred =data.matrix(prediction_activity_gbm))
+)
+
+paged_table(Test_Performances3)
+```
+
+
+Log loss is used to evaluate model performances since it is a multiclass classification problem. Penalized Regression and Stochastic Gradient Boosting
+performed a lot more better than other two approaches.Random Forest approach performed moderately good and Decision Tree is the worst approach for this 
+dataset. Cross-validation error rates of the models are consistent with the test error rates except Decision Tree which means it is overfitted.
+
+## HR Analytics Employee Attrition Dataset 
+
+```{r Employee Attrition, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+#Data HR
+#Train-Test
+set.seed(42)
+hr_train_index <- sample(nrow(data_hr),1170)
+hr_train <- data_hr[hr_train_index,]
+hr_test <- data_hr[-hr_train_index,]
+
+rm(data_hr)
+
+set.seed(42)
+myFolds4 <- createMultiFolds(hr_train$Attrition,k=10,times = 1)
+
+myControlClass4<-trainControl(method="cv",verboseIter=TRUE,summaryFunction=twoClassSummary,classProbs=TRUE,savePredictions=TRUE,index=myFolds4,allowParallel=TRUE)
+
+
+myGridGlmnet4 <- expand.grid(alpha= 1, lambda = c(seq(0.00001,0.001,length=6)))
+myGridForest4 <- expand.grid(mtry = c(2,5,7,10,15,20) ,min.node.size=5, splitrule = "gini")
+myGridGbm4 <- expand.grid(interaction.depth=c(1,3,5), n.trees = (3:5)*50,shrinkage=c(0.05,0.01, 0.005), n.minobsinnode=10)
+myGridDt4 <- expand.grid(cp=c(0.01,0.007,0.1,0.03))
+
+model_weights <- ifelse(hr_train$Attrition == "Yes",
+                        (1/table(hr_train$Attrition)[1]) * 0.5,
+                        (1/table(hr_train$Attrition)[2]) * 0.5)
+
+#Model 1 - Lasso Regression
+
+glmnet4<-train(Attrition~.,data=hr_train,method="glmnet",tuneGrid=myGridGlmnet4,trControl=myControlClass4,preProcess=c("zv","center","scale"),weights =model_weights)
+
+#Model 2 - Decision Tree - Manually Tune minbucket 
+set.seed(42)
+dt10 <- train(Attrition~., data=hr_train,method ="rpart",tuneGrid = myGridDt4,trControl=myControlClass4, control = rpart.control(minbucket=c(1)),weights =model_weights)
+set.seed(42)
+dt11 <- train(Attrition~., data=hr_train,method ="rpart",tuneGrid = myGridDt4,trControl=myControlClass4, control = rpart.control(minbucket=c(5)),weights =model_weights)
+set.seed(42)
+dt12 <- train(Attrition~., data=hr_train,method ="rpart",tuneGrid = myGridDt4,trControl=myControlClass4, control = rpart.control(minbucket=c(10)),weights =model_weights)
+
+#dt11 is the best
+
+#Model 3 - Random Forest
+set.seed(42)
+forest4 <- train(Attrition ~., data=hr_train, method="ranger", tuneGrid= myGridForest4, trControl= myControlClass4,weights =model_weights)
+
+#Model 4 - SGB
+set.seed(42)
+gbm4 <- train(Attrition ~., data=hr_train, method="gbm", tuneGrid= myGridGbm4, trControl= myControlClass4,weights =model_weights)
+```
+
+```{r Comparison4, message=FALSE, warning=FALSE}
+#Compare Models in train data
+
+model_list4 <- list(Glmnet=glmnet4, DT=dt11, Forest = forest4, SGBM = gbm4)
+resamp4 <- resamples(model_list4)
+bwplot(resamp4,metric ="ROC")
+
+#Compare Models in test data
+prediction_hr_glm <- predict(glmnet4,hr_test,type="prob")
+prediction_hr_dt <- predict(dt11,hr_test,type="prob")
+prediction_hr_forest <- predict(forest4,hr_test,type="prob")
+prediction_hr_gbm <- predict(gbm4,hr_test,type="prob")
+
+Test_Performances4 <- data.table(
+  Glm_Test_ROC = roc(hr_test$Attrition,prediction_hr_glm[,1])$auc,
+  Dt_Test_ROC = roc(hr_test$Attrition,prediction_hr_dt[,1])$auc,
+  Forest_Test_ROC =roc(hr_test$Attrition,prediction_hr_forest[,1])$auc,
+  SGBM_Test_ROC = roc(hr_test$Attrition,prediction_hr_gbm[,1])$auc
+)
+
+paged_table(Test_Performances4)
+```
+
+AUC is used to evaluate model performances. Penalized Regression has the best train error. Stochastic Gradient Boosting and Random Forest performed slightly 
+worse than Penalized Regression. Decision Tree is the worst approach for this dataset. Cross-validation error rates of the models are consistent with the 
+test error rates except for Decision Tree which has a ROC values lower than 0.5 for test data. It means that Decision Tree is overfitted. 
