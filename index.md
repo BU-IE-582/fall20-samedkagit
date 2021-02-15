@@ -47,7 +47,7 @@ _Abdulsamed Kağıt_ - 2016402192
 
 [Here](files/Project/Report.pdf) is project  report.
 
-[Here](files/Project/Project_R's�z Rakunlar.R) is project R script.
+[Here](files/Project/Script.R) is project R script.
 
 
 
