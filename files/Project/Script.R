@@ -135,7 +135,7 @@ which(predictions4$b > 0.5  & predictions4$b < 0.51)
 which(predictions4$b < 0.5  & predictions4$b > 0.49)
 
 
-
+#By-Hand Adjustments
 prediction_deneme <- predictions4$b
 prediction_deneme[898] <- 0 
 prediction_deneme[1114] <- 0 
@@ -170,6 +170,3 @@ prediction_deneme[1957] <- 0
 
 
 
-
-
-#152,264,523,576,650,679,709,787,815,937,1201,1750,54,637,1201,1323,1380,1383,1592,1629,1760,1767,1866,1874 testte yok
