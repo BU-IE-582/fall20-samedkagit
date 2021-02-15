@@ -41,7 +41,7 @@ _Abdulsamed Kağıt_ - 2016402192
 
 [Here](files/HW4/Full_R_Code_HW_4.R) is Homework-4 R script.
 
-### Homework 4
+### Project
 
 [Here](files/Project/Project.pdf) is project definition.
 
